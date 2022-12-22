@@ -1,0 +1,21 @@
+﻿.progress .progress-bar {
+    color: $color--progress-bar;
+}
+
+.progress-container {
+    height: 1rem;
+
+    .progress {
+        height: 0.5rem;
+    }
+
+    .progress-marker {
+        position: absolute;
+        background: $color--progress-marker;
+        top: 0;
+        bottom: 0;
+        width: 15px;
+        border-radius: 50%;
+        border: $border-width--progress-marker solid $color--progress-marker-border;
+    }
+}

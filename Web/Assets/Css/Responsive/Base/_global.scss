@@ -1,0 +1,25 @@
+﻿body {
+    background-color: $color--background;
+}
+
+input {
+    color: $color--input-text;
+    background-color: $color--input-background;
+    border-width: $border-width--thin;
+    border-color: $color--input-border;
+    border-radius: $border-radius--input;
+}
+
+.hide
+{
+    display:none;
+}
+
+
+.error-message {
+    border: 1px solid red;
+    color:red;
+}
+.error {
+    border: 1px solid red;
+}

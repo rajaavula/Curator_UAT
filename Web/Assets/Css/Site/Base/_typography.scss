@@ -1,0 +1,60 @@
+﻿* {
+    font-family: $font-family--default;
+    font-size: $font-size--default;
+}
+
+body, body[style] {
+    color: $color--text;
+}
+
+a:link, a:active, a:visited {
+    color: $color--link-text;
+    text-decoration: underline;
+}
+
+h2 {
+    color: $color--heading-text;
+    font-size: $font-size--h2 !important;
+    font-weight: normal;
+}
+
+
+
+body {
+    font-size: $font-size--default;
+    font-family: $font-family--default;
+    color: $color--text;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family--heading;
+}
+
+h1 {
+    font-size: $font-size--h1;
+}
+
+h2 {
+    font-size: $font-size--h2;
+}
+
+h3 {
+    font-size: $font-size--h3;
+}
+
+h4 {
+    font-size: $font-size--h4;
+}
+
+h5 {
+    font-size: $font-size--h5;
+}
+
+h6 {
+    font-size: $font-size--h6;
+}
+
+input {
+    color: $color--input-text;
+}
+

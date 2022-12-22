@@ -1,0 +1,52 @@
+﻿
+@import 'vendors/bootstrap';
+
+/* ---------------------  
+    Site Specfic Styles 
+---------------------*/
+
+input[type="text"], textarea {
+    color: #494949;
+}
+
+.number {
+    text-align: right;
+}
+
+.note-label {
+    vertical-align: top;
+}
+
+a:hover {
+    color: #fbb424;
+}
+
+.phm .options a:hover {
+    color: #fbb424;
+}
+
+
+/* ---------------------  
+    Menu Styles 
+---------------------*/
+
+
+#main-menu {
+    background-color: #1a1a1a;
+
+    .menu-items .menu-item {
+        &.selected {
+            border-left: 5px solid #da1d34 !important;
+            background-color: #2b2b2b;
+        }
+
+        &:hover {
+            border-left: 5px solid #da1d34 !important;
+            background-color: #2b2b2b;
+        }
+    }
+}
+
+
+
+

@@ -1,0 +1,12 @@
+﻿.card {
+    border-radius: 0;
+    border-bottom: $border-width--card-shadow solid $color--card-shadow;
+
+    .list-group-item {
+        border-style: dashed;
+    }
+}
+
+.card-title {
+    color: $color--card-title;
+}

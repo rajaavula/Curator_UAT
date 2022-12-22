@@ -1,0 +1,4 @@
+﻿function ChangeMemberStore()
+{
+    Submit('Loading...')
+}

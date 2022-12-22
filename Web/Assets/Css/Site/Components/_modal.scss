@@ -1,0 +1,22 @@
+﻿#transparent-overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: transparent;
+    display: none;
+    z-index: 999;
+}
+
+.popup {
+    border-spacing: 2px 8px;
+}
+
+.popup .label {
+    padding-right: 5px;
+}
+
+.popup .option {
+    padding-right: 10px;
+}

@@ -1,0 +1,75 @@
+﻿// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$color--text: $palette--black;
+$color--background: $palette--grey;
+$color--full-separator: $palette--light-grey;
+$color--small-separator: $palette--light-cyan;
+
+$color--menu-background: $palette--cyan;
+$color--menu-text: $palette--white;
+$color--menu-button: $palette--white;
+$color--menu-line: $palette--white--500;
+$color--menu-line-bar: $palette--white;
+$color--menu-shadow: $palette--dark-cyan--500;
+
+$color--content-background: $palette--white;
+$color--content-shadow: $palette--dark-grey;
+
+$color--heading-text: $palette--dark-cyan;
+
+$color--button-background: $palette--dark-cyan;
+$color--button-text: $palette--white;
+$color--button-background--disabled: $palette--white;
+$color--button-text--disabled: $palette--dark-grey;
+$color--button-border--disabled: $palette--dark-grey;
+
+$color--input-text: $palette--black;
+$color--input-background: $palette--white;
+$color--input-border: $palette--light-grey;
+
+$color--login--text: $palette--white;
+$color--login--background: $palette--cyan;
+$color--login--input-text: $palette--white;
+$color--login--input-background: $palette--deep-cyan;
+$color--login--input-border: $palette--white;
+
+$color--loading-overlay: $palette--full-black;
+$color--loading-display: $palette--white;
+$color--loading-text: $palette--full-black;
+
+$color--card-title: $palette--dark-cyan;
+$color--card-separator: $palette--light-cyan;
+$color--card-shadow: $palette--dark-grey;
+
+$color--location-icon: $palette--dark-cyan;
+
+$color--progress-bar: $palette--dark-cyan;
+$color--progress-marker: $palette--turqoise;
+$color--progress-marker-border: $palette--white;
+
+$font-family--default: 'Source Sans Pro', sans-serif;
+$font-family--heading: 'Montserrat', sans-serif;
+
+$font-size--default: 0.75rem;
+$font-size--default-large: 1rem;
+$font-size--menu-button: 1.25rem;
+$font-size--location-icon: 1rem;
+$font-size--button: 0.75rem;
+
+$font-weight--heading: bold;
+
+$border-width--thin: 2px;
+$border-width--thick: 5px;
+$border-width--card-shadow: 8px;
+$border-width--menu-shadow: 8px;
+$border-width--progress-marker: 1px;
+
+$border-radius--input: 1px;
+
+$border-radius--login--input: 30px;
+
+$padding--input: 1.25rem;
+
+$padding--loading-display: 15px 30px;

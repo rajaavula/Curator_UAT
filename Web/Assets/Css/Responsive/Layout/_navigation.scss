@@ -1,0 +1,18 @@
+﻿.navbar {
+    border-bottom: $border-width--menu-shadow solid $color--menu-shadow;
+
+    button {
+        font-size: $font-size--menu-button;
+        color: $color--menu-button !important;
+        background-color: transparent;
+        border: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    hr {
+        border-top: 1px solid $color--menu-line;
+    }
+}

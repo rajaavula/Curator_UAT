@@ -1,0 +1,45 @@
+﻿.clear {
+    clear: both;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.error {
+    background-color: $color--error-background;
+    color: $color--error-text;
+}
+
+.success {
+    padding: $padding--success;
+    background-color: $color--success-background;
+    color: $color--success-text;
+}
+
+.message {
+    padding: $padding-message;
+    color: $color--message-text;
+    font-weight: bold;
+    font-size: $font-size--message !important;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.wrap {
+    white-space: normal !important;
+}
+
+.vtop {
+    vertical-align: top;
+}
+
+.hide {
+    display: none !important;
+}
+
+.tright {
+    text-align: right !important;
+}

@@ -1,0 +1,16 @@
+﻿[
+  {
+    "outputFile": "Assets/Css/Responsive/responsive.min.css",
+    "inputFile": "Assets/Css/Responsive/responsive.scss",
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFile": "Assets/Css/Site/site.min.css",
+    "inputFile": "Assets/Css/Site/site.scss",
+    "minify": {
+      "enabled": true
+    }
+  }
+]

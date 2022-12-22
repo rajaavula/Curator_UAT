@@ -1,0 +1,88 @@
+﻿#assign-access {
+    margin: 12px 0;
+}
+
+    #assign-access .assign-list {
+        margin: 12px;
+        vertical-align: top;
+        overflow-y: auto;
+    }
+
+        #assign-access .assign-list h3 {
+            font-size: 16px;
+            color: #919191;
+            line-height: 20px;
+            background-color: #FFF;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 0 12px 10px 24px;
+            font-weight: 500;
+            border: 1px solid #919191;
+        }
+
+        #assign-access .assign-list .table-container {
+            background-color: #FFF;
+            border: 1px solid #919191;
+            border-radius: 6px;
+            margin: 0 12px 10px 24px;
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100vh - 250px);
+            min-width: 500px;
+        }
+
+        #assign-access .assign-list table {
+            padding: 0;
+            color: #000;
+            border: none;
+            background-color: #FFF;
+            width: 100%;
+        }
+
+            #assign-access .assign-list table tr td:first-child {
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+            }
+
+            #assign-access .assign-list table tr td:last-child {
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+                padding-right: 0px;
+            }
+
+            #assign-access .assign-list table tr:hover td {
+                background-color: #DC1E35;
+                color: #FFF;
+            }
+
+                #assign-access .assign-list table tr:hover .link a {
+                    border: solid 1px #FFF;
+                }
+
+            #assign-access .assign-list table td {
+                padding: 0 10px;
+            }
+
+        #assign-access .assign-list .link {
+            width: 5%;
+            text-align: center;
+        }
+
+            #assign-access .assign-list .link a {
+                background-color: #FFF;
+                color: #333333;
+                display: block;
+                text-decoration: none;
+                border-radius: 6px;
+                border: solid 1px #919191;
+                padding: 0;
+                line-height: 34px;
+                margin: 5px;
+                width: 100px;
+            }
+
+                #assign-access .assign-list .link a:hover {
+                    color: #DC1E35;
+                    border: solid 1px #FFF;
+                    font-weight: 600;
+                }

@@ -1,0 +1,135 @@
+﻿<%@ Master Language="C#" Inherits="BaseMasterPage<BaseModel>" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title><%= Model.TranslatedName %></title>
+
+
+    <% Html.RenderPartial("SiteStylesPartial"); %>
+
+    <% Html.RenderPartial("SiteDependenciesPartial"); %>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body class="<%= Model.AreaClassName %> <%= Model.ControllerClassName %> <%= Model.PageClassName %>">
+    <div class="top-bar">
+        <div class="company-name"></div>
+
+        <div class="col-4" id="platform-info">
+            <div id="environment">
+                <div class="message">
+                    <%: (App.IsLive ? "LIVE" : "UAT") %> <%:App.Version %>
+                </div>
+            </div>
+            <a id="account-username" class="name" href="#">
+                <i class="fas fa-user-circle"></i><%= Model.SI.User.Name %>
+            </a>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div id="main-menu" class="<%= Model.SI.MenuExpanded ? "expanded" : string.Empty %>">
+            <div class="dx-navbar-top">
+                <div class="dx-navbar-burger <%= Model.SI.MenuExpanded ? "hide" : string.Empty %>">
+                    <i class="fa-solid fa-bars dx-navbar-icon"></i>
+                </div>
+                <div class="dx-navbar-pin <%= !Model.SI.MenuExpanded ? "hide" : string.Empty %>">
+                    <i class="fa-solid fa-thumbtack dx-navbar-icon <%= Model.SI.MenuExpanded ? "dx-navbar-pin-selected" : string.Empty %>"></i>
+                </div>
+            </div>
+            <div class="dx-navbar-container hide">
+                <% Html.RenderPartial("NavBarPartial"); %>
+            </div>
+        </div>
+
+        <div id="phc">
+            <div class="pht">ACCOUNT</div>
+            <div class="phm">
+                <div class="options">
+                    <a class="account-details" href="#">Account options</a>
+
+                    <% if (Model.SI.UserRegions.Count > 1)
+                        { %> <a class="account-change-region" href="#">Change region</a> <% } %>
+
+                    <%
+                        if (Model.HasPermission("SHOWLABELEDITOR"))
+                        {
+                    %><a href="/Home/Home/LabelEditMode"><%= Model.SI.LabelEditMode ? Model.LabelText(200402) : Model.LabelText(200401) %></a><%
+                                                                                                                                                  if (SI.Company.RestrictSessions && SI.Company.MaximumSessions > 0)
+                                                                                                                                                  {
+                    %><a href="/Admin/Sessions/List/">Sessions: <span style="text-decoration: underline"><%: App.Sessions.Count %> of <%: SI.Company.MaximumSessions %> used</span></a><%
+                                               }
+                                               else
+                                               {
+                    %><a href="/Admin/Sessions/List/" target="_self">Sessions: <span style="text-decoration: underline"><%: App.Sessions.Count %> used</span></a><%
+                                                                                                                                                                             }
+                                                                                                                                                                         } %>
+
+                    <a href="/Logout">Logout</a>
+
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div id="main-content" class="<%= Model.SI.MenuExpanded ? "menu-expanded" : string.Empty %>">
+            <asp:ContentPlaceHolder ID="BeginFormContent" runat="server" />
+            <div id="main-header">
+                <asp:ContentPlaceHolder ID="HeaderContent" runat="server" />
+                <div class="clear"></div>
+            </div>
+            <div id="content-pane">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                <div class="clear"></div>
+            </div>
+            <asp:ContentPlaceHolder ID="EndFormContent" runat="server" />
+        </div>
+        <div id="popup-content">
+            <asp:ContentPlaceHolder ID="PopupContent" runat="server" />
+        </div>
+    </div>
+
+    <%
+
+        if (Model.SI.LabelEditMode) { Html.RenderPartial("LabelEditor"); }
+
+        Html.Cortex().PopupControl(Model.DetailsPopupControlSettings).Render();
+
+        if (Model.SI.UserRegions.Count > 1) Html.Cortex().PopupControl(Model.RegionsPopupControlSettings).Render();
+
+        Html.Cortex().PopupControl(Model.BookmarksPopupControlSettings).Render();
+
+        Html.Cortex().LoadingPanel(s => { s.Name = "pnlLoading"; s.Styles.LoadingDiv.Opacity = 30; s.Modal = true; }).Render();
+
+    %>
+
+    <div id="tool-tip-content"></div>
+    <div id="transparent-overlay"></div>
+
+    <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
+
+</body>
+</html>

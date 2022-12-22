@@ -1,0 +1,22 @@
+﻿body {
+    font-size: $font-size--default;
+    font-family: $font-family--default;
+    color: $color--text;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family--heading;
+    font-weight: $font-weight--heading;
+}
+
+input {
+    color: $color--input-text;
+}
+
+.medium-text {
+    font-size: $font-size--default;
+}
+
+.large-text {
+    font-size: $font-size--default-large;
+}

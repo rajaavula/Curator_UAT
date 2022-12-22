@@ -1,0 +1,11 @@
+﻿
+
+.home-background {
+	background-image: url("../../../../Assets/Img/home-bg-logo.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size:contain;
+	height: calc(100vh - 200px);
+	margin: 0 100px;
+}
+

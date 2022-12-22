@@ -1,0 +1,24 @@
+﻿html, body {
+    overflow: hidden;
+}
+
+body, body[style] {
+    padding: 0;
+    margin: 0 auto;
+}
+
+a {
+    outline: none !important;
+}
+
+label {
+    white-space: nowrap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+}
+
+h2 {
+    margin-bottom: 8px;
+}

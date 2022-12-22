@@ -1,0 +1,32 @@
+﻿/*!
+ * Bootstrap v4.5.0 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+/* Change theme variables here before the bootstrap import */
+$primary: $palette--dark-cyan;
+$secondary: $palette--cyan;
+/*
+$secondary: $color--secondary;
+$success: #8bc34a;
+//$info: ;
+$warning: #ffc107;
+$danger: #f44336;
+//$light: ;
+//$dark: ;
+
+$body-bg: #363640;
+$body-color: #ffffff;
+
+$border-radius: 4px;*/
+
+@import "../../../Lib/bootstrap/scss/bootstrap";
+
+/* Change styles here after the bootstrap import */
+/*
+nav.navbar {
+    background: linear-gradient($primary, $white)
+}
+*/

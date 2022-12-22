@@ -1,0 +1,119 @@
+﻿* {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+body, body[style] {
+    color: #1E395B;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    background: #e8e8e8;
+}
+
+a:link, a:active, a:visited {
+    color: #1E395B;
+}
+
+.fields {
+    margin: 30px auto 0;
+    vertical-align: top;
+    border-collapse: collapse !important;
+}
+
+    .fields .label {
+        padding: 0 2px 12px 0;
+    }
+
+    .fields .field {
+        padding: 0 0 12px 0;
+        width: 250px;
+    }
+
+#login-container {
+    border-radius: 4px;
+    width: 338px;
+    height: 314px;
+
+}
+
+    #login-container .logo {
+        width: 400px;
+        height: 100PX;
+        margin: 0 auto 0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 38px;
+        font-weight: bold;
+        color: #636569;
+    }
+
+
+#footer .copyright {
+    bottom: 0;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+    margin-right: 21px;
+    position: absolute;
+    right: 0;
+}
+
+
+.login-bk {
+    background-image: url("../../../../Assets/Img/sun-setting.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.row {
+    height: 100vh;
+}
+
+.corner-ribbon {
+    width: 200px;
+    background: #e43;
+    position: absolute;
+    top: 25px;
+    left: -50px;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    font-size: 12px;
+}
+
+/* ---------------------  
+    Custom Styles 
+---------------------*/
+
+
+    .corner-ribbon.sticky {
+        position: fixed;
+    }
+
+    .corner-ribbon.shadow {
+        box-shadow: 0 0 3px rgba(0,0,0,.3);
+    }
+
+    .corner-ribbon.top-right {
+        top: 25px;
+        right: -50px;
+        left: auto;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+
+    .corner-ribbon.blue {
+        background: #da1d34;
+    }
+
+.dxeTextBox_MetropolisBlue .dxeEditArea_MetropolisBlue {
+    background-color: transparent !important;
+}
+
+.dxeErrorFrameWithoutError_MetropolisBlue {
+    border: none !important;
+    border-bottom: 2px solid Red !important;
+}

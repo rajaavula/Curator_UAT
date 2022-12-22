@@ -1,0 +1,66 @@
+﻿// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$color--text: $palette--dark-grey;
+
+$color--link-text: $palette--dark-grey;
+
+$color--error-text: $palette--white;
+$color--error-background: $palette--red;
+
+$color--success-text: $palette--white;
+$color--success-background: $palette--green;
+
+$color--message-text: $palette--white;
+
+$color--heading-text: $palette--orange;
+
+$color--menu-background: $palette--cyan;
+$color--menu-text: $palette--white;
+$color--menu-button: $palette--white;
+$color--menu-line: $palette--light-cyan;
+$color--menu-line-bar: $palette--white;
+$color--menu-shadow: $palette--dark-cyan;
+
+$color--content-background: $palette--white;
+$color--content-shadow: $palette--dark-grey;
+
+$color--heading-text: $palette--dark-cyan;
+
+$color--button-background: $palette--dark-cyan;
+$color--button-text: $palette--white;
+$color--button-background--disabled: $palette--white;
+$color--button-text--disabled: $palette--light-grey;
+$color--button-border--disabled: $palette--light-grey;
+
+$color--input-text: $palette--black;
+$color--input-background: $palette--white;
+$color--input-border: $palette--light-grey;
+
+$color--login--text: $palette--white;
+$color--login--background: $palette--cyan;
+$color--login--input-text: $palette--white;
+$color--login--input-background: $palette--deep-cyan;
+$color--login--input-border: $palette--white;
+
+$color--loading-overlay: $palette--full-black;
+$color--loading-display: $palette--white;
+$color--loading-text: $palette--full-black;
+
+$font-family--default: Gotham A,Gotham B,Verdana,Arial,sans-serif;
+
+$font-size--default: 12px;
+$font-size--h2: 18px;
+$font-size--message: 14px;
+
+$border-width--thin: 2px;
+$border-width--thick: 5px;
+
+$border-radius--input: 1px;
+
+$border-radius--login--input: 30px;
+
+$padding--success: 6px 18px;
+
+$padding--message: 14px 12px;

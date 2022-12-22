@@ -1,0 +1,28 @@
+[
+  {
+    "outputFileName": "Assets/Js/responsive.min.js",
+    "inputFiles": [
+      "Assets/Js/responsive.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true,
+      "preserveImportantComments": false
+    },
+    "sourceMap": false,
+    "includeInProject": true
+  },
+  {
+    "outputFileName": "Assets/Js/site.min.js",
+    "inputFiles": [
+      "Assets/Js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true,
+      "preserveImportantComments": false
+    },
+    "sourceMap": false,
+    "includeInProject": true
+  }
+]

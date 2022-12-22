@@ -1,0 +1,27 @@
+﻿.page--admin-sites-edit {
+    color: $color--login--text;
+    background-color: $color--login--background;
+
+    .form-control {
+        color: $color--login--input-text;
+        background-color: $color--login--input-background;
+        border-width: $border-width--thin;
+        border-radius: $border-radius--login--input;
+        border-color: $color--login--input-border;
+        padding: $padding--input;
+        text-align: center;
+
+        @include input-placeholder() {
+            color: $color--login--input-text;
+        }
+    }
+}
+.section
+{
+    margin:15px;
+}
+
+.error
+{
+    border: 1px solid red;
+}
