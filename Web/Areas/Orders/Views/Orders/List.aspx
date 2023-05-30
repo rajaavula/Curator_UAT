@@ -1,7 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="BasePage<OrdersList>" %>
 <asp:Content ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" src="/Assets/Js/Orders/orders.js?<%= App.Version %>"></script>
-    <script src="/Assets/Js/cx.js" type="text/javascript"></script>
+    <script src="/Assets/Js/cx.js" type="text/javascript"></script>	
+	<link href="/Assets/Css/orders.css?<%= App.Version %>" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ContentPlaceHolderID="BeginFormContent" runat="server"><%=
 	Html.Cortex().BeginForm("Orders", "Orders", "List", Model.PageID)
@@ -57,11 +58,11 @@
 					Html.Cortex().ComboBox(s => 
 					{
 						s.Name = "OrderStatus";
-						s.Properties.ValueField = "ID";
-						s.Properties.TextField = "Name";
-						s.Width = 140;
+						s.Properties.ValueField = "SalesOrderLineStatusID";
+						s.Properties.TextField = "StatusName";
+						s.Width = 125;
 						s.SelectedIndex = 0;
-					}).BindList(Model.OrderStatuses).Render();
+					}).BindList(Model.SalesOrderStatusesFilter).Render();
 				%>
 				</td>
 				<td class="option">
@@ -89,7 +90,21 @@
 						s.Name = "Refresh";
 						s.Text = Model.LabelText(200034);
 						s.UseSubmitBehavior = false;
+						s.CausesValidation = false;
 						s.ClientSideEvents.Click = "function (s,e) { RefreshGridWithArgs(GrdOrders); }";
+					}).Render();
+				%>
+				</td>
+				<td class="option">
+				<%
+					Html.Cortex().NeutralButton(true, s =>
+					{
+						s.Name = "btnQueueNetSuiteUpdate";
+						s.Text = Model.LabelText(300189); // Queue NetSuite update
+						s.ClientEnabled = false;
+						s.UseSubmitBehavior = false;
+						s.CausesValidation = false;
+						s.ClientSideEvents.Click = "function (s,e) { QueueNetSuiteUpdate(); }";
 					}).Render();
 				%>
 				</td>
@@ -273,6 +288,9 @@
 						{
 							s.Name = "ShippingAddressFirstName";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -282,6 +300,9 @@
 						{
 							s.Name = "ShippingAddressLastName";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -301,6 +322,9 @@
 						{
 							s.Name = "ShippingAddressStreet1";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -310,6 +334,9 @@
 						{
 							s.Name = "ShippingAddressStreet2";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -329,6 +356,9 @@
 						{
 							s.Name = "ShippingAddressCity";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -338,6 +368,9 @@
 						{
 							s.Name = "ShippingAddressRegion";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -357,6 +390,9 @@
 						{
 							s.Name = "ShippingAddressZip";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -366,6 +402,9 @@
 						{
 							s.Name = "ShippingAddressCountry";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -385,6 +424,9 @@
 						{
 							s.Name = "ShippingAddressEmail";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -394,6 +436,9 @@
 						{
 							s.Name = "ShippingAddressPhone";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>
@@ -410,6 +455,9 @@
 						{
 							s.Name = "ShippingAddressCompany";
 							s.Width = 200;
+							s.Properties.ValidationSettings.RequiredField.IsRequired = true;
+							s.Properties.ValidationSettings.ValidationGroup = "SHIPPING_ADDRESS_EDIT";
+							s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 						}).Render();
 					%>
 					</td>

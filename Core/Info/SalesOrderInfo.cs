@@ -19,8 +19,11 @@ namespace LeadingEdge.Curator.Core
         public DateTime FulfillDate { get; set; }
         public DateTime CancelDate { get; set; }
         public int SalesOrderPaymentStatusID { get; set; }
+        public string SalesOrderPaymentStatus { get; set; }
         public int SalesOrderFulfillmentStatusID { get; set; }
+        public string SalesOrderFulfillmentStatus { get; set; }
         public int SalesOrderPurchaseStatusID { get; set; }
+        public string SalesOrderPurchaseStatus { get; set; }
         public int CustomerID { get; set; }
         public string CustomerCompany { get; set; }
         public string CustomerFirstName { get; set; }
@@ -56,9 +59,12 @@ namespace LeadingEdge.Curator.Core
         public bool CustomerIPAddressChecked { get; set; }
         public bool FraudChecked { get; set; }
         public DateTime PurchaseErrorDate { get; set; }
-        public DateTime NetSuiteUpdateDate { get; set; }
+        public bool NetSuiteUpdateQueued { get; set; }
+        public DateTime? NetSuiteUpdateDate { get; set; }
         public string NetSuiteUpdateResult { get; set; }
+        public string NetSuiteInternalID { get; set; }
         public string StoreName { get; set; }
+        public int OpenItemLines { get; set; }
 
         public string CustomerName
         {
@@ -75,7 +81,7 @@ namespace LeadingEdge.Curator.Core
                 var list = new List<string> {   BillingAddressFirstName + " " +  BillingAddressLastName, BillingAddressPhone, BillingAddressEmail,
                                                 BillingAddressStreet1, BillingAddressStreet2, BillingAddressCity, BillingAddressRegion,
                                                 BillingAddressZip, BillingAddressCountry, PaymentMethod };
-                list.RemoveAll(x => x == null);
+                list.RemoveAll(x => string.IsNullOrWhiteSpace(x));
 
                 if (list.Count == 0) return string.Empty;
 
@@ -99,8 +105,11 @@ namespace LeadingEdge.Curator.Core
             FulfillDate = Utils.FromDBValue<DateTime>(dr["FulfillDate"]);
             CancelDate = Utils.FromDBValue<DateTime>(dr["CancelDate"]);
             SalesOrderPaymentStatusID = Utils.FromDBValue<int>(dr["SalesOrderPaymentStatusID"]);
+            SalesOrderPaymentStatus = Utils.FromDBValue<string>(dr["SalesOrderPaymentStatus"]);
             SalesOrderFulfillmentStatusID = Utils.FromDBValue<int>(dr["SalesOrderFulfillmentStatusID"]);
+            SalesOrderFulfillmentStatus = Utils.FromDBValue<string>(dr["SalesOrderFulfillmentStatus"]);
             SalesOrderPurchaseStatusID = Utils.FromDBValue<int>(dr["SalesOrderPurchaseStatusID"]);
+            SalesOrderPurchaseStatus = Utils.FromDBValue<string>(dr["SalesOrderPurchaseStatus"]);
             CustomerID = Utils.FromDBValue<int>(dr["CustomerID"]);
             CustomerCompany = Utils.FromDBValue<string>(dr["CustomerCompany"]);
             CustomerFirstName = Utils.FromDBValue<string>(dr["CustomerFirstName"]);
@@ -136,8 +145,10 @@ namespace LeadingEdge.Curator.Core
             CustomerIPAddressChecked = Utils.FromDBValue<bool>(dr["CustomerIPAddressChecked"]);
             FraudChecked = Utils.FromDBValue<bool>(dr["FraudChecked"]);
             PurchaseErrorDate = Utils.FromDBValue<DateTime>(dr["PurchaseErrorDate"]);
-            NetSuiteUpdateDate = Utils.FromDBValue<DateTime>(dr["NetSuiteUpdateDate"]);
+            NetSuiteUpdateQueued = Utils.FromDBValue<bool>(dr["NetSuiteUpdateQueued"]);
+            NetSuiteUpdateDate = Utils.FromDBValue<DateTime?>(dr["NetSuiteUpdateDate"]);
             NetSuiteUpdateResult = Utils.FromDBValue<string>(dr["NetSuiteUpdateResult"]);
+            NetSuiteInternalID = Utils.FromDBValue<string>(dr["NetSuiteInternalID"]);
             StoreName = Utils.FromDBValue<string>(dr["StoreName"]);
         }
 

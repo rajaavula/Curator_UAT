@@ -71,168 +71,127 @@
       <HintPath>..\Dependencies\Cortex.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Charts.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Charts.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Charts.Core.20.2.6\lib\net452\DevExpress.Charts.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.CodeParser.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.CodeParser.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.CodeParser.20.2.6\lib\net452\DevExpress.CodeParser.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Data.Desktop.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Data.Desktop.20.2.6\lib\net452\DevExpress.Data.Desktop.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Data.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Data.20.2.6\lib\net452\DevExpress.Data.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataAccess.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.DataAccess.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.DataAccess.20.2.6\lib\net452\DevExpress.DataAccess.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataVisualization.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.DataVisualization.Core.20.2.6\lib\net452\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Images.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Images.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Images.20.2.6\lib\net452\DevExpress.Images.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Office.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Office.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Office.Core.20.2.6\lib\net452\DevExpress.Office.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Pdf.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Pdf.Core.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Pdf.Drawing.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.PivotGrid.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.PivotGrid.Core.20.2.6\lib\net452\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Printing.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Printing.Core.20.2.6\lib\net452\DevExpress.Printing.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.RichEdit.Core.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Export, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
+      <HintPath>..\packages\DevExpress.RichEdit.Export.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Sparkline.Core.20.2.6\lib\net452\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.SpellChecker.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.SpellChecker.Core.20.2.6\lib\net452\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Spreadsheet.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Spreadsheet.Core.20.2.6\lib\net452\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Utils.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Utils.20.2.6\lib\net452\DevExpress.Utils.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxDiagram.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGantt.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGauges.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxHtmlEditor.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxPivotGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxRichEdit.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxScheduler.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Scheduler.20.2.6\lib\net452\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpellChecker.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpreadsheet.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxThemes.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxThemes.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Themes.20.2.6\lib\net452\DevExpress.Web.ASPxThemes.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxTreeList.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Mvc5.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Mvc5.20.2.6\lib\net452\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Resources.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.Resources.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.Resources.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpo.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Xpo.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Xpo.20.2.6\lib\net452\DevExpress.Xpo.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraCharts.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Charts.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraGauges.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Gauges.Core.20.2.6\lib\net452\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Reporting.Core.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Reporting.Common.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web.WebForms, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Reporting.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Scheduler.Core.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core.Desktop, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Scheduler.CoreDesktop.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\Dependencies\EPPlus.dll</HintPath>
@@ -484,9 +443,12 @@
     <Compile Include="Areas\Admin\Controllers\StoresController.cs" />
     <Compile Include="Areas\Admin\Controllers\SessionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserGroupFormsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DuplicateStoresController.cs" />
     <Compile Include="Areas\Admin\Helpers\ApiCredentialsHelper.cs" />
     <Compile Include="Areas\Admin\Helpers\StoresHelper.cs" />
+    <Compile Include="Areas\Admin\Helpers\DuplicateStoresHelper.cs" />
     <Compile Include="Areas\Admin\Models\ApiCredentials\ApiCredentialsListEdit.cs" />
+    <Compile Include="Areas\Admin\Models\DuplicateStores\DuplicateStoresList.cs" />
     <Compile Include="Areas\Admin\Models\Stores\StoreListEdit.cs" />
     <Compile Include="Areas\Home\Models\Home\HomeContact.cs" />
     <Compile Include="Areas\Orders\Controllers\OrdersController.cs" />
@@ -494,6 +456,7 @@
     <Compile Include="Areas\Orders\Models\OrderLineList.cs" />
     <Compile Include="Areas\Orders\Models\OrdersList.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
+    <Compile Include="Areas\Products\Controllers\FeedStoresController.cs" />
     <Compile Include="Areas\Products\Controllers\FeedsController.cs" />
     <Compile Include="Areas\Products\Controllers\MemberCategoriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserGroupPermissionsController.cs" />
@@ -512,6 +475,7 @@
     <Compile Include="Areas\Products\Controllers\CategoryMappingsController.cs" />
     <Compile Include="Areas\Products\Controllers\TradeServiceProductsController.cs" />
     <Compile Include="Areas\Products\Controllers\ProductDashboardController.cs" />
+    <Compile Include="Areas\Products\Helpers\FeedStoresHelper.cs" />
     <Compile Include="Areas\Products\Helpers\FeedsHelper.cs" />
     <Compile Include="Areas\Products\Helpers\MemberCategoriesHelper.cs" />
     <Compile Include="Areas\Admin\Helpers\UserGroupPermissionsHelper.cs" />
@@ -531,6 +495,7 @@
     <Compile Include="Areas\Products\Helpers\ProductDashboardHelper.cs" />
     <Compile Include="Areas\Products\Models\CategoryMappings\CategoryMappingsListEdit.cs" />
     <Compile Include="Areas\Products\Models\ERPIntegrations\ERPIntegrationsListEdit.cs" />
+    <Compile Include="Areas\Products\Models\FeedStores\FeedStoresListEdit.cs" />
     <Compile Include="Areas\Products\Models\MemberCategories\MemberCategories.cs" />
     <Compile Include="Areas\Admin\Models\Sessions\SessionsList.cs" />
     <Compile Include="Areas\Admin\Models\UserGroupForms\UserGroupFormsList.cs" />
@@ -627,6 +592,7 @@
     <Content Include="apple-icon-precomposed.png" />
     <Content Include="apple-icon.png" />
     <Content Include="Areas\Admin\Views\ApiCredentials\ListEdit.aspx" />
+    <Content Include="Areas\Admin\Views\DuplicateStores\List.aspx" />
     <Content Include="Areas\Admin\Views\Stores\ListEdit.aspx" />
     <Content Include="Areas\Admin\Views\Companies\Edit.aspx" />
     <Content Include="Areas\Admin\Views\Companies\List.aspx" />
@@ -639,6 +605,7 @@
     <Content Include="Areas\Orders\Views\Orders\List.aspx" />
     <Content Include="Areas\Orders\Views\Orders\ListOrderLines.ascx" />
     <Content Include="Areas\Products\Views\CategoryMappings\ListEditConfirm.ascx" />
+    <Content Include="Areas\Products\Views\FeedStores\ListEdit.aspx" />
     <Content Include="Areas\Products\Views\Feeds\ListEdit.aspx" />
     <Content Include="Areas\Products\Views\CategoryMappings\ListEdit.aspx" />
     <Content Include="Areas\Products\Views\ERPIntegrations\ListEdit.aspx" />
@@ -666,6 +633,7 @@
     <Content Include="Areas\Products\Views\Products\ListEdit.aspx" />
     <Content Include="Areas\Products\Views\Products\ListPreview.ascx" />
     <Content Include="Areas\Products\Views\ProductsWithoutCategories\List.aspx" />
+    <Content Include="Assets\Css\orders.css" />
     <Content Include="Assets\Css\home.css" />
     <Content Include="Assets\Css\login.css" />
     <Content Include="Assets\Css\platform.css" />
@@ -772,7 +740,9 @@
     <Content Include="Assets\Js\Admin\form-editor.js" />
     <Content Include="Assets\Js\Admin\api-credentials.js" />
     <Content Include="Assets\Js\Admin\stores.js" />
+    <Content Include="Assets\Js\Admin\duplicate-stores.js" />
     <Content Include="Assets\Js\CategoryMappings\category-mappings.js" />
+    <Content Include="Assets\Js\FeedStores\feedstores.js" />
     <Content Include="Assets\Js\Home\contact.js" />
     <Content Include="Assets\Js\MemberCategories\membercategories.js" />
     <Content Include="Assets\Js\Admin\visitor-log.js" />

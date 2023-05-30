@@ -181,43 +181,57 @@ namespace LeadingEdge.Curator.Core
 
         #region Member Products 
 
-        public static List<ProductInfo> GetMemberProducts(int storeID, int feedKey, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        public static List<ProductInfo> GetMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        {
+            return GetMemberProducts(storeID, selectedFeeds, selectedCategories, selectedBrands, sortBy, sortDirection, App.MaxProductsRows, false);
+        }
+
+        public static List<ProductInfo> GetMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection, int maxRows, bool allRows)
         {
             var db = new DB(App.ProductsDBConn);
 
             var parameters = new[]
             {
                 new SqlParameter("@StoreID",Utils.ToDBValue(storeID)),
-                new SqlParameter("@FeedKey",Utils.ToDBValue(feedKey)),
+                new SqlParameter("@selectedFeeds",Utils.ToDBValue(selectedFeeds)),
                 new SqlParameter("@SelectedCategories",Utils.ToDBValue(selectedCategories)),
                 new SqlParameter("@SelectedBrands",Utils.ToDBValue(selectedBrands)),
                 new SqlParameter("@SortBy", Utils.ToDBValue(sortBy)),
-                new SqlParameter("@SortDirection", Utils.ToDBValue(sortDirection))
+                new SqlParameter("@SortDirection", Utils.ToDBValue(sortDirection)),
+                new SqlParameter("@MaxRows", Utils.ToDBValue(maxRows)),
+                new SqlParameter("@AllRows", Utils.ToDBValue(allRows))
             };
             var dt = db.QuerySP("CURATOR_GetMemberProducts", parameters);
 
             return (from dr in dt.AsEnumerable() select new ProductInfo(dr)).OrderBy(x => x.ShortDescription).ToList();
         }
 
-        public static List<ProductInfo> GetAvailableMemberProducts(int storeID, int feedKey, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        public static List<ProductInfo> GetAvailableMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        {
+            return GetAvailableMemberProducts(storeID, selectedFeeds, selectedCategories, selectedBrands, sortBy, sortDirection, App.MaxProductsRows, false);
+        }
+
+        public static List<ProductInfo> GetAvailableMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection, int maxRows, bool allRows)
         {
             var db = new DB(App.ProductsDBConn);
 
             var parameters = new[]
             {
                 new SqlParameter("@StoreID",Utils.ToDBValue(storeID)),
-                new SqlParameter("@FeedKey",Utils.ToDBValue(feedKey)),
+                new SqlParameter("@SelectedFeeds",Utils.ToDBValue(selectedFeeds)),
                 new SqlParameter("@SelectedCategories",Utils.ToDBValue(selectedCategories)),
                 new SqlParameter("@SelectedBrands",Utils.ToDBValue(selectedBrands)),
                 new SqlParameter("@SortBy", Utils.ToDBValue(sortBy)),
-                new SqlParameter("@SortDirection", Utils.ToDBValue(sortDirection))
+                new SqlParameter("@SortDirection", Utils.ToDBValue(sortDirection)),
+                new SqlParameter("@MaxRows", Utils.ToDBValue(maxRows)),
+                new SqlParameter("@AllRows", Utils.ToDBValue(allRows))
             };
             var dt = db.QuerySP("CURATOR_GetAvailableMemberProducts", parameters);
 
             return (from dr in dt.AsEnumerable() select new ProductInfo(dr)).OrderBy(x => x.ShortDescription).ToList();
         }
 
-        public static Exception SaveMemberPricing(int storeID, string productIDList, int pricingRule, decimal priceValue, bool retailRounding, int modifiedBy)
+        public static Exception SaveMemberPricing(int storeID, string productIDList, int pricingRule, decimal priceValue, bool retailRounding, int modifiedBy, bool includeShipping, decimal shippingValue)
         {
             var db = new DB(App.ProductsDBConn);
             var parameters = new[]
@@ -227,7 +241,9 @@ namespace LeadingEdge.Curator.Core
                 new SqlParameter("@PricingRule", Utils.ToDBValue(pricingRule)),
                 new SqlParameter("@PriceValue", Utils.ToDBValue(priceValue)),
                 new SqlParameter("@RetailRounding", Utils.ToDBValue(retailRounding)),
-                new SqlParameter("@ModifiedBy", Utils.ToDBValue(modifiedBy))
+                new SqlParameter("@ModifiedBy", Utils.ToDBValue(modifiedBy)),
+                new SqlParameter("@IncludeShipping", Utils.ToDBValue(includeShipping)),
+                new SqlParameter("@ShippingValue", Utils.ToDBValue(shippingValue))
             };
 
             db.QuerySP("CURATOR_SaveMemberPricing", parameters);
@@ -299,7 +315,6 @@ namespace LeadingEdge.Curator.Core
             return db.DBException;
         }
 
-
         #endregion
 
         #region Trade services
@@ -321,17 +336,32 @@ namespace LeadingEdge.Curator.Core
         #endregion
 
         #region Member Stores
-        public static List<StoreInfo> GetMemberStoreList(int userID)
+
+        public static List<StoreInfo> GetAllMemberStoresList(int userID)
+        {
+            return GetMemberStoreList(userID, "ALL");
+        }
+
+        public static List<StoreInfo> GetEcommerceMemberStoresList(int userID)
+        {
+            return GetMemberStoreList(userID, "ECOMMERCE");
+        }
+
+        private static List<StoreInfo> GetMemberStoreList(int userID, string type)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@UserID",Utils.ToDBValue(userID)),
+                new SqlParameter("@Type",Utils.ToDBValue(type))
             };
+
             var dt = db.QuerySP("CURATOR_GetMemberStoreList", parameters);
 
             return (from dr in dt.AsEnumerable() select new StoreInfo(dr)).ToList();
         }
+
         #endregion
     }
 }

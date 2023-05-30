@@ -32,7 +32,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             {
                 vm.FeedKey = vm.Feeds.First().FeedKey;
             }
-            vm.AssignedFeeds = FeedManager.GetMemberFeeds(vm.StoreID).OrderBy(x => x.FeedName).ToList();            
+            vm.AssignedFeeds = FeedManager.GetFeedsByMember(vm.StoreID);
             vm.AvailableFeeds = vm.Feeds.FindAll(x => vm.AssignedFeeds.Exists(y => y.FeedKey == x.FeedKey) == false).OrderBy(x => x.FeedName).ToList();
             vm.FeedKeys = string.Join(",", from memberObject in vm.AssignedFeeds select memberObject.FeedKey);
 
@@ -45,11 +45,11 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             vm.MemberStoreList = cached.MemberStoreList;
             if (vm.IsSave && vm.StoreID > 0)
             {
-                FeedManager.UpdateMemberFeeds(vm.StoreID, vm.FeedKeys);            
+                FeedManager.UpdateMemberFeeds(vm.StoreID, vm.FeedKeys);
             }
 
-            vm.AssignedFeeds = FeedManager.GetMemberFeeds(vm.StoreID).OrderBy(x => x.FeedName).ToList();
-            vm.AvailableFeeds = FeedManager.GetUsedFeeds();
+            vm.AssignedFeeds = FeedManager.GetFeedsByMember(vm.StoreID);
+            vm.AvailableFeeds = FeedManager.GetAllFeeds();
             vm.AvailableFeeds = vm.AvailableFeeds.FindAll(x => vm.AssignedFeeds.Exists(y => y.FeedKey == x.FeedKey) == false).OrderBy(x => x.FeedName).ToList();
             vm.FeedKeys = string.Join(",", from memberObject in vm.AssignedFeeds select memberObject.FeedKey);
 
@@ -58,12 +58,12 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<FeedInfo> GetAllFeeds()
         {
-            return FeedManager.GetUsedFeeds();
+            return FeedManager.GetAllFeeds();
         }
 
         public static List<StoreInfo> GetMemberStores(MemberFeeds vm)
         {
-            return ProductManager.GetMemberStoreList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
+            return ProductManager.GetEcommerceMemberStoresList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
         }
     }
 }

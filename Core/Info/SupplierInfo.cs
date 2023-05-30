@@ -7,8 +7,7 @@ namespace LeadingEdge.Curator.Core
     {
         public int FeedKey { get; set; }
         public string FeedName { get; set; }
-        public string PushToSupplierEmail { get; set; }
-        public bool NonEDI { get; set; }
+        public bool IsEDISupplier { get; set; }
         public int Stock { get; set; }
         public decimal ResellerBuyEx { get; set; }
         public decimal WeightGrams { get; set; }
@@ -19,8 +18,7 @@ namespace LeadingEdge.Curator.Core
         {
             FeedKey = Utils.FromDBValue<int>(dr["FeedKey"]);
             FeedName = Utils.FromDBValue<string>(dr["FeedName"]);
-            PushToSupplierEmail = Utils.FromDBValue<string>(dr["PushToSupplierEmail"]);
-            NonEDI = Utils.FromDBValue<bool>(dr["NonEDI"]);
+            IsEDISupplier = Utils.FromDBValue<bool>(dr["IsEDISupplier"]);
             Stock = Utils.FromDBValue<int>(dr["Stock"]);
             ResellerBuyEx = Utils.FromDBValue<decimal>(dr["ResellerBuyEx"]);
             WeightGrams = Utils.FromDBValue<decimal>(dr["WeightGrams"]);

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Cortex.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using Cortex.Utilities;
 
 namespace LeadingEdge.Curator.Core
 {
@@ -12,6 +12,7 @@ namespace LeadingEdge.Curator.Core
         public static List<SalesOrderInfo> GetSalesOrders(DateTime fromDate, DateTime toDate, string selectedStores, int orderStatusID, bool failedEDIDelivery, bool incompleteItemLines)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@FromDate", Utils.ToDBValue(fromDate)),
@@ -24,12 +25,20 @@ namespace LeadingEdge.Curator.Core
 
             var dt = db.QuerySP("CURATOR_GetSalesOrders", parameters);
 
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+
+                return new List<SalesOrderInfo>();
+            }
+
             return (from dr in dt.AsEnumerable() select new SalesOrderInfo(dr)).ToList();
         }
 
         public static List<SalesOrderLineInfo> GetSalesOrderLines(int salesOrderID)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@SalesOrderID", Utils.ToDBValue(salesOrderID))
@@ -37,12 +46,20 @@ namespace LeadingEdge.Curator.Core
 
             var dt = db.QuerySP("CURATOR_GetSalesOrderLines", parameters);
 
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+
+                return new List<SalesOrderLineInfo>();
+            }
+
             return (from dr in dt.AsEnumerable() select new SalesOrderLineInfo(dr)).ToList();
         }
 
         public static List<SupplierLineInfo> GetSelectableSuppliers(int salesOrderLineID)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@SalesOrderLineID", Utils.ToDBValue(salesOrderLineID))
@@ -50,12 +67,75 @@ namespace LeadingEdge.Curator.Core
 
             var dt = db.QuerySP("CURATOR_GetSelectableSuppliers", parameters);
 
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+
+                return new List<SupplierLineInfo>();
+            }
+
             return (from dr in dt.AsEnumerable() select new SupplierLineInfo(dr)).ToList();
+        }
+
+        public static SupplierLineInfo GetSelectedSupplier(int salesOrderLineID)
+        {
+            var db = new DB(App.ProductsDBConn);
+            var parameters = new[]
+            {
+                new SqlParameter("@SalesOrderLineID", Utils.ToDBValue(salesOrderLineID))
+            };
+
+            var dt = db.QuerySP("CURATOR_GetSelectedSupplier", parameters);
+
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+
+                return new SupplierLineInfo();
+            }
+
+            return new SupplierLineInfo(dt.Rows[0]);
+        }
+
+        public static List<SalesOrderStatusInfo> GetSalesOrderStatuses() 
+        {
+            var db = new DB(App.ProductsDBConn);
+
+            var dt = db.QuerySP("CURATOR_GetSalesOrderStatuses");
+
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+
+                return new List<SalesOrderStatusInfo>();
+            }
+
+            return (from dr in dt.AsEnumerable() select new SalesOrderStatusInfo(dr)).ToList();
+        }
+
+        public static Exception QueueNetSuiteUpdate(string salesOrderIDs)
+        {
+            var db = new DB(App.ProductsDBConn);
+
+            var parameters = new[]
+            {
+                new SqlParameter("@SalesOrderIDs", Utils.ToDBValue(salesOrderIDs))
+            };
+
+            db.QuerySP("CURATOR_QueueSalesOrderNetSuiteUpdate", parameters);
+
+            if (!db.Success)
+            {
+                Log.Error(db.DBException);
+            }
+
+            return db.DBException;
         }
 
         public static Exception SaveShippingAddress(int salesOrderID, ShippingAddressInfo shippingAddress, UserInfo user)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@SalesOrderID", Utils.ToDBValue(salesOrderID)),
@@ -80,17 +160,16 @@ namespace LeadingEdge.Curator.Core
 
             if (!db.Success)
             {
-                return new Exception(db.ErrorMessage);
+                Log.Error(db.DBException);
             }
-            else
-            {
-                return null;
-            }
+
+            return db.DBException;
         }
 
         public static Exception SaveFraudCheck(int salesOrderID, FraudCheckInfo fraudCheck, UserInfo user)
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@SalesOrderID", Utils.ToDBValue(salesOrderID)),
@@ -109,27 +188,26 @@ namespace LeadingEdge.Curator.Core
 
             if (!db.Success)
             {
-                return new Exception(db.ErrorMessage);
+                Log.Error(db.DBException);
             }
-            else
-            {
-                return null;
-            }
+
+            return db.DBException;
         }
 
         public static Exception SaveSalesOrderLine(SalesOrderLineInfo salesOrderLine, UserInfo user) 
         {
             var db = new DB(App.ProductsDBConn);
+
             var parameters = new[]
             {
                 new SqlParameter("@SalesOrderID", Utils.ToDBValue(salesOrderLine.SalesOrderID)),
                 new SqlParameter("@SalesOrderLineID", Utils.ToDBValue(salesOrderLine.SalesOrderLineID)),
-                new SqlParameter("@WeightGrams", Utils.ToDBValue(salesOrderLine.WeightGrams)),
-                new SqlParameter("@SubtotalAmount", Utils.ToDBValue(salesOrderLine.SubtotalAmount)),
-                new SqlParameter("@DiscountAmount", Utils.ToDBValue(salesOrderLine.DiscountAmount)),
-                new SqlParameter("@ShippingAmount", Utils.ToDBValue(salesOrderLine.ShippingAmount)),
-                new SqlParameter("@TotalAmount", Utils.ToDBValue(salesOrderLine.TotalAmount)),
+                new SqlParameter("@SupplierFreightCost", Utils.ToDBValue(salesOrderLine.SupplierFreightCost)),
+                new SqlParameter("@SupplierFreightCode", Utils.ToDBValue(salesOrderLine.SupplierFreightCode)),
+                new SqlParameter("@CarrierName", Utils.ToDBValue(salesOrderLine.CarrierName)),
+                new SqlParameter("@TrackingNumber", Utils.ToDBValue(salesOrderLine.TrackingNumber)),
                 new SqlParameter("@SupplierID", Utils.ToDBValue(salesOrderLine.SupplierID)),
+                new SqlParameter("@SalesOrderLineStatusID", Utils.ToDBValue(salesOrderLine.SalesOrderLineStatusID)),
                 new SqlParameter("@CompanyID", Utils.ToDBValue(user.CompanyID)),
                 new SqlParameter("@RegionID", Utils.ToDBValue(user.RegionID)),
                 new SqlParameter("@UserID", Utils.ToDBValue(user.UserID))
@@ -139,12 +217,36 @@ namespace LeadingEdge.Curator.Core
 
             if (!db.Success)
             {
-                return new Exception(db.ErrorMessage);
+                Log.Error(db.DBException);
             }
-            else
+
+            return db.DBException;
+        }
+
+        public static string PushSalesOrderLinesToSupplier(int salesOrderID, IEnumerable<int> salesOrderLineIDs, int feedID)
+        {
+            var db = new DB(App.ProductsDBConn);
+
+            var parameters = new[]
+            {
+                new SqlParameter("@SalesOrderID", Utils.ToDBValue(salesOrderID)),
+                new SqlParameter("@SalesOrderLineIDs", Utils.ToDBValue(string.Join(",", salesOrderLineIDs))),
+                new SqlParameter("@FeedID", Utils.ToDBValue(feedID))
+            };
+
+            var dt = db.QuerySP("CURATOR_PushSalesOrderLinesToSupplier", parameters);
+
+            if (!db.Success)
+            {
+                throw db.DBException;
+            }
+
+            if (db.RowCount == 0)
             {
                 return null;
             }
+
+            return Utils.FromDBValue<string>(dt.Rows[0][0]);
         }
     }
 }

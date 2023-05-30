@@ -1,5 +1,4 @@
 ﻿function RefreshGridWithArgs(grid, refresh) {
-
     var args = refresh;
 
     grid.PerformCallback(args);
@@ -18,7 +17,6 @@ function Get() {
 			$('#FeedID').val(json.FeedKey);
 			FeedName.SetText(json.FeedName);
 			IncludeZeroStock.SetChecked(json.IncludeZeroStock);
-			PushToSupplierEmail.SetText(json.PushToSupplierEmail);
 		}
 	});
 }
@@ -33,8 +31,7 @@ function SaveSupplier() {
 		url: '/Products/Feeds/Update',
 		data: {
 			FeedKey: id,
-			IncludeZeroStock: IncludeZeroStock.GetChecked(),
-			PushToSupplierEmail: PushToSupplierEmail.GetText()
+			IncludeZeroStock: IncludeZeroStock.GetChecked()
 		},
 		success: function (msg) {
 			HideLoadingPanel();

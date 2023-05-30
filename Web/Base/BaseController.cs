@@ -285,7 +285,7 @@ namespace LeadingEdge.Curator.Web
 			}
 
 
-			//if (rowCount > App.MaxXlsExportRows) type = ExportType.Csv;
+			if (rowCount > App.MaxXlsExportRows) type = ExportType.Csv;
 
 			string filename = string.Format("Export_{0:HHmmss}.{1}", DateTime.Now, type);
 
@@ -309,9 +309,13 @@ namespace LeadingEdge.Curator.Web
 
 				if (type == ExportType.Csv)
 				{
+					/*
 					CsvExportOptionsEx exportOptions = new CsvExportOptionsEx { ExportType = DevExpress.Export.ExportType.WYSIWYG };
 
 					file = GridViewExtension.ExportToCsv(settings, data, filename, exportOptions);
+					*/
+
+					file = new CSVResult(filename, data);
 				}
 
 				if (type == ExportType.Pdf)

@@ -17,6 +17,7 @@ function AssignCatalog() {
     $.ajax({
         cache: false,
         url: '/Products/ProductBrandRestrictions/Assign',
+        type: 'POST',
         data: {
             pageID: GetPageID(),
             CatalogKey: CatalogKey.GetValue(),

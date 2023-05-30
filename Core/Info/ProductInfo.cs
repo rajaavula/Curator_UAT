@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using Cortex.Utilities;
 
@@ -10,7 +9,7 @@ namespace LeadingEdge.Curator.Core
         public int ProductID { get; set; }
         public Guid ProductGuid { get; set; }
         public int? CategoryKey { get; set; }
-        public string SupplierPartNumber { get; set; }      // SKU
+        public string SupplierPartNumber { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Feed { get; set; }
@@ -67,6 +66,7 @@ namespace LeadingEdge.Curator.Core
                 return ((this.NewRRP / BuyPrice) - 1) * 100;
             }
         }
+
         public DateTime MemberPriceModifiedDate { get; set; }
         public bool NegativeProfit
         {
@@ -81,21 +81,25 @@ namespace LeadingEdge.Curator.Core
                 return (NewRRP - BuyPrice < 0);
             }
         }
+
         public string CategoryPath
         {
             get
             {
                 string path = Category1Name;
-                if (!String.IsNullOrEmpty(Category2Name)) path += string.Concat(" / ", Category2Name);
-                if (!String.IsNullOrEmpty(Category3Name)) path += string.Concat(" / ", Category3Name);
-                if (!String.IsNullOrEmpty(Category4Name)) path += string.Concat(" / ", Category4Name);
-                if (!String.IsNullOrEmpty(Category5Name)) path += string.Concat(" / ", Category5Name);
+                if (!string.IsNullOrEmpty(Category2Name)) path += string.Concat(" / ", Category2Name);
+                if (!string.IsNullOrEmpty(Category3Name)) path += string.Concat(" / ", Category3Name);
+                if (!string.IsNullOrEmpty(Category4Name)) path += string.Concat(" / ", Category4Name);
+                if (!string.IsNullOrEmpty(Category5Name)) path += string.Concat(" / ", Category5Name);
                 return path;
             }
         }
+
         public string ProductTags { get; set; }
         public bool DefaultProductTags {  get; set; }
         public bool Selected { get; set;}
+        public bool IncludeShipping { get; set; }
+        public decimal ShippingValue { get; set; }
 
         public ProductInfo() { }
         
@@ -110,26 +114,22 @@ namespace LeadingEdge.Curator.Core
             if (dr.Table.Columns.Contains("Feed")) Feed = Utils.FromDBValue<string>(dr["Feed"]);
             if (dr.Table.Columns.Contains("Brand")) Brand = Utils.FromDBValue<string>(dr["Brand"]);
             if (dr.Table.Columns.Contains("Barcode")) Barcode = Utils.FromDBValue<string>(dr["Barcode"]);
-
             if (dr.Table.Columns.Contains("SupplierName")) SupplierName = Utils.FromDBValue<string>(dr["SupplierName"]);
             if (dr.Table.Columns.Contains("SupplierCategory")) SupplierCategory = Utils.FromDBValue<string>(dr["SupplierCategory"]);
             if (dr.Table.Columns.Contains("SupplierSubcategory1")) SupplierSubcategory1 = Utils.FromDBValue<string>(dr["SupplierSubCategory1"]);
             if (dr.Table.Columns.Contains("SupplierSubcategory2")) SupplierSubcategory2 = Utils.FromDBValue<string>(dr["SupplierSubCategory2"]);
-
             if (dr.Table.Columns.Contains("CategoryName")) CategoryName = Utils.FromDBValue<string>(dr["CategoryName"]);
             if (dr.Table.Columns.Contains("Category1Name")) Category1Name = Utils.FromDBValue<string>(dr["Category1Name"]);
             if (dr.Table.Columns.Contains("Category2Name")) Category2Name = Utils.FromDBValue<string>(dr["Category2Name"]);
             if (dr.Table.Columns.Contains("Category3Name")) Category3Name = Utils.FromDBValue<string>(dr["Category3Name"]);
             if (dr.Table.Columns.Contains("Category4Name")) Category4Name = Utils.FromDBValue<string>(dr["Category4Name"]);
             if (dr.Table.Columns.Contains("Category5Name")) Category5Name = Utils.FromDBValue<string>(dr["Category5Name"]);
-
             if (dr.Table.Columns.Contains("RecommendedRetailPrice")) RecommendedRetailPrice = Utils.FromDBValue<decimal?>(dr["RecommendedRetailPrice"]);
             if (dr.Table.Columns.Contains("MemberRecommendedRetailPrice")) MemberRecommendedRetailPrice = Utils.FromDBValue<decimal?>(dr["MemberRecommendedRetailPrice"]);
             if (dr.Table.Columns.Contains("BuyPrice")) BuyPrice = Utils.FromDBValue<decimal?>(dr["BuyPrice"]);
             if (dr.Table.Columns.Contains("Markup")) Markup = Utils.FromDBValue<decimal?>(dr["Markup"]);
             if (dr.Table.Columns.Contains("StockOnHand")) StockOnHand = Utils.FromDBValue<int>(dr["StockOnHand"]);
             if (dr.Table.Columns.Contains("IncludeZeroStock")) IncludeZeroStock = Utils.FromDBValue<bool>(dr["IncludeZeroStock"]);
-
             if (dr.Table.Columns.Contains("PricingRule")) PricingRule = Utils.FromDBValue<int>(dr["PricingRule"]);
             if (dr.Table.Columns.Contains("PriceValue")) PriceValue = Utils.FromDBValue<decimal>(dr["PriceValue"]);
             if (dr.Table.Columns.Contains("RetailRounding")) RetailRounding = Utils.FromDBValue<bool>(dr["RetailRounding"]);
@@ -137,9 +137,9 @@ namespace LeadingEdge.Curator.Core
             if (dr.Table.Columns.Contains("MemberPriceModifiedDate")) MemberPriceModifiedDate = Utils.FromDBValue<DateTime>(dr["MemberPriceModifiedDate"]);
             if (dr.Table.Columns.Contains("ProductTags")) ProductTags = Utils.FromDBValue<string>(dr["ProductTags"]);
             if (dr.Table.Columns.Contains("DefaultProductTags")) DefaultProductTags = Utils.FromDBValue<bool>(dr["DefaultProductTags"]);
-
             if (dr.Table.Columns.Contains("Selected")) Selected = Utils.FromDBValue<bool>(dr["Selected"]);
-
+            if (dr.Table.Columns.Contains("IncludeShipping")) IncludeShipping = Utils.FromDBValue<bool>(dr["IncludeShipping"]);
+            if (dr.Table.Columns.Contains("ShippingValue")) ShippingValue = Utils.FromDBValue<decimal>(dr["ShippingValue"]);
         }
     }
 }

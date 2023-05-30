@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cortex.Core.Utilities</name>
+    </assembly>
+    <members>
+        <member name="T:Cortex.Core.Utilities.Collections.FailureCollection">
+            <summary>
+            Defines a collection of failures that is grouped by a key.
+            </summary>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Collections.FailureCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cortex.Core.Utilities.Collections.FailureCollection"/> class.
+            This result will be set to hide authorisation details by default.
+            </summary>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Collections.FailureCollection.AddFailure(System.String,System.String)">
+            <summary>
+            Adds a failure to the collection.
+            </summary>
+        </member>
+        <member name="T:Cortex.Core.Utilities.Extensions.EnumerableExtensions">
+            <summary>
+            Provides extension methods for enumerables.
+            </summary>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.ContainsIgnoreCase(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Checks that the specified string is contained in this collection of strings while ignoring case.
+            </summary>
+            <param name="this">This collection of strings.</param>
+            <param name="value">The string to seek.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>
+            <see langword="true"/> if the specified string is contained in this collection of strings;
+            otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.ContainsDuplicates``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Checks that this collection contains duplicate elements.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="this">This collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if this collection contains duplicate elements; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.None``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Checks that this collection contains no elements.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="this">This collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if this collection contains no elements; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.None``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Checks that this collection contains no elements that satisfy the condition.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="this">This collection.</param>
+            <param name="predicate">The predicate to test each element for a condition.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if this collection contains no elements that satisfy the condition; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.WithIndex``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Converts this collection to an enumerator of the elements and their indexes, so the index
+            can be used in <see langword="foreach"/> loops without introducing an incrementing variable.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="this">This collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>The enumerator of the elements in the collection with their indexes.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.SerialCommaOr(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Converts a collection of strings into a sentence listing the elements with Oxford commas
+            using "or" as the final conjunction.
+            </summary>
+            <param name="this">This collection of strings.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>A sentence listing the elements with Oxford commans and an "or" as the final conjunction.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.SerialCommaAnd(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Converts a collection of strings into a sentence listing the elements with Oxford commas
+            using "and" as the final conjunction.
+            </summary>
+            <param name="this">This collection of strings.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>A sentence listing the elements with Oxford commans and an "and" as the final conjunction.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.EnumerableExtensions.SerialComma(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Converts a collection of strings into a sentence listing the elements with Oxford commas
+            and the specified conjunction.
+            </summary>
+            <param name="this">This collection of strings.</param>
+            <param name="conjunction">The conjunction.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>A sentence listing the elements with Oxford commans and the specified conjunction.</returns>
+        </member>
+        <member name="T:Cortex.Core.Utilities.Extensions.GenericExtensions">
+            <summary>
+            Provides extension methods for generic objects.
+            </summary>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.GenericExtensions.In``1(``0,``0[])">
+            <summary>
+            Checks that this value is contained in a list of values.
+            </summary>
+            <typeparam name="T">The type of this value.</typeparam>
+            <param name="this">This value.</param>
+            <param name="list">The list of values.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if the value is contained in the list of values; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Cortex.Core.Utilities.Extensions.StringExtensions">
+            <summary>
+            Provides extension methods for strings.
+            </summary>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.InIgnoreCase(System.String,System.String[])">
+            <summary>
+            Checks that this string is contained in a list of strings while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="list">The list of strings.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if the value is contained in the list of strings; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.ContainsIgnoreCase(System.String,System.String)">
+            <summary>
+            Checks that the specified substring occurs within this string while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="value">The string to seek.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if the specified substring occurs within this string; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.ContainsIgnoreCase(System.String,System.Char)">
+            <summary>
+            Checks that the specified character occurs within this string while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="value">The character to seek.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if the specified substring occurs within this string; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.StartsWithIgnoreCase(System.String,System.String)">
+            <summary>
+            Checks that this string starts with the specified substring while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="value">The string to seek.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if this string starts with the specified substring; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.EndsWithIgnoreCase(System.String,System.String)">
+            <summary>
+            Checks that this string ends with the specified substring while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="value">The string to seek.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns><see langword="true"/> if this string starts with the specified substring; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.EqualsIgnoreCase(System.String,System.String)">
+            <summary>
+            Checks that this string has the same value as the provided string while ignoring case.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="value">The string to compare to.</param>
+            <returns><see langword="true"/> if this string has the same value as the provided string; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.FirstCharToUpper(System.String)">
+            <summary>
+            Capitalizes the first character of a string.
+            </summary>
+            <param name="this">This string.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>The string with the first character capitalized.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.RemoveWhiteSpace(System.String)">
+            <summary>
+            Removes all white-space from a string.
+            </summary>
+            <param name="this">This string.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>The string with all white-space removed.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.NullIfWhiteSpace(System.String)">
+            <summary>
+            Converts this string into null if it is white-space.
+            </summary>
+            <param name="this">This string.</param>
+            <returns>This string or null if it is white-space.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.NullIfEmpty(System.String)">
+            <summary>
+            Converts this string into null if it is empty.
+            </summary>
+            <param name="this">This string.</param>
+            <returns>This string or null if it is empty.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.EmptyIfNull(System.String)">
+            <summary>
+            Converts this string into an empty string if it is null.
+            </summary>
+            <param name="this">This string.</param>
+            <returns>This string or an empty string if it is null.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            Indicates whether this string is null, empty, or consists only of white-space characters.
+            </summary>
+            <param name="this">This string.</param>
+            <returns><see langword="true"/> if this string is null, or an empty string (""), or exclusively white-space characters; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.IsNullOrEmpty(System.String)">
+            <summary>
+            Indicates whether this string is null or an empty string.
+            </summary>
+            <param name="this">This string.</param>
+            <returns><see langword="true"/> if this string is null or an empty string (""); otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.Left(System.String,System.Int32)">
+            <summary>
+            Returns the left part of this string with the specified number of characters.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="characters">The number of characters to return.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>
+            The left part of this string with the specified number of <paramref name="characters"/>,
+            or the full string if its length is shorter than the number of <paramref name="characters"/>.
+            </returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.Right(System.String,System.Int32)">
+            <summary>
+            Returns the right part of this string with the specified number of characters.
+            </summary>
+            <param name="this">This string.</param>
+            <param name="characters">The number of characters to return.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>
+            The right part of this string with the specified number of <paramref name="characters"/>,
+            or the full string if its length is shorter than the number of <paramref name="characters"/>.
+            </returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.ToSnakeCase(System.String)">
+            <summary>
+            Converts this string into snake case.
+            </summary>
+            <param name="this">This string.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentException">Thrown when <paramref name="this"/> is white-space.</exception>
+            <returns>This string converted to snake case.</returns>
+        </member>
+        <member name="M:Cortex.Core.Utilities.Extensions.StringExtensions.ControllerName(System.String)">
+            <summary>
+            Gets the name of a controller without its suffix so it can be used in routing methods.
+            </summary>
+            <param name="this">This string.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="this"/> is <see langword="null"/>.</exception>
+            <returns>The controller name without its suffix.</returns>
+        </member>
+    </members>
+</doc>

@@ -62,21 +62,6 @@
 							%>
 							</td>
 						</tr>
-						<tr>
-							<td class="label"><%= Model.Label(300176)%>:</td>  <!-- Push to supplier email -->    
-						</tr>
-						<tr>                                            
-							<td class="field">
-							<%
-								Html.Cortex().TextBox(s =>
-								{
-									s.Name = "PushToSupplierEmail";
-									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
-									s.Properties.ValidationSettings.RegularExpression.ValidationExpression = App.EmailListRegex;
-								}).Render();
-							%>
-							</td>
-						</tr>
 					</table>
 					<div class="button-container">
 						<div class="button-right">

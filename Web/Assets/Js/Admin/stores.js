@@ -24,6 +24,10 @@ function Get() {
             StoreApiKey.SetText(json.StoreApiKey);
             StorePassword.SetText(json.StorePassword);
             StoreSharedSecret.SetText(json.StoreSharedSecret);
+            EnableAutomaticNetSuiteUpdate.SetChecked(json.EnableAutomaticNetSuiteUpdate);
+            DoNotUpdateRRP.SetChecked(json.DoNotUpdateRRP);
+            DoNotUpdateCostPrice.SetChecked(json.DoNotUpdateCostPrice);
+            DoNotUpdateInventory.SetChecked(json.DoNotUpdateInventory);
             ShopifyID.SetText(json.ShopifyID);
             $('#logo-preview').attr('src', '/Admin/Stores/StoreLogoPreview/' + GetPageID() + '?' + GetUnique());
         }
@@ -37,6 +41,10 @@ function ClearDetail() {
     StoreApiKey.SetText('');
     StorePassword.SetText('');
     StoreSharedSecret.SetText('');
+    EnableAutomaticNetSuiteUpdate.SetChecked(false);
+    DoNotUpdateRRP.SetChecked(false);
+    DoNotUpdateCostPrice.SetChecked(false);
+    DoNotUpdateInventory.SetChecked(false);
     ShopifyID.SetText('');
 }
 
@@ -61,6 +69,10 @@ function Save() {
             storeApiKey: StoreApiKey.GetText(),
             storePassword: StorePassword.GetText(),
             storeSharedSecret: StoreSharedSecret.GetText(),
+            EnableAutomaticNetSuiteUpdate: EnableAutomaticNetSuiteUpdate.GetChecked(),
+            DoNotUpdateRRP: DoNotUpdateRRP.GetChecked(),
+            DoNotUpdateCostPrice: DoNotUpdateCostPrice.GetChecked(),
+            DoNotUpdateInventory: DoNotUpdateInventory.GetChecked(),
             shopifyID: ShopifyID.GetText()
         },
         success: function (msg) {

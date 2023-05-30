@@ -1,8 +1,9 @@
-﻿using System.Web.Mvc;
-using LeadingEdge.Curator.Web.Orders.Models;
-using LeadingEdge.Curator.Core;
+﻿using LeadingEdge.Curator.Core;
 using LeadingEdge.Curator.Web.Orders.Helpers;
+using LeadingEdge.Curator.Web.Orders.Models;
 using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
 {
@@ -80,6 +81,8 @@ namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
                 SaveModelToCache(vm);
 
                 vm.Grids[name].Data = OrdersHelper.GetSalesOrdersFromRange(vm);
+
+                vm.OrderDetails = new List<OrderLineList>();
             }
 
             if (args.Count == 6)
@@ -94,6 +97,8 @@ namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
                 SaveModelToCache(vm);
 
                 vm.Grids[name].Data = OrdersHelper.GetSalesOrders(vm);
+
+                vm.OrderDetails = new List<OrderLineList>();
             }
 
             return PartialView("GridViewPartial", vm.Grids[name]);
@@ -144,6 +149,18 @@ namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
         }
 
         [AjaxOnly]
+        public ActionResult QueueNetSuiteUpdate(string pageID, string salesOrderIDs)
+        {
+            OrdersList vm = GetModelFromCache<OrdersList>(pageID);
+
+            var error = OrdersHelper.QueueNetSuiteUpdate(vm, salesOrderIDs);
+
+            SaveModelToCache(vm);
+
+            return Content(error);
+        }
+
+        [AjaxOnly]
         public ActionResult SaveShippingAddress(string pageID, int salesOrderID, ShippingAddressInfo shippingAddress)
         {
             OrdersList vm = GetModelFromCache<OrdersList>(pageID);
@@ -178,9 +195,11 @@ namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
         {
             OrdersList vm = GetModelFromCache<OrdersList>(pageID);
 
-            bool sent = OrdersHelper.SendSupplierEmail(vm, salesOrderID, salesOrderLineIDs);
+            var error = OrdersHelper.PushToSupplier(vm, salesOrderID, salesOrderLineIDs);
 
-            return SendAsJson(sent);
+            SaveModelToCache(vm);
+
+            return Content(error);
         }
 
         [AjaxOnly]
@@ -188,9 +207,11 @@ namespace LeadingEdge.Curator.Web.Areas.Orders.Controllers
         {
             OrdersList vm = GetModelFromCache<OrdersList>(pageID);
 
-            bool sent = OrdersHelper.SaveOrderLine(vm, orderLine);
+            var error = OrdersHelper.SaveOrderLine(vm, orderLine);
 
-            return SendAsJson(sent);
+            SaveModelToCache(vm);
+
+            return Content(error);
         }
     }
 }

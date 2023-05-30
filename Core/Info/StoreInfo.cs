@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using Cortex.Utilities;
 
 namespace LeadingEdge.Curator.Core
@@ -16,6 +14,10 @@ namespace LeadingEdge.Curator.Core
         public long ShopifyID { get; set; }
         public string MemberStores { get; set; }
         public byte[] Logo { get; set; }
+        public bool EnableAutomaticNetSuiteUpdate { get; set; }
+        public bool DoNotUpdateRRP { get; set; }
+        public bool DoNotUpdateCostPrice { get; set; }
+        public bool DoNotUpdateInventory { get; set; }
 
         public StoreInfo() { }
 
@@ -30,6 +32,10 @@ namespace LeadingEdge.Curator.Core
             if (dr.Table.Columns.Contains("ShopifyID")) ShopifyID = Utils.FromDBValue<long>(dr["ShopifyID"]);
             if (dr.Table.Columns.Contains("MemberStores")) MemberStores = Utils.FromDBValue<string>(dr["MemberStores"]);
             if (dr.Table.Columns.Contains("Logo")) Logo = Utils.FromDBValue<byte[]>(dr["Logo"]);
+            if (dr.Table.Columns.Contains("EnableAutomaticNetSuiteUpdate")) EnableAutomaticNetSuiteUpdate = Utils.FromDBValue<bool>(dr["EnableAutomaticNetSuiteUpdate"]);
+            if (dr.Table.Columns.Contains("DoNotUpdateRRP")) DoNotUpdateRRP = Utils.FromDBValue<bool>(dr["DoNotUpdateRRP"]);
+            if (dr.Table.Columns.Contains("DoNotUpdateCostPrice")) DoNotUpdateCostPrice = Utils.FromDBValue<bool>(dr["DoNotUpdateCostPrice"]);
+            if (dr.Table.Columns.Contains("DoNotUpdateInventory")) DoNotUpdateInventory = Utils.FromDBValue<bool>(dr["DoNotUpdateInventory"]);
         }
     }
 }

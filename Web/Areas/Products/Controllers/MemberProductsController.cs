@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +25,6 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
         {
             MemberProducts vm = MemberProductsHelper.CreateModel();
             SaveModelToCache(vm);
-
             return View(vm);
         }
 
@@ -56,7 +54,18 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
                     caption = col.Caption;
                     col.Caption = string.Empty;
                 }
-                var file = ExportGridView(ExportType.Xlsx, vm.Grids[ExportedGridName]);
+
+                var grid = vm.Grids[ExportedGridName];
+                var data = (List<ProductInfo>)grid.Data;
+
+                if (data.Count() == App.MaxProductsRows)
+                {
+                    if (ExportedGridName == "GrdMain") data = MemberProductsHelper.GetMemberProductsData(vm, true);
+                    if (ExportedGridName == "GrdAvailable") data = MemberProductsHelper.GetAvailableProductsData(vm, true);
+                }
+
+                var file = ExportGridView(ExportType.Xlsx, grid.Settings, data, null);
+
                 col.Caption = caption;
 
                 return file;
@@ -76,11 +85,16 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
             if (args.Count == 4)
             {
                 vm.StoreID = int.Parse(args[0]);
-                vm.FeedKey = int.Parse(args[1]);
+
+                vm.SelectedFeeds = Convert.ToString(args[1]);
+                if (vm.SelectedFeeds.StartsWith(",") || vm.SelectedFeeds == string.Empty) vm.SelectedFeeds = vm.AllFeedsString;
+
                 vm.SelectedCategories = args[2];
                 if (vm.SelectedCategories.StartsWith(",") || vm.SelectedCategories == string.Empty) vm.SelectedCategories = null;
+
                 vm.SelectedBrands = args[3];
                 if (vm.SelectedBrands.StartsWith(",") || vm.SelectedBrands == string.Empty) vm.SelectedBrands = null;
+
                 vm.Grids[name].Data = MemberProductsHelper.GetMemberProductsData(vm);
 
                 SaveModelToCache(vm);
@@ -108,11 +122,16 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
             if (args.Count == 4)
             {
                 vm.StoreID = int.Parse(args[0]);
-                vm.FeedKey = int.Parse(args[1]);
+
+                vm.SelectedFeeds = Convert.ToString(args[1]);
+                if (vm.SelectedFeeds.StartsWith(",") || vm.SelectedFeeds == string.Empty) vm.SelectedFeeds = vm.AllFeedsString;
+
                 vm.SelectedCategories = args[2];
                 if (vm.SelectedCategories.StartsWith(",") || vm.SelectedCategories == string.Empty) vm.SelectedCategories = null;
+
                 vm.SelectedBrands = args[3];
                 if (vm.SelectedBrands.StartsWith(",") || vm.SelectedBrands == string.Empty) vm.SelectedBrands = null;
+
                 vm.Grids[name].Data = MemberProductsHelper.GetAvailableProductsData(vm);
 
                 SaveModelToCache(vm);
@@ -137,20 +156,22 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
 
             vm.StoreID = storeID;
             vm.Feeds = MemberProductsHelper.GetMemberFeeds(vm);
-            if (vm.Feeds.Count > 1) vm.FeedKey = vm.Feeds.First().FeedKey;  // Should always be at least one aside from the null entry
+            if (vm.Feeds.Count > 1) vm.SelectedFeeds = Convert.ToString(vm.Feeds.First().FeedKey);  // Should always be at least one aside from the null entry
             vm.MemberFeedModel = MemberProductsHelper.GetMemberFeedComboBoxSettings(vm);
 
             SaveModelToCache(vm);
 
-            return PartialView("ComboBoxPartial", vm.MemberFeedModel);
+            return PartialView("CheckComboListBoxPartial", vm.MemberFeedModel);
         }
 
         [AjaxOnly]
-        public ActionResult MemberCategoryCallback(string pageID, int feedKey)
+        public ActionResult MemberCategoryCallback(string pageID, string feedKeys)
         {
             MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
 
-            vm.FeedKey = feedKey;
+            vm.SelectedFeeds = feedKeys;
+            if (vm.SelectedFeeds.StartsWith(",") || vm.SelectedFeeds == string.Empty) vm.SelectedFeeds = vm.AllFeedsString;
+
             vm.MemberCategoriesByFeed = MemberProductsHelper.GetMemberCategoriesByFeed(vm);
             if (vm.MemberCategoriesByFeed.Count > 1)
             {
@@ -164,11 +185,12 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
         }
 
         [AjaxOnly]
-        public ActionResult BrandCallback(string pageID, int feedKey)
+        public ActionResult BrandCallback(string pageID, string feedKeys)
         {
             MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
 
-            vm.FeedKey = feedKey;
+            vm.SelectedFeeds = feedKeys;
+            if (vm.SelectedFeeds.StartsWith(",") || vm.SelectedFeeds == string.Empty) vm.SelectedFeeds = vm.AllFeedsString;
 
             vm.BrandByFeed = MemberProductsHelper.GetBrandsByFeed();
             if (vm.BrandByFeed.Count > 1)
@@ -183,11 +205,11 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
         }
 
         [AjaxOnly]
-        public ActionResult GetSelectedProducts(string pageID, string ids, int pricingRule, decimal priceValue, bool retailRounding)
+        public ActionResult GetSelectedProducts(string pageID, string ids, int pricingRule, decimal priceValue, bool retailRounding, bool includeShipping, decimal shippingValue)
         {
             MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
 
-            Exception ex = MemberProductsHelper.Save(vm, ids, pricingRule, priceValue, retailRounding);
+            Exception ex = MemberProductsHelper.Save(vm, ids, pricingRule, priceValue, retailRounding, includeShipping, shippingValue);
             SaveModelToCache(vm);   // Save updated data
 
             string error = string.Empty;
@@ -247,6 +269,23 @@ namespace LeadingEdge.Curator.Web.Areas.Products.Controllers
             MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
             byte[] ExportPRData = MemberProductsHelper.GetBulkPRExportDownload(vm);
             return File(ExportPRData, "application/xlsx", "ExportGrid.xlsx");
+        }
+
+        [HttpGet]
+        public ActionResult SelectionExportDownload(string pageID)
+        {
+            MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
+            byte[] ExportPRData = MemberProductsHelper.GetSelectionExportDownload(vm);
+            return File(ExportPRData, "application/xlsx", "ExportGrid.xlsx");
+        }
+
+        [HttpPost]
+        public ActionResult SelectionImportUpload(string pageID)
+        {
+            MemberProducts vm = GetModelFromCache<MemberProducts>(pageID);
+            MemberProductsHelper.SelectionImport(vm);
+            SaveModelToCache(vm);
+            return null;
         }
     }
 }

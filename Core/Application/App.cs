@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Cortex.Utilities;
+using Microsoft.Extensions.Configuration;
 
 namespace LeadingEdge.Curator.Core
 {
@@ -15,7 +16,7 @@ namespace LeadingEdge.Curator.Core
 	{
 		public static string Theme = "MetropolisBlue";
 		public static string GlobalThemeBaseColor = "#DC1E35";
-		public static string Version = "1.2.51";
+		public static string Version = "1.3.05";
 
 		public static int IncrementalFilteringDelay = 500;
 		public static int CallbackPageSize = 200;
@@ -49,14 +50,15 @@ namespace LeadingEdge.Curator.Core
 		public static bool IsLive { get; set; }
 		public static string ErrorEmailRecipient { get; set; }
 		public static bool BypassOpenIdConnect { get; set; }
+        public static string KeyVaultEndpoint { get; set; }
 
-		public static List<CompanyInfo> Companies { get; set; }
+        public static List<CompanyInfo> Companies { get; set; }
 		public static List<CodeDescription> ExportTypes { get; set; }
 		public static List<LanguageInfo> Languages { get; set; }
 		public static List<LabelInfo> Labels { get; set; }
 		public static List<OpenSessionInfo> Sessions { get; set; }
 
-		public static bool LoadConfiguration()
+		public static bool LoadConfiguration(IConfiguration configuration)
 		{
 			// Load config
 			try
@@ -92,6 +94,8 @@ namespace LeadingEdge.Curator.Core
 				IsLive = c.IsLive;
 				WebInstrumentationKey = c.WebInstrumentationKey;
 				ErrorEmailRecipient = c.ErrorEmailRecipient;
+
+				KeyVaultEndpoint = configuration.GetSection("Secrets").GetSection("KeyVaultEndpoint").Value;
 
 				return true;
 			}

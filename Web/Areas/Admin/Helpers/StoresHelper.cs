@@ -46,7 +46,7 @@ namespace LeadingEdge.Curator.Web.Admin.Helpers
         public static GridModel GetGridView(string name, bool exporting, StoreListEdit vm)
         {
             GridModel grid = new GridModel();
-            Setup.GridView(grid.Settings, name, "v1.7", vm.Name);
+            Setup.GridView(grid.Settings, name, "v1.83", vm.Name);
             grid.Settings.KeyFieldName = "StoreID";
             grid.Settings.CallbackRouteValues = new { Area = "Admin", Controller = "Stores", Action = "GrdMainCallback" };
             grid.Settings.ClientSideEvents.FocusedRowChanged = "function(s,e) { Get(); }";
@@ -101,6 +101,37 @@ namespace LeadingEdge.Curator.Web.Admin.Helpers
                 s.Width = 280;
             });
 
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "EnableAutomaticNetSuiteUpdate";
+                s.Caption = grid.Label(300183); // Automatic NetSuite updates
+                s.Width = 230;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "DoNotUpdateRRP";
+                s.Caption = grid.Label(300207); // Do not update RRP
+                s.Width = 180;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "DoNotUpdateCostPrice";
+                s.Caption = grid.Label(300208); // Do not update cost price
+                s.Width = 200;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "DoNotUpdateInventory";
+                s.Caption = grid.Label(300209); // Do not update inventory
+                s.Width = 200;
+            });
 
             return grid;
         }

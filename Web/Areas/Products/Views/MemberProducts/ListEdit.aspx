@@ -31,7 +31,7 @@
                 <td class="label"><%= Model.Label(300008)%>:</td>  <!-- Member feed -->                           
                 <td class="option">
 					<div>
-					<% Html.RenderPartial("ComboBoxPartial", Model.MemberFeedModel); %>								  					                 
+					<% Html.RenderPartial("CheckComboPartial", Model.MemberFeedModel); %>								  					                 
 					</div>	
                 </td>  			
 				
@@ -74,12 +74,39 @@
 					%>
 					</div>
 				</td>
+                <td class="option">
+                    <div">
+					<%
+						Html.Cortex().PositiveButton(true, s =>
+						{
+							s.Name = "Import";
+							s.Text = Model.LabelText(200714); // Import
+							s.UseSubmitBehavior = false;					
+							s.ClientSideEvents.Click = "function (s,e) { ppSelectionImport.Show(); }";
+                            s.ClientVisible = false;
+						}).Render();
+					%>
+					</div>
+				</td>
+                <td class="option">
+                    <div">
+					<%
+                        Html.Cortex().NegativeButton(true, s =>
+                        {
+                            s.Name = "ExportAvaliable";
+                            s.Text = Model.LabelText(200709); // Export
+                            s.UseSubmitBehavior = false;					
+							s.ClientSideEvents.Click = "function (s,e) { ExportAvaliableProducts(); }";
+                            s.ClientVisible = false;
+                        }).Render();
+					%>
+					</div>
+				</td>
 			</tr>
 		</table>
 	</div>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
-
     <%
 		Html.Cortex().PageControl(settings =>
 		{
@@ -128,7 +155,7 @@
 										            s.ClientSideEvents.Click = "function(s,e) { uplBulkPRImport.Upload() }";
 									            }).Render();
 								            %>
-                                        </div>                                     
+                                        </div>
                                         <div class="clear"></div>
                                     </div>
 
@@ -172,7 +199,10 @@
                                                         s.Properties.DecimalPlaces = 2;
                                                         s.Properties.DisplayFormatString = "n2";
                                                         s.ControlStyle.HorizontalAlign = HorizontalAlign.Right;
-                                                    }).Render();
+                                                        s.Properties.AllowNull = false;
+                                                        s.Properties.ValidationSettings.ValidationGroup = "PRICERULE";
+                                                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                                                    }).Bind(Model.DefaultZeroValue).Render();
                                                 %>							
                                             </td>
                                         </tr>
@@ -185,6 +215,39 @@
                                                         s.Text = Model.LabelText(201035); // Use retail rounding?
                                                     }).Render();
                                                 %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="field">
+                                                <%
+                                                    Html.Cortex().CheckBox(s =>
+                                                    {
+                                                        s.Name = "IncludeShipping";
+                                                        s.Text = Model.LabelText(300202); // Include shipping?
+                                                        s.Properties.ClientSideEvents.CheckedChanged = "function (s,e) { OnIncludeShippingChange(s, e); }";
+                                                    }).Render();
+                                                %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">
+                                               <div id="ShippingLabel" class="hide"><%=Model.Label(300203)%>:</div> <%--Enter shipping price $--%>
+                                            </td>
+                                            <td class="fiexld reqxuired">
+                                                <%
+                                                    Html.Cortex().SpinEdit(s =>
+                                                    {
+                                                        s.Name = "ShippingValue";
+                                                        s.Width = 100;
+                                                        s.Properties.DecimalPlaces = 2;
+                                                        s.Properties.DisplayFormatString = "n2";
+                                                        s.ClientVisible = false;
+                                                        s.ControlStyle.HorizontalAlign = HorizontalAlign.Right;
+                                                        s.Properties.AllowNull = false;
+                                                        s.Properties.ValidationSettings.ValidationGroup = "PRICERULE";
+                                                        s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                                                    }).Bind(Model.DefaultZeroValue).Render();
+                                                %>							
                                             </td>
                                         </tr>
                                     </table>
@@ -304,28 +367,70 @@
     <%
 
     Model.BulkPRImportPopUploadSettings.SetContent(() =>
-		{
-			%><div id="bulk-pr-import-results">
-				<textarea id="txtBulkPRImportResults" style="height: 350px; width: 568px; margin-bottom: 8px;"></textarea>
-				<div id="button-container">
-					<div class="button-right">
-					<%
-						Html.Cortex().NeutralButton(s => {
-							s.Name = "btnBulkPRImportErrorsClose";
-							s.Text = Model.LabelText(200407);
-							s.UseSubmitBehavior = false;
-							s.CausesValidation = false;
-							s.ClientSideEvents.Click = "function (s,e) { ppBulkPRImportResult.Hide(); }";
-						}).Render();
-					%>
-					</div>
-					<div class="clear"></div>
+	{
+		%><div id="bulk-pr-import-results">
+			<textarea id="txtBulkPRImportResults" style="height: 350px; width: 568px; margin-bottom: 8px;"></textarea>
+			<div id="button-container">
+				<div class="button-right">
+				<%
+					Html.Cortex().NeutralButton(s => {
+						s.Name = "btnBulkPRImportErrorsClose";
+						s.Text = Model.LabelText(200407);
+						s.UseSubmitBehavior = false;
+						s.CausesValidation = false;
+						s.ClientSideEvents.Click = "function (s,e) { ppBulkPRImportResult.Hide(); }";
+					}).Render();
+				%>
 				</div>
-			</div><%
-		}); %>
+				<div class="clear"></div>
+			</div>
+		</div><%
+	}); %>
         
-    <% Html.Cortex().PopupControl(Model.BulkPRImportPopUploadSettings).Render(); %>
+    <% Html.Cortex().PopupControl(Model.BulkPRImportPopUploadSettings).Render(); 
+        
+    Model.SelectionImportPopUploadSettings.SetContent(() =>
+	{
+		%>  
+        <div id="selection-import-results">
+            <label class="heading"><%= Model.Label(300201)%></label> <%-- Import Product Selection --%>
+            <table>
+                <tr>
+				    <td><% Html.Cortex().UploadControl(Model.SelectionImportUploadControlSettings).Render(); %></td>
+                    <td class="button-right">
+                    <%
+					    Html.Cortex().NeutralButton(s => {
+						    s.Name = "btnSelectionImportErrorsClose";
+						    s.Text = Model.LabelText(200407);
+						    s.UseSubmitBehavior = false;
+						    s.CausesValidation = false;
+						    s.ClientSideEvents.Click = "function (s,e) { ppSelectionImport.Hide(); }";
+					    }).Render();
+				    %>
+                    </td>
+                    <td class="button-right">
+                    <%
+					    Html.Cortex().PositiveButton(s => 
+					    {
+						    s.Name = "btnUploadSelectionImport";
+						    s.Text = Model.LabelText(200714); // Import
+						    s.UseSubmitBehavior = false;
+						    s.ClientSideEvents.Click = "function(s,e) { uplSelectionImport.Upload() }";
+					    }).Render();
+				    %>
+                    </td>
+				</tr>
+                <tr colspan="3 ">
+                    <td id="txtSelectionImportSuccess" class="hide dx-controls-disabled" colspan="2">Import successful</td>
+                </tr>
+            </table>
 
+			<textarea id="txtSelectionImportResults" style="height: 350px; width: 568px; margin-bottom: 8px;" class="hide"></textarea>
+		</div><%
+	}); %>
+        
+<% Html.Cortex().PopupControl(Model.SelectionImportPopUploadSettings).Render(); %>
+        
 </asp:Content>
 <asp:Content ContentPlaceHolderID="EndFormContent" runat="server">
 	<%= Html.Cortex().EndForm() %>

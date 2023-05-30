@@ -128,7 +128,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<ValueDescription> GetFeeds()
         {
-            return FeedManager.GetUsedFeedsList(false);
+            return FeedManager.GetAllFeedsList(false);
         }
 
         public static CategoryMappingInfo GetDetail(CategoryMappingsListEdit vm, int id)

@@ -57,10 +57,10 @@
 					
 					<table class="fields">
 						<tr>
-							<td class="label"><%= Model.Label(201025)%>:</td>     <!-- Store Name: -->
+							<td colspan="2" class="label"><%= Model.Label(201025)%>:</td>     <!-- Store Name: -->
 						</tr>
 						<tr>        
-							<td class="field required"><%
+							<td colspan="2" class="field required"><%
 								Html.Cortex().TextBox(s => {
 									s.Name = "StoreName";
 									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
@@ -70,10 +70,10 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(201005)%>:</td>     <!-- Shopify ID: -->
+							<td colspan="2" class="label"><%= Model.Label(201005)%>:</td>     <!-- Shopify ID: -->
 						</tr>
 						<tr>        
-							<td class="field required"><%
+							<td colspan="2" class="field required"><%
 								Html.Cortex().TextBox(s => {
 									s.Name = "ShopifyID";
 									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
@@ -85,10 +85,10 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(300067)%>:</td>     <!-- Store URL: -->
+							<td colspan="2" class="label"><%= Model.Label(300067)%>:</td>     <!-- Store URL: -->
 						</tr>
 						<tr>        
-							<td class="field required"><%
+							<td colspan="2" class="field required"><%
 								Html.Cortex().TextBox(s => {
 									s.Name = "StoreUrl";
 									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
@@ -99,10 +99,10 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(300066)%>:</td>     <!-- Store API key: -->
+							<td colspan="2" class="label"><%= Model.Label(300066)%>:</td>     <!-- Store API key: -->
 						</tr>
 						<tr>        
-							<td class="field required"><%
+							<td colspan="2" class="field required"><%
 								Html.Cortex().TextBox(s => {
 									s.Name = "StoreApiKey";
 									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
@@ -112,7 +112,7 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(300068)%>:</td>     <!-- Store password: -->
+							<td colspan="2" class="label"><%= Model.Label(300068)%>:</td>     <!-- Store password: -->
 						</tr>
 						<tr>        
 							<td colspan="2" class="field required"><%
@@ -125,10 +125,10 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(300069)%>:</td>     <!-- Store shared secret: -->
+							<td colspan="2" class="label"><%= Model.Label(300069)%>:</td>     <!-- Store shared secret: -->
 						</tr>
 						<tr>        
-							<td class="field required"><%
+							<td colspan="2" class="field required"><%
 								Html.Cortex().TextBox(s => {
 									s.Name = "StoreSharedSecret";
 									s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
@@ -138,13 +138,45 @@
 							%></td>
 						</tr>
 						<tr>
-							<td class="label"><%= Model.Label(300175)%>:</td> <!-- Store Logo: -->
+							<td class="label"><%= Model.Label(300183)%>:</td>     <!-- Automatic NetSuite updates: -->    
+							<td class="field"><%
+								Html.Cortex().CheckBox(s => {
+									s.Name = "EnableAutomaticNetSuiteUpdate";
+								}).Render();
+							%></td>
 						</tr>
 						<tr>
-							<td class="field required"><% Html.Cortex().UploadControl(Model.StoreLogoUploadControlSettings).Render(); %></td>
+							<td class="label"><%= Model.Label(300207)%>:</td>     <!-- Do not update RRP: -->       
+							<td class="field"><%
+								Html.Cortex().CheckBox(s => {
+									s.Name = "DoNotUpdateRRP";
+								}).Render();
+							%></td>
 						</tr>
 						<tr>
-							<td class="field required">
+							<td class="label"><%= Model.Label(300208)%>:</td>     <!-- Do not update cost price: -->    
+							<td class="field"><%
+								Html.Cortex().CheckBox(s => {
+									s.Name = "DoNotUpdateCostPrice";
+								}).Render();
+							%></td>
+						</tr>
+						<tr>
+							<td class="label"><%= Model.Label(300209	)%>:</td>     <!-- Do not update inventory: -->  
+							<td class="field"><%
+								Html.Cortex().CheckBox(s => {
+									s.Name = "DoNotUpdateInventory";
+								}).Render();
+							%></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="label"><%= Model.Label(300175)%>:</td> <!-- Store Logo: -->
+						</tr>
+						<tr>
+							<td colspan="2" class="field required"><% Html.Cortex().UploadControl(Model.StoreLogoUploadControlSettings).Render(); %></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="field required">
 								<img id="logo-preview" src="" alt="" />
 							</td>
 						</tr>

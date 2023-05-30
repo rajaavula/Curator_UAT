@@ -1,7 +1,7 @@
-﻿using DevExpress.Data;
+﻿using Cortex.Core.Utilities.Extensions;
+using DevExpress.Data;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
-using DevExpress.XtraReports.Wizards;
 using LeadingEdge.Curator.Core;
 using LeadingEdge.Curator.Web.Orders.Models;
 using System;
@@ -20,18 +20,24 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
         {
             var vm = new OrdersList();
 
+            //Load defaults/user properties
             vm.CanEdit = vm.SI.UserGroupPermissions.Exists(x => x.Code == "EDITORDERS");
+            vm.CanConfirm = vm.SI.UserGroupPermissions.Exists(x => x.Code == "CONFIRMORDERS");
             vm.FromDate = DateTime.Today.AddDays(-1);
             vm.ToDate = DateTime.Today;
             vm.SelectedDateRange = 0;
             vm.FailedEDIDelivery = false;
             vm.IncompleteItemLines = false;
 
+            //Load lists
             vm.DateRanges = GetFromToDates();
-            vm.OrderStatuses = OrderStatuses.Statuses;
             vm.Stores = GetMemberStores(vm);
             vm.StoresModel = GetStoresComboBoxSettings(vm);
+            vm.SalesOrderStatuses = GetSalesOrderStatuses();
+            vm.SalesOrderStatusesFilter = GetSalesOrderStatuses();
+            vm.SalesOrderStatusesFilter.Insert(0, new SalesOrderStatusInfo { SalesOrderLineStatusID = 0, StatusName = "All" });
 
+            //Setup Grids
             vm.Grids.Add("GrdOrders", GetGridOrders("GrdOrders", vm));
             vm.Grids.Add("GrdHistory", GetGridHistory("GrdHistory", vm));
 
@@ -40,7 +46,6 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
 
         public static void UpdateModel(OrdersList vm, OrdersList cached, bool isExporting)
         {
-            vm.Orders = cached.Orders;
             vm.Grids = cached.Grids;
             if (isExporting) return;
 
@@ -50,12 +55,11 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
         public static GridModel GetGridOrders(string name, OrdersList vm)
         {
             GridModel grid = new GridModel();
-            Setup.GridView(grid.Settings, name, "v1.07", vm.Name, true);
+            Setup.GridView(grid.Settings, name, "v1.11", vm.Name, true);
             grid.Settings.KeyFieldName = "SalesOrderID";
             grid.Settings.CallbackRouteValues = new { Area = "Orders", Controller = "Orders", Action = "GrdOrdersCallback" };
-            grid.Settings.Styles.Header.Font.Size = FontUnit.Parse("11px");
-            grid.Settings.Styles.FocusedRow.Font.Size = FontUnit.Parse("12px");
             grid.Settings.CommandColumn.Width = 65;
+            grid.Settings.ClientSideEvents.SelectionChanged = "function(s,e) { GrdOrders_SelectionChanged(s,e); }";
             grid.Settings.ClientSideEvents.DetailRowExpanding = "function(s,e) { DetailRowExpanding(s, e); }";
 
             grid.Settings.DetailRowExpandedChanged = (sender, e) =>
@@ -76,17 +80,37 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 }
             };
 
+            var column = U.AddSelectCheckBoxColumn(grid.Settings);
+            column.Width = Unit.Pixel(40);
+            column.ShowClearFilterButton = true;
+
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
                 s.FieldName = "CustomerName";
-                s.Caption = grid.Label(200546);                 // Customer name
+                s.Caption = grid.Label(200546);             // Customer name
                 s.Width = 145;
-                s.SortIndex = 0;                                // Default vm.SortBy
-                s.SortOrder = ColumnSortOrder.Ascending;        // Default vm.SortDirection
+                s.SortIndex = 0;                            // Default vm.SortBy
+                s.SortOrder = ColumnSortOrder.Ascending;    // Default vm.SortDirection
                 s.FixedStyle = GridViewColumnFixedStyle.Left;
-            }); 
-            
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.TextBox;
+                s.FieldName = "CustomerEmail";
+                s.Caption = grid.Label(200565);             // Customer email
+                s.Width = 180;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.TextBox;
+                s.FieldName = "CustomerPhone";
+                s.Caption = grid.Label(200545);             // Customer phone
+                s.Width = 140;
+            });
+
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.DateEdit;
@@ -100,17 +124,17 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "PurchaseOrderNumber";
+                s.FieldName = "SalesOrderNumber";
                 s.Caption = grid.Label(300061); // 	Order no
-                s.Width = 160;
+                s.Width = 130;
             });
 
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "SalesOrderPurchaseStatusID";
+                s.FieldName = "SalesOrderPurchaseStatus";
                 s.Caption = grid.Label(200563); // Status
-                s.Width = 160;
+                s.Width = 130;
             });
  
             grid.Settings.Columns.Add(s =>
@@ -118,15 +142,15 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
                 s.FieldName = "StoreName";
                 s.Caption = grid.Label(300129); // Source Store
-                s.Width = 440;
+                s.Width = 250;
             });
 
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "SalesOrderPaymentStatusID";
+                s.FieldName = "SalesOrderPaymentStatus";
                 s.Caption = grid.Label(300134); // Payment status
-                s.Width = 140;
+                s.Width = 90;
             });
 
             grid.Settings.Columns.Add(s =>
@@ -134,16 +158,16 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 s.ColumnType = MVCxGridViewColumnType.SpinEdit;
                 s.FieldName = "TotalAmount";
                 s.Caption = grid.Label(300121); // Total
-                s.Width = 100;
+                s.Width = 90;
                 s.PropertiesEdit.DisplayFormatString = "n2";
             });
 
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "SalesOrderFulfillmentStatusID";
+                s.FieldName = "SalesOrderFulfillmentStatus";
                 s.Caption = grid.Label(300135); // Fulfillment status
-                s.Width = 170;
+                s.Width = 120;
             });
 
             grid.Settings.Columns.Add(s =>
@@ -153,7 +177,7 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 s.Caption = grid.Label(300131); // Fulfilled date
                 s.PropertiesEdit.DisplayFormatString = "{0:dd/MM/yyyy HH:mm}";
                 s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
-                s.Width = 130;
+                s.Width = 110;
             });
 
             grid.Settings.Columns.Add(s =>
@@ -174,13 +198,39 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
             //    s.Width = 145;
             //});
 
-            //grid.Settings.Columns.Add(s =>
-            //{
-            //    s.ColumnType = MVCxGridViewColumnType.CheckBox;
-            //    s.FieldName = "FailedNetSuiteSync";
-            //    s.Caption = grid.Label(300145); // Failed NetSuite sync?
-            //    s.Width = 160;
-            //});
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "NetSuiteUpdateQueued";
+                s.Caption = grid.Label(300188); // NetSuite update queued
+                s.Width = 126;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.DateEdit;
+                s.FieldName = "NetSuiteUpdateDate";
+                s.Caption = grid.Label(300184); // NetSuite update date
+                s.PropertiesEdit.DisplayFormatString = "{0:dd/MM/yyyy HH:mm}";
+                s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+                s.Width = 126;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.Memo;
+                s.FieldName = "NetSuiteUpdateResult";
+                s.Caption = grid.Label(300185); // NetSuite update error
+                s.Width = 126;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.TextBox;
+                s.FieldName = "NetSuiteInternalID";
+                s.Caption = grid.Label(300186); // NetSuite internal ID
+                s.Width = 126;
+            });
 
             grid.Settings.SettingsDetail.ShowDetailRow = true;
             grid.Settings.SetDetailRowTemplateContent(c =>
@@ -199,7 +249,9 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 //Setup Model
                 OrderLineList oll = new OrderLineList();
                 oll.CanEdit = vm.CanEdit;
+                oll.CanConfirm = vm.CanConfirm;
                 oll.SalesOrderID = salesOrderID;
+                oll.SalesOrderStatuses = vm.SalesOrderStatuses;
 
                 //Get Order from grid
                 var data = (List<SalesOrderInfo>)vm.Grids["GrdOrders"].Data;
@@ -213,6 +265,10 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
                 {
                     oll.ShippingAddress = oll.OrderLines.First().ShippingAddressFormatted;
                 }
+
+                //Calculate open item lines
+                int closeLines = oll.OrderLines.Count(x => x.SalesOrderLineStatusID == 3 || x.SalesOrderLineStatusID == 5); // Purchased and Shipped status
+                oll.Order.OpenItemLines = oll.OrderLines.Count() - closeLines;
 
                 //Get Suppliers per item line
                 foreach (SalesOrderLineInfo orderLine in oll.OrderLines) {
@@ -353,6 +409,11 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
             return ChangeHistoryManager.GetChangeHistoryProductsDB(vm.SI.User.CompanyID, vm.SI.User.RegionID, "SALESORDER", salesOrderID, vm.SI.User.UserID);
         }
 
+        public static List<SalesOrderStatusInfo> GetSalesOrderStatuses() 
+        {
+            return OrdersManager.GetSalesOrderStatuses();
+        }
+
         public static List<FromToDate> GetFromToDates()
         {
             List<FromToDate> dates = new List<FromToDate>
@@ -372,12 +433,17 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
 
         public static List<StoreInfo> GetMemberStores(OrdersList vm)
         {
-            return ProductManager.GetMemberStoreList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
+            return ProductManager.GetAllMemberStoresList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
         }
 
         public static void GetSelectableSuppliers(SalesOrderLineInfo orderLine)
         {
             orderLine.SelectableSuppliers = OrdersManager.GetSelectableSuppliers(orderLine.SalesOrderLineID);
+        }
+
+        public static void GetSelectedSupplier(SalesOrderLineInfo orderLine)
+        {
+            orderLine.SelectedSupplier = OrdersManager.GetSelectedSupplier(orderLine.SalesOrderLineID);
         }
 
         public static SupplierLineInfo GetSelectedSupplierLine(OrdersList vm, int salesOrderID, int salesOrderLineID, int feedKey)
@@ -480,89 +546,211 @@ namespace LeadingEdge.Curator.Web.Orders.Helpers
             }
         }
 
-        public static bool SendSupplierEmail(OrdersList vm, int salesOrderID, string salesOrderLineIDs)
+        public static string QueueNetSuiteUpdate(OrdersList vm, string salesOrderIDs)
         {
-            // Convert ids in string to int array for processing later
-            int[] salesOrderLineIntIDs = salesOrderLineIDs.Split(',').Where(x => !string.IsNullOrEmpty(x)).Select(int.Parse).ToArray();
+            if (string.IsNullOrEmpty(salesOrderIDs)) return "One or more orders must be selected to queue a NetSuite update.";
 
-            // Find order and selected order lines
-            SalesOrderInfo order = GetSalesOrder(vm, salesOrderID);
+            var orders = new List<SalesOrderInfo>();
 
-            // Find store info
-            StoreInfo store = StoreManager.GetStore(order.StoreID);
-
-            // Email Body
-            string emailBody = EmailGenerator.PushToSupplierEmail(order, store);
-
-            List<SalesOrderLineInfo> allSalesOrderLines = GetSalesOrderLines(salesOrderID);
-
-            List<SalesOrderLineInfo> selectedSalesOrders = new List<SalesOrderLineInfo>();
-
-            // Group the selected order lines based on chosen supplier, emails same supplier with all selected order lines in one pdf
-            foreach (int salesOrderLineID in salesOrderLineIntIDs)
+            foreach (string salesOrderID in salesOrderIDs.Split(','))
             {
-                selectedSalesOrders.Add(allSalesOrderLines.Find(x => x.SalesOrderLineID == salesOrderLineID));
+                if (!int.TryParse(salesOrderID, out int id)) return "There was an error finding a selected order's details";
+
+                var order = GetSalesOrder(vm, id);
+                if (order == null) return "There was an error finding a selected order's details";
+
+                orders.Add(order);
             }
 
-            var groupedSelectedSalesOrders = selectedSalesOrders.GroupBy(x => x.SupplierID);
-
-            foreach (var group in groupedSelectedSalesOrders)
+            // Update the db and save change history
+            var ex = OrdersManager.QueueNetSuiteUpdate(salesOrderIDs);
+            if (ex != null)
             {
-                try 
-                {
-                    // Since we have grouped them by supplier they will all have the same supplier
-                    SalesOrderLineInfo firstLine = group.First();
-                    GetSelectableSuppliers(firstLine);
-                    SupplierLineInfo supplier = firstLine.SelectableSuppliers.Find(x => x.FeedKey == firstLine.SupplierID);
-
-                    // Get report bytes
-                    byte[] reportBytes = ReportGenerator.GetSendToSupplierBytes(order, group.ToList(), store);
-
-                    // Send email out
-                    EmailInfo emailInfo = new EmailInfo();
-                    emailInfo.To = supplier.PushToSupplierEmail;
-                    emailInfo.Subject = "Leading Edge Group Supplier Order";
-                    emailInfo.Body = emailBody;
-                    emailInfo.CompanyID = vm.SI.User.CompanyID;
-                    emailInfo.RegionID = vm.SI.User.RegionID;
-                    emailInfo.UserID = vm.SI.User.UserID;
-                    emailInfo.ReferenceID = salesOrderID;
-                    emailInfo.EmailType = "PUSH_TO_SUPPLIER";
-
-                    int? emailID = EmailManager.InsertEmail(emailInfo);
-
-                    if (!emailID.HasValue) throw new Exception("Supplier email failed to send");
-
-                    // Send pdf
-                    EmailObjectInfo emailObjectInfo = new EmailObjectInfo();
-                    emailObjectInfo.EmailID = emailID.Value;
-                    emailObjectInfo.Name = "LEG Sales Order.pdf";
-                    emailObjectInfo.Bytes = reportBytes;
-                    emailObjectInfo.ContentType = "SUPPLIER_ORDER";
-                    emailObjectInfo.CompanyID = vm.SI.User.CompanyID;
-                    emailObjectInfo.RegionID = vm.SI.User.RegionID;
-
-                    int? emailObjectID = EmailManager.InsertEmailObject(emailObjectInfo);
-
-                    if (!emailObjectID.HasValue) throw new Exception("Failed to attach pdf");
-                }
-                catch(Exception ex)
-                {
-                    Log.Error(ex);
-                }
+                Log.Error(ex);
+                return "There was an unexpected error queueing the NetSuite update.";
             }
 
-            return true;
+            return null;
         }
 
-        public static bool SaveOrderLine(OrdersList vm, SalesOrderLineInfo orderLine)
+        public static string PushToSupplier(OrdersList vm, int salesOrderID, string salesOrderLineIDs)
         {
-            // Update the db and save change history
-            Exception ex = OrdersManager.SaveSalesOrderLine(orderLine, vm.SI.User);
-            if (ex != null) Log.Error(ex);
+            if (string.IsNullOrEmpty(salesOrderLineIDs)) return "One or more lines must be selected to send their details to a supplier.";
 
-            // Return true
-            return true;
+            // Find order and selected order lines
+            var order = GetSalesOrder(vm, salesOrderID);
+            if (order == null) return "There was an error finding the order's details.";
+
+            if (!order.FraudChecked) return "This order cannot push any lines to suppliers because it has not been fraud checked.";
+
+            var store = StoreManager.GetStore(order.StoreID);
+
+            var allLines = GetSalesOrderLines(salesOrderID);
+
+            var selectedLines = new List<SalesOrderLineInfo>();
+
+            foreach (var salesOrderLineID in salesOrderLineIDs.Split(','))
+            {
+                if (salesOrderLineID.IsNullOrWhiteSpace())
+                {
+                    continue;
+                }
+
+                if (!int.TryParse(salesOrderLineID, out int id)) return "There was an error finding a selected order line's details";
+
+                var line = allLines.Find(x => x.SalesOrderLineID == id);
+                if (line == null) return "There was an error finding a selected order's details";
+
+                if (line.Quantity < 1 || line.SupplierID == null)
+                {
+                    continue;
+                }
+
+                selectedLines.Add(line);
+            }
+
+            var groups = selectedLines.GroupBy(x => x.SupplierID);
+
+            var failedSuppliers = new List<string>();
+
+            var refresh = false;
+
+            foreach (var group in groups)
+            {
+                if (group.Key == null)
+                {
+                    continue;
+                }
+
+                var supplier = FeedManager.GetFeedByID(group.Key.Value);
+                if (supplier == null)
+                {
+                    continue;
+                }
+
+                try 
+                {
+                    var lines = group.ToList();
+
+                    // Flag lines as pushed to supplier
+                    var ids = lines.Select(x => x.SalesOrderLineID);
+
+                    order.PurchaseOrderNumber = OrdersManager.PushSalesOrderLinesToSupplier(order.SalesOrderID, ids, supplier.FeedKey);
+
+                    if (!supplier.IsEDISupplier)
+                    {
+                        PushToSupplierByEmail(vm, store, supplier.FeedKey, order, lines);
+                    }
+
+                    refresh = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex);
+
+                    failedSuppliers.Add(supplier.FeedName);
+                }
+            }
+
+            if (failedSuppliers.Count > 0)
+            {
+                var names = string.Join(", ", failedSuppliers);
+
+                return $"There was an error pushing the selected lines to {names}. Please contact support.";
+            }
+
+            if (refresh)
+            {
+                vm.OrderDetails.RemoveAll(x => x.SalesOrderID == salesOrderID);
+            }
+
+            return null;
+        }
+
+        private static void PushToSupplierByEmail(OrdersList vm, StoreInfo store, int supplierID, SalesOrderInfo order, List<SalesOrderLineInfo> lines)
+        {
+            // Email Body
+            var body = EmailGenerator.PushToSupplierEmail(order, store);
+
+            // We will use the ResllerBuyEx and Total amount from the selected supplier
+            foreach (var line in lines)
+            {
+                GetSelectedSupplier(line);
+
+                line.ResellerBuyEx = line.SelectedSupplier.ResellerBuyEx;
+                line.TotalAmount = line.ResellerBuyEx * line.Quantity;
+            }
+
+            var freightLines = new List<SalesOrderLineInfo>();
+
+            // If there is a freight code/cost then we need to make a freight line under the same order line
+            foreach (var line in lines)
+            {
+                // No freight code and either, no supplier cost or the cost is 0 then skip. It is possible to have a code with no cost and vice versa
+                if (string.IsNullOrEmpty(line.SupplierFreightCode) && (line.SupplierFreightCost.HasValue == false || line.SupplierFreightCost == Convert.ToDecimal(0.00)))
+                {
+                    freightLines.Add(line);
+                }
+                else
+                {
+                    freightLines.Add(line);
+
+                    var freightLine = new SalesOrderLineInfo
+                    {
+                        SupplierPartNumber = line.SupplierFreightCode,
+                        Quantity = 1,
+                        PurchaseCostEx = line.SupplierFreightCost.Value,
+                        PurchaseCostInc = line.SupplierFreightCost.Value * 1.1M,
+                        TotalPurchaseCostEx = line.SupplierFreightCost.Value,
+                        TotalPurchaseCostInc = line.SupplierFreightCost.Value * 1.1M,
+                        FreightLine = true
+                    };
+
+                    freightLines.Add(freightLine);
+                }
+            }
+
+            // Get the per store supplier email
+            var feedStore = FeedStoreManager.GetFeedStoreByIDs(supplierID, order.StoreID);
+
+            // Get report bytes
+            var bytes = ReportGenerator.GetSendToSupplierBytes(order, freightLines, store);
+
+            // Send email out
+            var email = new EmailInfo();
+
+            email.To = feedStore.PushToSupplierEmail;
+            email.Subject = "Leading Edge Group Supplier Order";
+            email.Body = body;
+            email.CompanyID = vm.SI.User.CompanyID;
+            email.RegionID = vm.SI.User.RegionID;
+            email.UserID = vm.SI.User.UserID;
+            email.ReferenceID = order.SalesOrderID;
+            email.EmailType = "PUSH_TO_SUPPLIER";
+
+            var emailID = EmailManager.InsertEmail(email);
+            if (!emailID.HasValue) throw new Exception("Supplier email failed to send");
+
+            // Send pdf
+            var attachment = new EmailObjectInfo();
+
+            attachment.EmailID = emailID.Value;
+            attachment.Name = "LEG Sales Order.pdf";
+            attachment.Bytes = bytes;
+            attachment.ContentType = "SUPPLIER_ORDER";
+            attachment.CompanyID = vm.SI.User.CompanyID;
+            attachment.RegionID = vm.SI.User.RegionID;
+
+            var emailObjectID = EmailManager.InsertEmailObject(attachment);
+            if (!emailObjectID.HasValue) throw new Exception("Failed to attach pdf");
+        }
+
+        public static string SaveOrderLine(OrdersList vm, SalesOrderLineInfo orderLine)
+        {
+            var ex = OrdersManager.SaveSalesOrderLine(orderLine, vm.SI.User);
+            if (ex != null) return "There was an unexpected error saving changes to the order line.";
+
+            return null;
         }
     }
 }

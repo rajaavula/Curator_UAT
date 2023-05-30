@@ -170,7 +170,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<FeedInfo> GetFeeds()
         {
-            return FeedManager.GetUsedFeeds().OrderBy(x => x.FeedName).ToList();
+            return FeedManager.GetAllFeeds();
         }
 
         public static Exception Assign(ProductsWithoutCategoriesList vm, int categoryID, string productIDList)

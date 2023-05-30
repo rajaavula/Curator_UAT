@@ -47,169 +47,138 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Azure.Core, Version=1.25.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.25.0\lib\net461\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Identity, Version=1.8.2.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Identity.1.8.2\lib\netstandard2.0\Azure.Identity.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Security.KeyVault.Secrets, Version=4.4.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Security.KeyVault.Secrets.4.4.0\lib\netstandard2.0\Azure.Security.KeyVault.Secrets.dll</HintPath>
+    </Reference>
     <Reference Include="Cortex.Utilities, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Cortex.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Charts.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Charts.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Charts.Core.20.2.6\lib\net452\DevExpress.Charts.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.CodeParser.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.CodeParser.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.CodeParser.20.2.6\lib\net452\DevExpress.CodeParser.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Data.Desktop.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Data.Desktop.20.2.6\lib\net452\DevExpress.Data.Desktop.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Data.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Data.20.2.6\lib\net452\DevExpress.Data.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataAccess.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.DataAccess.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.DataAccess.20.2.6\lib\net452\DevExpress.DataAccess.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataVisualization.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.DataVisualization.Core.20.2.6\lib\net452\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Images.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Images.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Images.20.2.6\lib\net452\DevExpress.Images.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Office.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Office.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Office.Core.20.2.6\lib\net452\DevExpress.Office.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Pdf.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Pdf.Core.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Pdf.Drawing.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.PivotGrid.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.PivotGrid.Core.20.2.6\lib\net452\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Printing.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Printing.Core.20.2.6\lib\net452\DevExpress.Printing.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.RichEdit.Core.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Export, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
+      <HintPath>..\packages\DevExpress.RichEdit.Export.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Sparkline.Core.20.2.6\lib\net452\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.SpellChecker.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.SpellChecker.Core.20.2.6\lib\net452\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Spreadsheet.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Spreadsheet.Core.20.2.6\lib\net452\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Utils.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Utils.20.2.6\lib\net452\DevExpress.Utils.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxDiagram.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGantt.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGauges.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxHtmlEditor.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxPivotGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxRichEdit.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxScheduler.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Scheduler.20.2.6\lib\net452\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpellChecker.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpreadsheet.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxTreeList.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Mvc5.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Mvc5.20.2.6\lib\net452\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Resources.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.Resources.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.Resources.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Web.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpo.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.Xpo.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Xpo.20.2.6\lib\net452\DevExpress.Xpo.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraCharts.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Charts.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraGauges.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Gauges.Core.20.2.6\lib\net452\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Reporting.Core.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Reporting.Common.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web.WebForms, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Web.Reporting.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Scheduler.Core.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core.Desktop, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
+      <HintPath>..\packages\DevExpress.Scheduler.CoreDesktop.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\Dependencies\EPPlus.dll</HintPath>
@@ -219,6 +188,24 @@
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.17.0.146, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.17.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.5.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.49.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.49.1\lib\net461\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=2.25.3.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.2.25.3\lib\net45\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.22.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.22.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -242,27 +229,83 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.7.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -304,6 +347,8 @@
     <Compile Include="DataManagers\CategoryManager.cs" />
     <Compile Include="Configurations\OpenIdConnectSettings.cs" />
     <Compile Include="DataManagers\ApiCredentialManager.cs" />
+    <Compile Include="DataManagers\SecretManager.cs" />
+    <Compile Include="DataManagers\FeedStoreManager.cs" />
     <Compile Include="DataManagers\ManufacturerManager.cs" />
     <Compile Include="DataManagers\VendorManager.cs" />
     <Compile Include="DataManagers\ProductDashboardManager.cs" />
@@ -314,7 +359,6 @@
     <Compile Include="DataManagers\OrdersManager.cs" />
     <Compile Include="DataManagers\StoreManager.cs" />
     <Compile Include="DataManagers\ProductManager.cs" />
-    <Compile Include="DataManagers\SiteManager.cs" />
     <Compile Include="DataManagers\ChangeHistoryManager.cs" />
     <Compile Include="DataManagers\CompanyManager.cs" />
     <Compile Include="DataManagers\CompanyRegionManager.cs" />
@@ -333,6 +377,8 @@
     <Compile Include="Info\CategoryMappingSummaryInfo.cs" />
     <Compile Include="Info\CategoryMappingInfo.cs" />
     <Compile Include="Info\CatalogInfo.cs" />
+    <Compile Include="Info\FeedStoreInfo.cs" />
+    <Compile Include="Info\SalesOrderStatusInfo.cs" />
     <Compile Include="Info\FraudCheckInfo.cs" />
     <Compile Include="Info\ManfacturerInfo.cs" />
     <Compile Include="Info\SalesOrderInfo.cs" />
@@ -351,8 +397,6 @@
     <Compile Include="Info\TagInfo.cs" />
     <Compile Include="Info\MemberCategoryByFeedInfo.cs" />
     <Compile Include="Info\CustomerInfo.cs" />
-    <Compile Include="Info\OrderLineInfo.cs" />
-    <Compile Include="Info\OrderInfo.cs" />
     <Compile Include="Info\TradeServiceInfo.cs" />
     <Compile Include="Info\CollectionItemInfo.cs" />
     <Compile Include="Info\CollectionInfo.cs" />
@@ -388,8 +432,6 @@
       <DependentUpon>PushToSupplierReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Types\CheckComboSettings.cs" />
-    <Compile Include="Types\OrderStatus.cs" />
-    <Compile Include="Types\OrderStatuses.cs" />
     <Compile Include="Types\FromToDate.cs" />
     <Compile Include="Types\FraudStatuses.cs" />
     <Compile Include="Types\FraudStatus.cs" />

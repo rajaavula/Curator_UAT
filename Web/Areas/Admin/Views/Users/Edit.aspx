@@ -230,11 +230,11 @@
 						</div>
 					</div>
 					<div class="group expanded">
-						<a class="heading" href="#"><%= Model.Label(300070)%></a>  <!-- Shopify stores -->
+						<a class="heading" href="#"><%= Model.Label(300070)%></a>  <!-- Stores -->
 						<div class="content">
                             <table class="edit-section">
 								<tr>
-									<td class="label"><%= Model.Label(300070)%>:</td>  <!-- Shopify stores -->
+									<td class="label"><%= Model.Label(300070)%>:</td>  <!-- Stores -->
 									<td class="field" style="width: 20px;">
                                     <input id="MemberStoreIDList" type="hidden" name="MemberStoreIDList" value="<%=Model.MemberStoreIDList %>" />
                                     <select multiple class="member-store-list" style="width: 520px; background: #fd7e14;" id='<%=string.Format("member-store-list{0}", Model.AvailableMemberStores)%>'>

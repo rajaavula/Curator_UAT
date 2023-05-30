@@ -40,48 +40,60 @@ namespace LeadingEdge.Curator.Core
 			}
 		}
 
-		public static byte[] GetSendToSupplierBytes(SalesOrderInfo order, List<SalesOrderLineInfo> orderLineInfos, StoreInfo store) 
+		public static byte[] GetSendToSupplierBytes(SalesOrderInfo order, List<SalesOrderLineInfo> lines, StoreInfo store) 
 		{
 			var report = new PushToSupplierReport();
 
-			report.DataMember = null;
-			report.DataSource = orderLineInfos;
+            report.DataMember = null;
+			report.DataSource = lines;
 
             // Header
-            Image storeLogo;
+            if (store.Logo != null) 
+			{
+                Image storeLogo;
+                using (var ms = new MemoryStream(store.Logo))
+                {
+                    storeLogo = Image.FromStream(ms);
+                }
 
-            using (var ms = new MemoryStream(store.Logo))
-            {
-               storeLogo = Image.FromStream(ms);
+                ImageSource storeLogoSource = new ImageSource(storeLogo, false);
+                report.xrStoreLogo.ImageSource = storeLogoSource;
             }
 
-			ImageSource storeLogoSource = new ImageSource(storeLogo, false);
-            report.xrStoreLogo.ImageSource = storeLogoSource;
+            var customer = new List<string>
+            {
+                order.CustomerName,
+                order.CustomerPhone,
+                order.CustomerEmail,
+                lines[0].ShippingAddress
+            };
 
-            report.xrOrderNumber.Text = order.PurchaseOrderNumber;
+            customer.RemoveAll(string.IsNullOrWhiteSpace);
+
+			report.xrOrderNumber.Text = order.PurchaseOrderNumber;
             report.xrDate.Text = DateTime.Now.ToString("dd-MM-yyy");
-            report.xrCurrency.Text = orderLineInfos[0].CurrencyCode;
-            report.xrCustomerFullName.Text = order.CustomerName;
-            report.xrCustomerPhone.Text = order.CustomerPhone;
-            report.xrCustomerEmail.Text = order.CustomerEmail;
-			report.xrCustomerFullAddress.Text = orderLineInfos[0].ShippingAddress;
+            report.xrCurrency.Text = lines[0].CurrencyCode;
+            report.xrCustomer.Text = string.Join(Environment.NewLine, customer);
 			report.xrStoreName.Text = store.StoreName;
-            //report.xrStorePhone.Text = 
-            //report.xrStoreEmail.Text =
-            //report.xrStoreFullAddress.Text =
+			report.xrDeliveryInstructions.Text = lines[0].DeliveryInstructions;
+			//report.xrStorePhone.Text = 
+			//report.xrStoreEmail.Text =
+			//report.xrStoreFullAddress.Text =
 
             // Table
             report.xrSKU.DataBindings.Add(new XRBinding("Text", null, "SupplierPartNumber"));
             report.xrName.DataBindings.Add(new XRBinding("Text", null, "ShortDescription"));
-            report.xrCostPrice.DataBindings.Add(new XRBinding("Text", null, "ResellerBuyEx", "{0:n2}"));
-            report.xrCostInclGST.DataBindings.Add(new XRBinding("Text", null, "ResellerBuyInc", "{0:n2}"));
-            report.xrQty.DataBindings.Add(new XRBinding("Text", null, "Quantity", "{0:n2}"));
-            report.xrTotal.DataBindings.Add(new XRBinding("Text", null, "SubtotalAmount", "{0:n2}"));
+            report.xrCostPrice.DataBindings.Add(new XRBinding("Text", null, "PurchaseCostEx", "{0:n2}"));
+            report.xrCostInclGST.DataBindings.Add(new XRBinding("Text", null, "PurchaseCostInc", "{0:n2}"));
+            report.xrQty.DataBindings.Add(new XRBinding("Text", null, "Quantity"));
+            report.xrTotal.DataBindings.Add(new XRBinding("Text", null, "TotalPurchaseCostEx", "{0:n2}"));
 
 			// Totals
-			decimal totalExlGst = orderLineInfos.Sum(x => x.ResellerBuyEx);
-			decimal gstTotal = (totalExlGst * Convert.ToDecimal(1.10)) - totalExlGst;
-            decimal orderTotal = totalExlGst + gstTotal;
+			var totalExlGst = lines.Sum(x => x.TotalPurchaseCostEx);
+			var totalFreightLines = lines.Where(x => x.FreightLine == true).Sum(x => x.TotalPurchaseCostEx);
+			var totalSupplierLines = lines.Where(x => x.FreightLine == false).Sum(x => x.TotalPurchaseCostEx);
+            var gstTotal = (totalSupplierLines * Convert.ToDecimal(1.10)) + totalFreightLines - totalExlGst;
+            var orderTotal = totalExlGst + gstTotal;
 
             report.xrTotalExlGst.Text = string.Format("{0:N2}", totalExlGst);
 			report.xrGST.Text = string.Format("{0:N2}", gstTotal);

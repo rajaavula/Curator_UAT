@@ -1,15 +1,15 @@
-﻿var selectedStores
+﻿var selectedStores, statusNotSent = '1', statusSupplierSelected = '2', statusPurchased = '3', statusPurchaseFailed = '4', statusShipped = '5', statusCancelled = '6', statusBackOrdered = '7'
+var selectedOrderIDs = null, selectedOrderIDsUpdate = false, selectedOrderIDsUpdateQueue = null;
+const CurrencyFormat = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: false });
 
 // Refresh Main Grid
 function RefreshGridWithArgs(grid) {
-
 	var args = FormatDate(FromDate.GetDate()) + '~' + FormatDate(ToDate.GetDate()) + '~' + StoreID_ListBox.GetSelectedValues() + '~' + OrderStatus.GetValue() + '~' + FailedEDIDelivery.GetChecked() + '~' + IncompleteItemLines.GetChecked();
 
     grid.PerformCallback(args);
 }
 
 function DateRangeChanged(grid) {
-
 	var args = DateRange.GetValue() + '~' + StoreID_ListBox.GetSelectedValues() + '~' + OrderStatus.GetValue() + '~' + FailedEDIDelivery.GetChecked() + '~' + IncompleteItemLines.GetChecked();
 
 	grid.PerformCallback(args);
@@ -18,7 +18,6 @@ function DateRangeChanged(grid) {
 }
 
 function LoadDateRanges() {
-
 	var id = DateRange.GetValue();
     if (!id) return;
 
@@ -34,14 +33,48 @@ function LoadDateRanges() {
     });
 }
 
+function GrdOrders_SelectionChanged(s, e) {
+	if (selectedOrderIDsUpdate)
+	{
+		if (selectedOrderIDsUpdateQueue === null)
+		{
+			selectedOrderIDsUpdateQueue = setInterval(function ()
+			{
+				if (!selectedOrderIDsUpdateQueue)
+				{
+					selectedOrderIDsUpdateQueue = true;
+					clearInterval(selectedOrderIDsUpdateQueue);
+					selectedOrderIDsUpdateQueue = null;
+					s.GetSelectedFieldValues("SalesOrderID", GrdOrders_GetSelectedFieldValuesCallback);
+				}
+			}, 10);
+		};
+	}
+	else
+	{
+		selectedOrderIDsUpdate = true;
+		s.GetSelectedFieldValues("SalesOrderID", GrdOrders_GetSelectedFieldValuesCallback);
+	}
+}
+
+function GrdOrders_GetSelectedFieldValuesCallback(values) {
+	var ids = values.join(',');
+
+	selectedOrderIDs = ids;
+
+	var enabled = selectedOrderIDs && selectedOrderIDs.length > 0;
+
+	btnQueueNetSuiteUpdate.SetEnabled(enabled);
+
+	selectedOrderIDsUpdate = false;
+}
+
 // Controls
 function Store_BeginCallback(s, e) {
-
 	e.customArgs['PageID'] = GetPageID();
 }
 
 function Store_EndCallback(s, e) {
-
 	var listbox = StoreID_ListBox;
 	var items = listbox.GetItemCount();
 
@@ -77,14 +110,12 @@ function ShowErrorMessage(errorMessage) {
 
 // General Page
 function ActiveTabChanged(s, e) {
-
 	var selectedOrder = GetRowID(GrdOrders);
 
 	UpdateAllTabs(selectedOrder);
 }
 
 function UpdateAllTabs(selectedOrder) {
-
 	$.ajax({
 		cache: false,
 		url: '/Orders/Orders/UpdateTabs',
@@ -100,36 +131,54 @@ function DetailRowExpanding(s, e) {
 	GrdOrders.SetFocusedRowIndex(e.visibleIndex);
 }
 
-function ExpandOrderLine(salesOrderID, salesOrderLineID) {
+function ExpandOrderLine(sender) {
+	var container = $(sender).closest('.detail-table');
+	var lines = $(container).find('.order-line');
+	var link = $(container).find('.orderline-expand');
 
-	var hidden = false;
-	var firstRow = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + "-row1";
-	var secondRow = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + "-row2";
-	var orderRows = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + "-row";
-	var orderExpandLink = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + '-expand';
-	var orderLines = $("[id ^= " + orderRows + "]");
+    if ($(lines).hasClass('hide')) {
+		$(lines).removeClass('hide');
+		$(link).text('-');
+    }
+	else
+    {
+		$(lines).addClass('hide');
+		$(link).text('+');
+    }
+}
 
-	orderLines.each(function () {
-		if (!this.id.match(firstRow) && !this.id.match(secondRow))
+// Sales Orders
+function QueueNetSuiteUpdate() {
+	ShowLoadingPanel();
+
+	$.ajax({
+		cache: false,
+		url: '/Orders/Orders/QueueNetSuiteUpdate',
+		data:
 		{
-			if (this.classList.contains('hide')) {
-				this.classList.remove('hide');
-				hidden = true;
+			PageID: GetPageID(),
+			SalesOrderIDs: selectedOrderIDs
+		},
+		complete: function ()
+		{
+			HideLoadingPanel();
+    },
+		success: function (error)
+		{
+			if (error && error.length > 0)
+			{
+				ShowErrorMessage(error);
+				return;
 			}
-			else {
-				this.classList.add('hide');
-				hidden = false;
-			}
+
+			alert('The selected orders have been queued to be sent to NetSuite.');
+			RefreshGridWithArgs(GrdOrders);
 		}
 	});
-
-	if (hidden) $('#' + orderExpandLink).text('-');
-	else $('#' + orderExpandLink).text('+');
 }
 
 // Shipping Address Popup
 function ShowShippingAddress(salesOrderID) {
-
 	var width = 500;
 	$('#shipping-address-popup').width(width);
 	$('#shipping-address-popup').css('left', (window.innerWidth / 2) - (width / 2));
@@ -165,6 +214,7 @@ function ShowShippingAddress(salesOrderID) {
 }
 
 function SaveShippingAddress() {
+	if (ASPxClientEdit.ValidateGroup('SHIPPING_ADDRESS_EDIT') == false) return;
 
 	var salesOrderID = $('#shipping-address-popup-sales-order').val();
 
@@ -203,7 +253,6 @@ function SaveShippingAddress() {
 }
 
 function ReloadShippingAddress(salesOrderID) {
-
 	$.ajax({
 		cache: false,
 		url: '/Orders/Orders/GetShippingAddress',
@@ -222,7 +271,6 @@ function ReloadShippingAddress(salesOrderID) {
 
 // Fraud Check Popup
 function ShowFraudCheck(salesOrderID) {
-
 	var width = 280;
 	$('#fraud-check-popup').width(width);
 	$('#fraud-check-popup').css('left', (window.innerWidth / 2) - (width / 2));
@@ -254,7 +302,6 @@ function ShowFraudCheck(salesOrderID) {
 }
 
 function GetFraudCheckValue(salesOrderID) {
-
 	var fraudCheck = '#sales-order' + salesOrderID + '-fraud-check-checkbox';
 
 	return $(fraudCheck).is(":checked"); //Returns true/false
@@ -326,7 +373,6 @@ function SetFraudCheckFields(salesOrderID, fraudScore, customerIsNew, shippingAd
 }
 
 function SaveFraudCheckPopup() {
-
 	var salesOrderID = $('#fraud-check-popup-sales-order').val();
 
 	var paymentMethod = PaymentMethod.GetValue();
@@ -374,8 +420,17 @@ function GetNewSupplier(salesOrderID, salesOrderLineID) {
 	return $(newSupplierDropDownID).val();
 }
 
-function UpdateNewSupplier(salesOrderID, salesOrderLineID) {
+function GetNewSupplierEDI(salesOrderID, salesOrderLineID) {
+	var newSupplierDropDownID = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + '-new-supplier-dropdown';
 
+	var newSupplierDropDown = document.getElementById(newSupplierDropDownID); // don't use jquery here
+
+	var isEDI = newSupplierDropDown.options[newSupplierDropDown.selectedIndex].getAttribute("data-is-edi"); // because of this part
+
+	return isEDI;
+}
+
+function UpdateNewSupplier(salesOrderID, salesOrderLineID) {
 	UpdateNewSupplierReadOnlyFields(salesOrderID, salesOrderLineID);
 
 	UpdateNewSupplierPricing(salesOrderID, salesOrderLineID);
@@ -384,46 +439,52 @@ function UpdateNewSupplier(salesOrderID, salesOrderLineID) {
 }
 
 function UpdateNewSupplierReadOnlyFields(salesOrderID, salesOrderLineID) {
-
-	var newSupplierDropDownID = 'sales-order' + salesOrderID + '-orderline' + salesOrderLineID + '-new-supplier-dropdown';
-
-	var newSupplierDropDown = document.getElementById(newSupplierDropDownID); // don't use jquery here
-
-	var nonEDI = newSupplierDropDown.options[newSupplierDropDown.selectedIndex].getAttribute("data-non-edi"); // because of this part
+	var isEDI = GetNewSupplierEDI(salesOrderID, salesOrderLineID);
 
 	var prefixID = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID;
 
-	var shippingCarrierID = prefixID + '-shipping-carrier';
-	var shippingOrderNoID = prefixID + '-shipping-order-no';
+	var pushToSupplierButton = prefixID + '-push-to-supplier-button';
+	var supplierID = prefixID + '-new-supplier-dropdown';
 	var deliveryCourierID = prefixID + '-delivery-courier';
 	var trackingNumberID = prefixID + '-tracking-number';
-	var nonEDISupplierBox = prefixID + '-non-edi-checkbox';
+	var isEDISupplierBox = prefixID + '-is-edi-checkbox';
+	var statusDropDown = prefixID + '-status-dropdown';
 
-	if (nonEDI === 'False') {
-		$(nonEDISupplierBox).removeAttr('checked');
-		$(shippingCarrierID).attr('disabled', 'disabled');
-		$(shippingOrderNoID).attr('disabled', 'disabled');
+	var pushed = $(pushToSupplierButton).hasClass('pushed');
+
+	if (isEDI === 'True') {
+		$(isEDISupplierBox).attr('checked', 'checked');
 		$(deliveryCourierID).attr('disabled', 'disabled');
 		$(trackingNumberID).attr('disabled', 'disabled');
+		$(statusDropDown).attr('disabled', 'disabled');
 	}
 	else {
-		$(nonEDISupplierBox).attr('checked', 'checked');
-		$(shippingCarrierID).removeAttr('disabled');
-		$(shippingOrderNoID).removeAttr('disabled');
-		$(deliveryCourierID).removeAttr('disabled');
-		$(trackingNumberID).removeAttr('disabled');
+		$(isEDISupplierBox).removeAttr('checked');
+		$(statusDropDown).removeAttr('disabled');
+
+		if (pushed) {
+			$(deliveryCourierID).attr('disabled', 'disabled');
+			$(trackingNumberID).attr('disabled', 'disabled');
+		} else {
+			$(deliveryCourierID).removeAttr('disabled');
+			$(trackingNumberID).removeAttr('disabled');
+    }
 	}
+
+	if (pushed) {
+		$(supplierID).attr('disabled', 'disabled');
+	} else {
+		$(supplierID).removeAttr('disabled');
+  }
 }
 
 function ClearNewSupplierPricing(salesOrderID, salesOrderLineID) {
 	var prefixID = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID;
 	var newCostField = prefixID + '-new-cost';
 	var newStockField = prefixID + '-new-stock';
-	var weightField = prefixID + '-weight';
 
-	$(newCostField).val(0.00);
-	$(newStockField).val(0.00);
-	$(weightField).val(0.00);
+	$(newCostField).val(null);
+	$(newStockField).val(null);
 
 	UpdateSelectedQuantity(salesOrderID, salesOrderLineID);
 }
@@ -431,7 +492,7 @@ function ClearNewSupplierPricing(salesOrderID, salesOrderLineID) {
 function UpdateNewSupplierPricing(salesOrderID, salesOrderLineID) {
 	var feedKey = GetNewSupplier(salesOrderID, salesOrderLineID);
 
-	if (feedKey === 'None') {
+	if (feedKey === '') {
 		ClearNewSupplierPricing(salesOrderID, salesOrderLineID);
 		return;
 	}
@@ -451,11 +512,9 @@ function UpdateNewSupplierPricing(salesOrderID, salesOrderLineID) {
 				var prefixID = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID;
 				var newCostField = prefixID + '-new-cost';
 				var newStockField = prefixID + '-new-stock';
-				var weightField = prefixID + '-weight';
 
-				$(newCostField).val(json.ResellerBuyEx);
+				$(newCostField).val(CurrencyFormat.format(json.ResellerBuyEx));
 				$(newStockField).val(json.Stock);
-				$(weightField).val(json.WeightGrams);
 
 				UpdateSelectedQuantity(salesOrderID, salesOrderLineID);
 			}
@@ -473,32 +532,6 @@ function GetSelectedQuantity(salesOrderID, salesOrderLineID) {
 }
 
 function UpdateSelectedQuantity(salesOrderID, salesOrderLineID) {
-	
-	// Recalculate order line values
-	var prefixID = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID;
-
-	var newCostField = prefixID + '-new-cost';
-	var newCostValue = parseFloat($(newCostField).val());
-
-	var selectedQuantityField = prefixID + '-selected-qty';
-	var selectedQuantityValue = parseInt($(selectedQuantityField).val());
-
-	var newSubtotalValue = newCostValue * selectedQuantityValue;
-	var newSubtotalField = prefixID + '-subtotal';
-
-	$(newSubtotalField).val(newSubtotalValue);
-
-	var discountField = prefixID + '-discount';
-	var discountValue = parseFloat($(discountField).val());
-
-	var shippingField = prefixID + '-shipping';
-	var shippingValue = parseFloat($(shippingField).val());
-
-	var totalValue = newSubtotalValue - discountValue + shippingValue;
-	var totalField = prefixID + '-total';
-
-	$(totalField).val(totalValue);
-
 	// Validate push to supplier button
 	ValidatePushToSupplierButton(salesOrderID, salesOrderLineID);
 }
@@ -511,21 +544,28 @@ function ValidatePushToSupplierButton(salesOrderID, salesOrderLineID) {
 	// Check Fraud Checked checkbox
 	var fraudCheck = GetFraudCheckValue(salesOrderID);
 	if (fraudCheck === false) {
-		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect)
+		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect);
 		return;
 	};
 
 	// Check Selected Supplier dropdown
 	var newSupplier = GetNewSupplier(salesOrderID, salesOrderLineID);
 	if (newSupplier === 'None') {
-		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect)
+		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect);
 		return;
 	}
 
 	// Check Selected Quantity
 	var selectedQuantity = GetSelectedQuantity(salesOrderID, salesOrderLineID);
 	if (isNaN(selectedQuantity) || selectedQuantity < 1) {
-		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect)
+		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect);
+		return;
+	}
+
+	// Check Pushed
+	var pushed = $(pushToSupplierButton).hasClass('pushed');
+	if (pushed) {
+		DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect);
 		return;
 	}
 
@@ -545,93 +585,35 @@ function DisablePushToSupplierButton(pushToSupplierButton, orderLineMultiSelect)
 	return;
 }
 
-function ValidateAllPushToSupplierButtons(salesOrderID) {
-	// Set up query constants
-	var salesOrderIDFilter = 'sales-order' + salesOrderID;
-	var supplierButtonIDFilter = '-push-to-supplier-button';
-
+function ValidateAllPushToSupplierButtons(orderID) {
 	// Find push to supplier buttons
-	var pushToSupplierLines = $("input[id ^= " + salesOrderIDFilter + "][id $= " + supplierButtonIDFilter + "]"); //Looking for all push to supplier buttons for the order
+	var lines = $('input.order-' + orderID + '-push-button');  // Looking for all order line multi select checkboxes
 
-	pushToSupplierLines.each(function () {
-
-		var supplierButtonID = this.id;
-
-		var idComponents = supplierButtonID.split('-');
-
-		ValidatePushToSupplierButton(salesOrderID, idComponents[2].substring(9));
+	lines.each(function ()
+	{
+		ValidatePushToSupplierButton(orderID, $(this).data('id'));
 	});
 }
 
-function GetAllSelectedOrderLines(salesOrderID) {
-	// Set up query constants
-	var salesOrderIDFilter = 'sales-order' + salesOrderID;
-	var orderLineCheckboxIDFilter = '-select-order-line';
-
+function GetAllSelectedOrderLines(orderID) {
 	// Find order lines
-	var orderLines = $("input[id ^= " + salesOrderIDFilter + "][id $= " + orderLineCheckboxIDFilter + "]"); // Looking for all order line multi select checkboxes
+	var lines = $('input.order-' + orderID + '-line-select:checked');  // Looking for all order line multi select checkboxes
 
-	var selectedOrderLines = "";
+	var selected = [];
 
-	orderLines.each(function () {
-
-		if (this.checked === true) {
-			var orderLine = this.id;
-
-			var idComponents = orderLine.split('-');
-
-			selectedOrderLines = selectedOrderLines + (idComponents[2].substring(9)) + ',';
-		}
+	lines.each(function ()
+	{
+		selected.push($(this).data('id'))
 	});
 
-	return selectedOrderLines;
+	return selected;
 }
 
-function GetAllSelectedOrderLinesArray(salesOrderID, salesOrderLineID) {
-	// Set up query constants
-	var salesOrderIDFilter = 'sales-order' + salesOrderID;
-	var orderLineCheckboxIDFilter = '-select-order-line';
-
-	// Encheck order line checkbox
-	var pushToSupplierItemLine = '#' + salesOrderIDFilter + '-orderline' + salesOrderLineID + orderLineCheckboxIDFilter;
-	$(pushToSupplierItemLine).prop('checked', true);
-
+function UncheckOrderLines(orderID) {
 	// Find order lines
-	var orderLines = $("input[id ^= " + salesOrderIDFilter + "][id $= " + orderLineCheckboxIDFilter + "]"); // Looking for all order line multi select checkboxes
+	var lines = $('input.order-' + orderID + '-line-select:checked'); // Looking for all order line multi select checkboxes
 
-	var selectedOrderLines = [];
-
-	orderLines.each(function () {
-
-		if (this.checked === true) {
-			var orderLine = this.id;
-
-			var idComponents = orderLine.split('-');
-
-			selectedOrderLines.push(idComponents[2].substring(9));
-		}
-	});
-
-	return selectedOrderLines;
-}
-
-function UncheckOrderLines(salesOrderID) {
-	// Set up query constants
-	var salesOrderIDFilter = 'sales-order' + salesOrderID;
-	var orderLineCheckboxIDFilter = '-select-order-line';
-
-	// Find order lines
-	var orderLines = $("input[id ^= " + salesOrderIDFilter + "][id $= " + orderLineCheckboxIDFilter + "]"); // Looking for all order line multi select checkboxes
-
-	orderLines.each(function () {
-
-		if (this.checked === true) {
-
-			var orderLine = this.id;
-
-			$(orderLine).prop('checked', false);
-		}
-	});
+	lines.each(() => $(this).prop('checked', false));
 }
 
 function ShowPushToSupplier(salesOrderID, salesOrderLineID) {
@@ -643,7 +625,11 @@ function ShowPushToSupplier(salesOrderID, salesOrderLineID) {
 	$('#push-to-supplier-popup-sales-order').val(salesOrderID);
 	$('#push-to-supplier-popup-sales-order-line').val(salesOrderLineID);
 
-	var selectedOrderLineIDs = GetAllSelectedOrderLinesArray(salesOrderID, salesOrderLineID);
+	// Check order line checkbox
+	var pushToSupplierItemLine = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID + '-select-order-line';
+	$(pushToSupplierItemLine).prop('checked', true);
+
+	var selectedOrderLineIDs = GetAllSelectedOrderLines(salesOrderID);
 	var message = "";
 
 	selectedOrderLineIDs.forEach((orderLineID) => {
@@ -653,11 +639,11 @@ function ShowPushToSupplier(salesOrderID, salesOrderLineID) {
 		var skuField = preFixID + '-sku';
 		var statusDropDown = preFixID + '-status-dropdown';
 
-		var newSupplier = $(newSupplierDropDown).text();
+		var newSupplier = $(newSupplierDropDown + ' option:selected').text();
 		var sku = $(skuField).val();
 		var supplierStatus = $(statusDropDown).val();
 
-		if (supplierStatus === '2') { // Sent to supplier. Note this id will change depending on the purchase status table and what the ids are
+		if (supplierStatus === statusSupplierSelected) {
 			message = message + 'Item ' + sku + ' has already been sent to ' + newSupplier + '. This will be sent again. <br>';
 		}
 		else {
@@ -669,72 +655,96 @@ function ShowPushToSupplier(salesOrderID, salesOrderLineID) {
 	ShowPopup('#push-to-supplier-popup');
 }
 
-function PushToSupplier() {
+async function PushToSupplier() {
+	// Get selected supplier lines
 	var salesOrderID = $('#push-to-supplier-popup-sales-order').val();
 	var salesOrderLineID = $('#push-to-supplier-popup-sales-order-line').val();
 
 	if (salesOrderID === null || salesOrderID === '') return;
 	if (salesOrderLineID === null || salesOrderLineID === '') return;
 
-	var statusDropDown = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID + '-status-dropdown';
-
+	// Save selected order lines
 	var selectedOrderLineIDs = GetAllSelectedOrderLines(salesOrderID);
 
+	ShowLoadingPanel();
+
+	await SaveAllOrderLines(salesOrderID, selectedOrderLineIDs);
+
+	// Push to supplier email
 	$.ajax({
 		cache: false,
 		url: '/Orders/Orders/PushToSupplier',
-		data: {
+		data:
+		{
 			pageID: GetPageID(),
 			salesOrderID: salesOrderID,
-			salesOrderLineIDs: selectedOrderLineIDs
+			salesOrderLineIDs: selectedOrderLineIDs.join(',')
 		},
-		success: function (json) {
-			if (json) {
-				UncheckOrderLines(salesOrderID);
-				$(statusDropDown).val('2'); // Sent to supplier. Note this id will change depending on the purchase status table and what the ids are
+		complete: function ()
+		{
+			HideLoadingPanel();
+		},
+		success: function (error)
+		{
+			if (error && error.length > 0)
+			{
 				HidePopup('#push-to-supplier-popup');
+				ShowErrorMessage(error);
+				return;
 			}
-			else {
-				HidePopup('#push-to-supplier-popup');
-				ShowErrorMessage('Failed to send selected lines to chosen supplier, please contact support');
-			}
+
+			UncheckOrderLines(salesOrderID);
+			HidePopup('#push-to-supplier-popup');
+
+			GrdOrders.PerformCallback();
 		}
 	});
 }
 
-// Save Order Line
-function SaveOrderLine(salesOrderID, salesOrderLineID) {
-	ShowLoadingPanel("Saving..");
+// Saving
+async function SaveOrderLine(salesOrderID, salesOrderLineID, disableLoad) {
+	if (!disableLoad) ShowLoadingPanel("Saving..");
 
 	var prefixID = '#sales-order' + salesOrderID + '-orderline' + salesOrderLineID;
 
-	var weightField = prefixID + '-weight';
-	var subtotalField = prefixID + '-subtotal';
-	var discountField = prefixID + '-discount';
-	var shippingField = prefixID + '-shipping';
-	var totalField = prefixID + '-total';
+	var supplierFreightCode = prefixID + '-supplier-freight-code';
+	var supplierFreightCost = prefixID + '-supplier-freight-cost';
+	var statusDropDownID = prefixID + '-status-dropdown';
+	var deliveryCourier = prefixID + '-delivery-courier';
+	var trackingNumber = prefixID + '-tracking-number';
 	var selectedSupplierID = GetNewSupplier(salesOrderID, salesOrderLineID);
 
-	$.ajax({
-		cache: false,
-		url: '/Orders/Orders/SaveOrderLine',
-		data: {
-			pageID: GetPageID(),
-			salesOrderID: salesOrderID,
-			salesOrderLineID: salesOrderLineID,
-			weightGrams: $(weightField).val(),
-			subtotalAmount: $(subtotalField).val(),
-			discountAmount: $(discountField).val(),
-			shippingAmount: $(shippingField).val(),
-			totalAmount: $(totalField).val(),
-			supplierID: selectedSupplierID
-		},
-		success: function (json) {
-			HideLoadingPanel();
-
-			if (!json) {
-				ShowErrorMessage('Failed to save order line changes');
+	try {
+		const error = await $.ajax({
+			cache: false,
+			url: '/Orders/Orders/SaveOrderLine',
+			data:
+			{
+				pageID: GetPageID(),
+				salesOrderID: salesOrderID,
+				salesOrderLineID: salesOrderLineID,
+				supplierFreightCode: $(supplierFreightCode).val(),
+				supplierFreightCost: $(supplierFreightCost).val(),
+				supplierID: selectedSupplierID,
+				carrierName: $(deliveryCourier).val(),
+				trackingNumber: $(trackingNumber).val(),
+				salesOrderLineStatusID: $(statusDropDownID).val()
 			}
+		});
+
+		if (error && error.length > 0) {
+			ShowErrorMessage(error);
+			return;
 		}
-	});
+	} catch (error) {
+		console.error(error);
+	} finally {
+		if (!disableLoad) HideLoadingPanel();
+	}
+}
+
+async function SaveAllOrderLines(salesOrderID, selectedOrderLineIDArray) {
+	for (let i = 0; i < selectedOrderLineIDArray.length; i++) {
+		await SaveOrderLine(salesOrderID, selectedOrderLineIDArray[i], true);
+	}
 }

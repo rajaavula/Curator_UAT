@@ -1,0 +1,136 @@
+﻿
+/*----------------------
+  Grid Detail Row Styles 
+----------------------*/
+
+.detail-row-container {
+    overflow-x: auto;
+}
+
+.detail-table {
+}
+
+    .detail-table tr {
+        margin: 10px 0px 10px 0px;
+    }
+
+    .detail-table .detail-row-grey-header {
+        margin: 10px 0px 10px 0px;
+        /*background-color: #DC1E35;*/
+        background-color: #FBB424;
+    }
+
+    .detail-table td {
+        padding: 2px 8px 1px 8px;
+    }
+
+    .detail-table .td-spaced {
+        padding: 2px 30px 1px 30px;
+    }
+
+    .detail-table .detail-row-bold-heading {
+        font-weight: bold;
+    }
+
+    .detail-table .detail-row-bold-heading-white {
+        font-weight: bold;
+        font-size: 14px;
+        padding: 4px 8px 4px 8px;
+    }
+
+    .detail-table .detail-row-bold-heading-spaced {
+        padding: 2px 30px 1px 30px;
+        font-weight: bold;
+    }
+
+    .detail-table .orderline-expand {
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+.detail-number-wide-input {
+    text-align: right;
+}
+
+.detail-number-input {
+    text-align: right;
+    width: 64px;
+}
+
+.detail-number-input-wide {
+    text-align: right;
+    width: 153px;
+}
+
+.detail-checkbox {
+    vertical-align: sub;
+}
+
+.detail-button-ship {
+    background-color: #DC1E35;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    float: right;
+    font-size: 11px;
+    width: 38px;
+}
+
+.detail-button-tall-fraud {
+    background-color: #DC1E35;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 4px 4px 4px 4px;
+}
+
+.detail-button-tall-invoice {
+    background-color: #DC1E35;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    width: 62px;
+}
+
+.detail-button-tall-save {
+    background-color: #DC1E35;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    width: 62px;
+}
+
+.detail-button-tall-push {
+    background-color: #DC1E35;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    width: 150px;
+}
+
+.detail-button-tall-pushed {
+    background-color: #349134;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    width: 150px;
+}
+
+.detail-button-tall-push-disabled {
+    background-color: #808080;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 6px 6px 6px;
+    width: 150px;
+}
+
+.detail-dropdown {
+    min-width: 100%;
+    width: 120px;
+}

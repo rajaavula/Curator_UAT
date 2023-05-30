@@ -8,6 +8,7 @@ namespace LeadingEdge.Curator.Web.Orders.Models
     public class OrdersList : BaseModel
     {
         public bool CanEdit { get; set; }
+        public bool CanConfirm { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int SelectedDateRange { get; set; }
@@ -18,16 +19,16 @@ namespace LeadingEdge.Curator.Web.Orders.Models
         public List<FromToDate> DateRanges { get; set; }
         public CheckComboModel StoresModel { get; set; }
         public List<StoreInfo> Stores { get; set; }
-        public List<OrderStatus> OrderStatuses { get; set; }
-        public List<OrderInfo> Orders { get; set; }
+        public List<SalesOrderStatusInfo> SalesOrderStatuses { get; set; }
+        public List<SalesOrderStatusInfo> SalesOrderStatusesFilter { get; set; }
         public List<OrderLineList> OrderDetails { get; set; }
 
         public OrdersList()
         {
             DateRanges = new List<FromToDate>();
             Stores = new List<StoreInfo>();
-            Orders = new List<OrderInfo>();
-            OrderStatuses = new List<OrderStatus>();
+            SalesOrderStatuses = new List<SalesOrderStatusInfo>();
+            SalesOrderStatusesFilter = new List<SalesOrderStatusInfo>();
             OrderDetails = new List<OrderLineList>();
         }
     }

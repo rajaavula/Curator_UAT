@@ -89,7 +89,7 @@ namespace LeadingEdge.Curator.Core
             return (from dr in dt.AsEnumerable() select new CategoryInfo(dr)).OrderBy(x => x.Name).ToList();
         }
 
-        public static List<MemberCategoryByFeedInfo> GetMemberCategoriesByFeed(int storeID, int feedKey)
+        public static List<MemberCategoryByFeedInfo> GetMemberCategoriesByFeed(int storeID, string selectedFeeds)
 
         {
             var db = new DB(App.ProductsDBConn);
@@ -97,7 +97,7 @@ namespace LeadingEdge.Curator.Core
             var parameters = new[]
             {
                 new SqlParameter("@StoreID", Utils.ToDBValue(storeID)),
-                new SqlParameter("@FeedKey", Utils.ToDBValue(feedKey))
+                new SqlParameter("@SelectedFeeds", Utils.ToDBValue(selectedFeeds))
             };
             var dt = db.QuerySP("CURATOR_GetMemberCategoriesByFeed", parameters);
 

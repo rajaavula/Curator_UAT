@@ -26,7 +26,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
         public static GridModel GetGridView(string name, bool exporting, FeedsListEdit vm)
         {
             GridModel grid = new GridModel();
-            Setup.GridView(grid.Settings, name, "v1.02", vm.Name);
+            Setup.GridView(grid.Settings, name, "v1.03", vm.Name);
             grid.Settings.KeyFieldName = "FeedKey";
             grid.Settings.CallbackRouteValues = new { Area = "Products", Controller = "Feeds", Action = "GrdMainCallback" };
             grid.Settings.ClientSideEvents.FocusedRowChanged = "function(s,e) { Get(); }";
@@ -49,10 +49,10 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
             grid.Settings.Columns.Add(s =>
             {
-                s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "PushToSupplierEmail";
-                s.Caption = grid.Label(300176); // Push to supplier email
-                s.Width = 250;
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "IsEDISupplier";
+                s.Caption = grid.Label(300180); // EDI Supplier?
+                s.Width = 200;
             });
 
             return grid;
@@ -60,7 +60,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<FeedInfo> GetData()
         {
-            return FeedManager.GetUsedFeeds();
+            return FeedManager.GetAllFeeds();
         }
 
         public static FeedInfo GetDetail(FeedsListEdit vm, int id)

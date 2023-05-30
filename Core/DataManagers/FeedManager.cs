@@ -9,52 +9,50 @@ namespace LeadingEdge.Curator.Core
 {
     public static class FeedManager
     {
-		public static List<FeedInfo> GetUsedFeeds()
-		{
-			var db = new DB(App.ProductsDBConn);
-
-			var dt = db.QuerySP("CURATOR_GetUsedFeeds");
-
-			return (from dr in dt.AsEnumerable() select new FeedInfo(dr)).ToList();
+        public static List<FeedInfo> GetAllFeeds()
+        {
+            return GetFeeds(null, null, "DATA");
         }
 
-        public static List<ValueDescription> GetUsedFeedsList(bool nullOption)
+        public static FeedInfo GetFeedByID(int feedID)
+        {
+            var data = GetFeeds(feedID, null, "FEED");
+
+            return data.FirstOrDefault();
+        }
+
+        public static List<FeedInfo> GetFeedsByMember(int storeID)
+        {
+            return GetFeeds(null, storeID, "MEMBER");
+        }
+
+        private static List<FeedInfo> GetFeeds(int? feedID, int? storeID, string type)
+        {
+            var db = new DB(App.ProductsDBConn);
+
+            var parameters = new[]
+            {
+                new SqlParameter("@FeedID", Utils.ToDBValue(feedID)),
+                new SqlParameter("@StoreID", Utils.ToDBValue(storeID)),
+                new SqlParameter("@Type", Utils.ToDBValue(type))
+            };
+
+            var dt = db.QuerySP("CURATOR_GetFeeds", parameters);
+
+            return (from dr in dt.AsEnumerable() select new FeedInfo(dr)).ToList();
+        }
+
+        public static List<ValueDescription> GetAllFeedsList(bool includeEmpty)
         {
             var list = new List<ValueDescription>();
 
-            if (nullOption) list.Add(new ValueDescription(null, null));
+            if (includeEmpty) list.Add(new ValueDescription(null, null));
 
-            var feeds = GetUsedFeeds().OrderBy(x => x.FeedName).ToList();
+            var feeds = GetAllFeeds();
 
             list.AddRange(from c in feeds select new ValueDescription(c.FeedKey, c.FeedName));
 
             return list;
-        }
-
-        public static List<FeedInfo> GetMemberFeeds(int? storeID)
-        {
-            try
-            {
-                DB db = new DB(App.ProductsDBConn);
-
-                SqlParameter[] parameters = new[]
-                {
-                    new SqlParameter("@StoreID", Utils.ToDBValue(storeID)),
-                    
-                };
-
-                DataTable dt = db.QuerySP("CURATOR_GetMemberFeeds", parameters);
-
-                if (!db.Success || db.RowCount == 0) return new List<FeedInfo>();
-
-                return new List<FeedInfo>(from dr in dt.AsEnumerable() select new FeedInfo(dr));
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-            }
-
-            return new List<FeedInfo>();
         }
       
         public static Exception UpdateMemberFeeds(int storeID, string feedKeys)
@@ -74,7 +72,8 @@ namespace LeadingEdge.Curator.Core
 
         public static List<MemberFeedByStoreInfo> GetMemberFeedsByStore()
         {
-            var db = new DB(App.ProductsDBConn);         
+            var db = new DB(App.ProductsDBConn);
+
             var dt = db.QuerySP("CURATOR_GetMemberFeedsByStore");
             
             return (from dr in dt.AsEnumerable() select new MemberFeedByStoreInfo(dr)).ToList();
@@ -87,8 +86,7 @@ namespace LeadingEdge.Curator.Core
             var parameters = new[]
             {
                 new SqlParameter("@FeedID", Utils.ToDBValue(info.FeedKey)),
-                new SqlParameter("@IncludeZeroStock", Utils.ToDBValue(info.IncludeZeroStock)),
-                new SqlParameter("@PushToSupplierEmail", Utils.ToDBValue(info.PushToSupplierEmail))
+                new SqlParameter("@IncludeZeroStock", Utils.ToDBValue(info.IncludeZeroStock))
             };
 
             db.QuerySP("CURATOR_SaveFeed", parameters);

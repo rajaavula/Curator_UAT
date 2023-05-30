@@ -36,7 +36,7 @@ namespace LeadingEdge.Curator.Web
 
 			App.ApplicationPath = Server.MapPath("~");
 			// Load database config
-			App.LoadConfiguration();
+			App.LoadConfiguration(Configuration);
 
 			Log.Initialise(App.ApplicationPath, App.WebInstrumentationKey, App.PlatformName, "Leading Edge Curator");
 			Log.Error(new Exception("Test exception on startup"));
@@ -102,7 +102,7 @@ namespace LeadingEdge.Curator.Web
 			{
 				c.AddSettings<OpenIdConnectSettings>(Configuration.GetSection("OpenIdConnect"));
 
-				c.AddRegistry(new WebRegistry(Configuration));
+                c.AddRegistry(new WebRegistry(Configuration));
 			});
 
 			StructureMapResolver = new StructureMapDependencyResolver(container);

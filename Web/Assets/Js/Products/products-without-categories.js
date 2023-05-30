@@ -18,6 +18,7 @@ function AssignCategory() {
     $.ajax({
         cache: false,
         url: '/Products/ProductsWithoutCategories/Assign',
+        type: 'POST',
         data: {
             pageID: GetPageID(),
             categoryKey: CategoryKey.GetValue(),

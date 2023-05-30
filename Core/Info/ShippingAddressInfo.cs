@@ -7,7 +7,7 @@ namespace LeadingEdge.Curator.Core
 {
     public class ShippingAddressInfo
     {
-        public int ShippingAddressID { get; set; }
+        public int? ShippingAddressID { get; set; }
         public string ShippingAddressFirstName { get; set; } 
         public string ShippingAddressLastName { get; set; }
         public string ShippingAddressStreet1 { get; set; }

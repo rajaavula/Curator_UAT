@@ -11,7 +11,6 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
-using System.Net;
 using System.Data;
 using System.IO;
 
@@ -22,7 +21,9 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
         public static MemberProducts CreateModel()
         {
             MemberProducts vm = new MemberProducts();
+
             vm.MemberStoreList = GetMemberStores(vm);
+
             if (vm.MemberStoreList != null && vm.MemberStoreList.Count > 0) vm.StoreID = vm.MemberStoreList.First().StoreID;
             else
             {
@@ -35,29 +36,31 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             vm.SortBy = "SupplierPartNumber";  // On first grid load            
             vm.SortDirection = "ASC";
 
-            vm.Feeds = FeedManager.GetMemberFeeds(vm.StoreID).OrderBy(x => x.FeedName).ToList();
-            if (vm.Feeds != null && vm.Feeds.Count > 0) vm.FeedKey = vm.Feeds.First().FeedKey;
+            vm.Feeds = FeedManager.GetFeedsByMember(vm.StoreID);
+            if (vm.Feeds != null && vm.Feeds.Count > 0) vm.SelectedFeeds = Convert.ToString(vm.Feeds.First().FeedKey);
             else
             {
                 FeedInfo feedInfo = new FeedInfo();
                 feedInfo.FeedKey = 0;
                 feedInfo.FeedName = "No feeds assigned";
                 vm.Feeds.Add(feedInfo);
-                vm.FeedKey = vm.Feeds.First().FeedKey;
+                vm.SelectedFeeds = Convert.ToString(vm.Feeds.First().FeedKey);
             }
 
             vm.MemberFeedsByStore = GetMemberFeedsByStore(vm).OrderBy(x => x.StoreName).ToList();
-
             vm.MemberFeedModel = GetMemberFeedComboBoxSettings(vm);
             vm.Categories = GetMemberCategories(vm);
             vm.BrandByFeed = GetBrandsByFeed();
             vm.MemberCategoriesByFeed = GetMemberCategoriesByFeed(vm);
             vm.MemberCategoryModel = GetMemberCategoryComboBoxSettings(vm);
-            vm.BrandModel = GetBrandComboBoxSettings(vm);
-            vm.BulkPRImportUploadControlSettings = GetBulkPRImportUploadSettings();
-            vm.BulkPRImportPopUploadSettings = GetBulkPRImportPopupSettings();
+            vm.BrandModel = GetBrandComboBoxSettings(vm);          
             vm.ProductTag = GetTagsforProduct(vm, vm.ProductID);
             vm.MemberProductTags = GetMemberProductTags(vm);
+            vm.DefaultZeroValue = 0;
+            vm.BulkPRImportUploadControlSettings = GetBulkPRImportUploadSettings();
+            vm.BulkPRImportPopUploadSettings = GetBulkPRImportPopupSettings();
+            vm.SelectionImportUploadControlSettings = GetSelectionImportUploadSettings();
+            vm.SelectionImportPopUploadSettings = GetSelectionImportPopupSettings();
 
             vm.Grids.Add("GrdMain", GetProductsGridView("GrdMain", false, vm));
             vm.Grids["GrdMain"].Data = new List<ProductInfo>();
@@ -85,6 +88,9 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             vm.ProductTag = GetTagsforProduct(vm, vm.ProductID);
             vm.BulkPRImportUploadControlSettings = cached.BulkPRImportUploadControlSettings;
             vm.BulkPRImportPopUploadSettings = cached.BulkPRImportPopUploadSettings;
+            vm.SelectedFeeds = cached.SelectedFeeds;
+            vm.SelectedCategories = cached.SelectedCategories;
+            vm.SelectedBrands = cached.SelectedBrands;
 
             if (isExporting) return;
 
@@ -95,13 +101,14 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
         public static GridModel GetProductsGridView(string name, bool exporting, MemberProducts vm)
         {
             GridModel grid = new GridModel();
-            Setup.GridView(grid.Settings, name, "v1.9", vm.Name, false);
+            Setup.GridView(grid.Settings, name, "v1.91", vm.Name, false);
             grid.Settings.KeyFieldName = "ProductID";
             grid.Settings.CallbackRouteValues = new { Area = "Products", Controller = "MemberProducts", Action = "GrdMainCallback" };
             grid.Settings.ClientSideEvents.FocusedRowChanged = "function(s,e) { Get(); }";
             grid.Settings.ClientSideEvents.EndCallback = "function (s, e) { Get(); }";
             grid.Settings.CommandColumn.ShowSelectCheckbox = true;
             grid.Settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.Page;
+            grid.Settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "25", "50", "100", "1000" };
 
             grid.Settings.BeforeColumnSortingGrouping = (sender, e) =>
             {
@@ -285,6 +292,23 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
             grid.Settings.Columns.Add(s =>
             {
+                s.ColumnType = MVCxGridViewColumnType.CheckBox;
+                s.FieldName = "IncludeShipping";
+                s.Caption = grid.Label(300202); // Include shipping;
+                s.Width = 150;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                s.FieldName = "ShippingValue";
+                s.Caption = grid.Label(300120); // Shipping;
+                s.Width = 120;
+                s.PropertiesEdit.DisplayFormatString = "n2";
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
                 s.ColumnType = MVCxGridViewColumnType.SpinEdit;
                 s.FieldName = "NewRRP";
                 s.Caption = grid.Label(201036); // new RRP;
@@ -338,6 +362,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             grid.Settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.Page;
             grid.Settings.ClientSideEvents.BeginCallback = "function (s,e) { GrdAvailable_BeginCallback(s, e, '" + vm.Name + "'); }";
             grid.Settings.ClientSideEvents.EndCallback = "function (s,e) { GrdAvailable_EndCallback(s, true); }";
+            grid.Settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "25", "50", "100", "1000" };
 
             grid.Settings.BeforeColumnSortingGrouping = (sender, e) =>
             {
@@ -390,7 +415,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                 }
             };
 
-            
+
             grid.Settings.Columns.Add(s =>
             {
                 s.Name = "ExportColumn";
@@ -493,6 +518,44 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return grid;
         }
 
+        public static CheckComboModel GetMemberFeedComboBoxSettings(MemberProducts vm)
+        {
+            var model = new CheckComboModel();
+
+            Setup.CheckBoxCombo(model.Settings, "FeedKey");
+
+            // UI
+            var dropdown = model.Settings.DropDownSettings;
+            var listbox = model.Settings.ListBoxSettings;
+            
+            dropdown.Width = Unit.Pixel(150);
+            listbox.Properties.ClientSideEvents.Init = "function(s,e) { MemberFeed_EndCallback(s, e); }";
+            listbox.Properties.ClientSideEvents.ValueChanged = "function (s,e) { ChangeMemberFeed(); }";
+            listbox.CallbackRouteValues = new { Area = "Products", Controller = "MemberProducts", Action = "MemberFeedCallback" };
+            listbox.Properties.ClientSideEvents.BeginCallback = "function(s,e) { MemberFeed_BeginCallback(s, e); }";
+            listbox.Properties.ClientSideEvents.EndCallback = "function(s,e) { MemberFeed_EndCallback(s, e); }";
+
+            // Data          
+            var data = (from x in vm.Feeds
+                        select new ListEditItem(x.FeedName, x.FeedKey)).ToList();
+            
+            data.Insert(0, new ListEditItem("ALL", null));   // Add null option
+
+            if (data.Count > 1)
+            {
+                vm.SelectedFeeds = Convert.ToString(data[1].Value);
+                model.Settings.ListBoxSettings.SelectedIndex = 1;
+            }
+            else
+            {
+                model.Settings.ListBoxSettings.SelectedIndex = 0;
+            }
+
+            model.Data = data;
+            
+            return model;
+        }
+
         public static CheckComboModel GetMemberCategoryComboBoxSettings(MemberProducts vm)
         {
             var model = new CheckComboModel();
@@ -512,7 +575,9 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
 
             // Data          
-            var currentFeedCategories = vm.MemberCategoriesByFeed.FindAll(x => x.FeedKey == vm.FeedKey).Select(x => x.CategoryKey).ToArray();
+            var selectedFeeds = vm.SelectedFeeds?.Split(',')?.Select(Int32.Parse)?.ToArray();
+
+            var currentFeedCategories = vm.MemberCategoriesByFeed.FindAll(x => x.FeedKey.In(selectedFeeds)).Select(x => x.CategoryKey).ToArray();
 
             var data = (from x in vm.Categories.FindAll(x => x.CategoryKey.In(currentFeedCategories)).OrderBy(x => x.Description)
                         select new ListEditItem(x.CategoryPath, x.CategoryKey)).ToList();     // Note sorted by category desc not name
@@ -550,10 +615,12 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             listbox.Properties.ClientSideEvents.BeginCallback = "function(s,e) { Brand_BeginCallback(s,e); }";
             listbox.Properties.ClientSideEvents.EndCallback = "function(s,e) { Brand_EndCallback(s,e); }";
             listbox.Properties.ClientSideEvents.Init = "function(s,e) { Brand_EndCallback(s,e); }";
-
+            listbox.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
 
             // Data          
-            var data = (from x in vm.BrandByFeed.FindAll(x => x.FeedKey == vm.FeedKey).OrderBy(x => x.BrandName)
+            var selectedFeeds = vm.SelectedFeeds?.Split(',')?.Select(Int32.Parse)?.ToArray();
+
+            var data = (from x in vm.BrandByFeed.FindAll(x => x.FeedKey.In(selectedFeeds)).OrderBy(x => x.BrandName)
                         select new ListEditItem(x.BrandName, x.BrandKey)).ToList();
 
             data.Insert(0, new ListEditItem("ALL", null));   // Add null option
@@ -573,38 +640,12 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return model;
         }
 
-        public static ComboBoxModel GetMemberFeedComboBoxSettings(MemberProducts vm)
-        {
-            ComboBoxModel model = new ComboBoxModel();
-            model.Settings = new ComboBoxSettings();
-            model.Data = vm.Feeds;
-            model.Value = vm.FeedKey;
-
-            var s = model.Settings;
-            Setup.ComboBox(s);
-
-            s.Name = "FeedKey";
-            s.Properties.ValueField = "FeedKey";
-            s.Properties.ValueType = typeof(int?);
-            s.Properties.TextField = "FeedName";
-            s.Width = Unit.Pixel(150);
-            s.Properties.AllowNull = true;
-            s.Properties.CallbackPageSize = 100;
-            s.Properties.ClientSideEvents.SelectedIndexChanged = "function (s,e) { ChangeMemberFeed(); }";
-            s.CallbackRouteValues = new { Area = "Products", Controller = "MemberProducts", Action = "MemberFeedCallback" };
-            s.Properties.ClientSideEvents.BeginCallback = "function(s,e) { MemberFeed_BeginCallback(s, e); }";
-            s.Properties.ClientSideEvents.EndCallback = "function(s,e) { MemberFeed_EndCallback(s, e); }";
-
-            return model;
-        }
-
         public static UploadControlSettings GetBulkPRImportUploadSettings()
         {
             UploadControlSettings s = new UploadControlSettings();
             Setup.UploadControl(s, "uplBulkPRImport");
 
             s.CallbackRouteValues = new { area = "Products", controller = "MemberProducts", action = "BulkPRImportUpload" };
-
             s.ClientSideEvents.FilesUploadStart = "function(s,e) { BulkPRImportStart(s,e); }";
             s.ClientSideEvents.FileUploadComplete = "function(s,e) { BulkPRImportComplete(s,e); }";
             s.ClientSideEvents.TextChanged = "function(s,e) { BulkPRImportTextChanged(s,e); }";
@@ -624,21 +665,288 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return s;
         }
 
+        public static PopupControlSettings GetBulkPRImportPopupSettings()
+        {
+            PopupControlSettings s = new PopupControlSettings();
+            Setup.PopupControl(s);
+            s.Name = "ppBulkPRImportResult";
+            s.HeaderText = "Bulk Price Rule Import Errors";
+            s.Modal = true;
+            s.ControlStyle.CssClass = "cortex-popup";
+            s.Width = Unit.Pixel(600);
+            s.ControlStyle.HorizontalAlign = HorizontalAlign.Left;
+            return s;
+        }
+
+        public static UploadControlSettings GetSelectionImportUploadSettings()
+        {
+            UploadControlSettings s = new UploadControlSettings();
+            Setup.UploadControl(s, "uplSelectionImport");
+
+            s.CallbackRouteValues = new { area = "Products", controller = "MemberProducts", action = "SelectionImportUpload" };
+            s.ClientSideEvents.FilesUploadStart = "function(s,e) { SelectionImportStart(s,e); }";
+            s.ClientSideEvents.FileUploadComplete = "function(s,e) { SelectionImportComplete(s,e); }";
+            s.ClientSideEvents.TextChanged = "function(s,e) { SelectionImportTextChanged(s,e); }";
+
+            UploadControlValidationSettings vs = GetSelectionImportValidationSettings();
+            s.ValidationSettings.Assign(vs);
+
+            return s;
+        }
+
+        public static UploadControlValidationSettings GetSelectionImportValidationSettings()
+        {
+            UploadControlValidationSettings s = new UploadControlValidationSettings();
+            s.AllowedFileExtensions = new[] { ".xlsx" };
+            s.MaxFileSize = 20971520;
+            s.ShowErrors = false;
+            return s;
+        }
+
+        public static PopupControlSettings GetSelectionImportPopupSettings()
+        {
+            PopupControlSettings s = new PopupControlSettings();
+            Setup.PopupControl(s);
+            s.Name = "ppSelectionImport";
+            s.HeaderText = "Product Selection Import";
+            s.Modal = true;
+            s.ControlStyle.CssClass = "cortex-popup";
+            s.Width = Unit.Pixel(600);
+            s.ControlStyle.HorizontalAlign = HorizontalAlign.Left;
+            return s;
+        }
+
+        public static void SelectionImport(MemberProducts vm)
+        {
+            HttpContext.Current.Session["MemberProducts_Model"] = vm;
+            UploadControlValidationSettings validationSettings = GetSelectionImportValidationSettings();
+            UploadControlExtension.GetUploadedFiles("uplSelectionImport", validationSettings, SelectionImport_FileUploadComplete);
+        }
+
+        public static void SelectionImport_FileUploadComplete(object sender, FileUploadCompleteEventArgs e)
+        {
+            MemberProducts vm = (MemberProducts)HttpContext.Current.Session["MemberProducts_Model"];
+            List<ProductInfo> feedProducts = GetAvailableProductsData(vm, true);
+            List<int> productIDs;
+
+            e.IsValid = true;
+            e.ErrorText = string.Empty;
+
+            try
+            {
+                Stream filestream = Utils.ConvertByteArrayToStream(e.UploadedFile.FileBytes);
+                ExcelPackage excel = new ExcelPackage();
+                excel.Load(filestream);
+
+                DataTable dt = U.ExcelWorksheetToDataTable(excel, true);
+                if (dt == null) throw new Exception("Error opening spreadsheet. Please check the spreadsheet.");
+
+                if (dt.Rows.Count <= 0) return; // Empty spreadsheet
+
+                List<string> errors = ValidateSelectionImport(dt, feedProducts);
+
+                if (errors.Count < 1)
+                {
+                    Exception ex = ImportSelections(vm, dt, out productIDs);
+                    if (ex != null) errors.Add(ex.Message);
+
+                    feedProducts = GetAvailableProductsData(vm, true);
+                    List<ProductInfo> FeedProductsFiltered = feedProducts.Where(x => productIDs.Any(y => y == x.ProductID)).ToList();
+                    vm.Grids["GrdAvailable"].Data = FeedProductsFiltered;
+                }
+
+                if (errors.Count > 0)
+                {
+                    e.IsValid = false;
+                    e.ErrorText = string.Join(Environment.NewLine, errors);
+                    return;
+                }
+            }
+            catch
+            {
+                e.IsValid = false;
+                e.ErrorText = "Error opening spreadsheet. Please check the spreadsheet.";
+            }
+            finally
+            {
+                HttpContext.Current.Session.Remove("MemberProducts_Model");
+            }
+        }
+
+        private static List<string> ValidateSelectionImport(DataTable dt, List<ProductInfo> feedProducts)
+        {
+            int lineNumber = 1;
+
+            List<string> errors = new List<string>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                lineNumber++;
+                try
+                {
+                    string sku = Utils.FromDBValue<string>(dr["Supplier Part Number"]);
+                    string selected = Utils.FromDBValue<string>(dr["Selected"]);
+
+                    if (string.IsNullOrEmpty(sku))
+                    {
+                        errors.Add(string.Format("(Line number: {0}) SKU cannot be empty.", lineNumber));
+                    }
+                    else
+                    {
+                        var skuMatches = feedProducts.FindAll(x => x.SupplierPartNumber == sku);
+                   
+                        if (skuMatches.Count() <= 0)
+                        {
+                            errors.Add(string.Format("(Line number: {0}) This SKU can not be found for this store/feed.", lineNumber));
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(selected))
+                    {
+                        errors.Add(string.Format("(Line number: {0}) Selected cannot be empty.", lineNumber));
+                    }
+
+                    if (selected != "True" && selected != "False")
+                    {
+                        errors.Add(string.Format("(Line number: {0}) Selected is an invalid value.", lineNumber));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string errorText = string.Format("(Line number: {0}) There was an error importing the selection rule data. Please check the spreadsheet.", lineNumber);
+                    Log.Write(ex.Message);
+                    errors.Add(errorText);
+                }
+            }
+
+            return errors;
+        }
+
+        private static Exception ImportSelections(MemberProducts vm, DataTable dt, out List<int> productIDs)
+        {
+            productIDs = new List<int>();
+            string allKeys = string.Empty;
+            string productsToSelect = string.Empty;
+
+            try
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string productID = Utils.FromDBValue<string>(dr["Product ID"]);
+                    allKeys += (productID + ',');
+                    productIDs.Add(Convert.ToInt32(productID));
+                    string selected = Utils.FromDBValue<string>(dr["Selected"]);
+
+                    if (selected == "True")
+                    {
+                        productsToSelect += productID + ',';
+                    }
+                }
+
+                if (string.IsNullOrEmpty(allKeys)) 
+                {
+                    return new Exception("Product IDs failed to load from table");
+                }
+
+                allKeys = allKeys.Remove(allKeys.Length - 1, 1);
+
+                if (!string.IsNullOrEmpty(productsToSelect)) productsToSelect = productsToSelect.Remove(productsToSelect.Length - 1, 1);
+
+                Exception ex = ProductManager.UpdateMemberProducts(vm.StoreID, allKeys, productsToSelect);
+                if (ex != null) throw ex;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return ex;
+            }
+
+            return null;
+        }
+
+        public static byte[] GetSelectionExportDownload(MemberProducts vm)
+        {
+            var ExportData = (List<ProductInfo>)vm.Grids["GrdAvailable"].Data;
+
+            DataTable ExportTable = new DataTable();
+            ExportTable.Columns.Add("Product ID", Type.GetType("System.Int32"));
+            ExportTable.Columns.Add("Supplier Part Number", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Selected", Type.GetType("System.Boolean"));
+            ExportTable.Columns.Add("ShortDescription", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Brand", Type.GetType("System.String"));
+            ExportTable.Columns.Add("CategoryName", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Category1Name", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Category2Name", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Category3Name", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Category4Name", Type.GetType("System.String"));
+            ExportTable.Columns.Add("Category5Name", Type.GetType("System.String"));
+
+            DataRow ExportTableRow;
+            if (ExportData != null)  //Will raise exception if there is no data in grid
+            {
+                foreach (var x in ExportData)
+                {
+                    ExportTableRow = ExportTable.NewRow();
+                    ExportTableRow["Product ID"] = x.ProductID;
+                    ExportTableRow["Supplier Part Number"] = x.SupplierPartNumber;
+                    ExportTableRow["Selected"] = x.Selected;
+                    ExportTableRow["ShortDescription"] = x.ShortDescription;
+                    ExportTableRow["Brand"] = x.Brand;
+                    ExportTableRow["CategoryName"] = x.CategoryName;
+                    ExportTableRow["Category1Name"] = x.Category1Name;
+                    ExportTableRow["Category2Name"] = x.Category2Name;
+                    ExportTableRow["Category3Name"] = x.Category3Name;
+                    ExportTableRow["Category4Name"] = x.Category4Name;
+                    ExportTableRow["Category5Name"] = x.Category5Name;
+                    ExportTable.Rows.Add(ExportTableRow);
+                }
+            }
+
+            byte[] ExcelData;
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("ExportAvailable");
+                if (ExportData != null)
+                {
+                    ws.Column(1).Width = 12;
+                    ws.Column(2).Width = 30;
+                    ws.Column(3).Width = 30;
+                    ws.Column(4).Width = 30;
+                    ws.Column(5).Width = 30;
+                    ws.Column(6).Width = 30;
+                    ws.Column(7).Width = 30;
+                    ws.Column(8).Width = 30;
+
+                    ws.Cells["A1"].LoadFromDataTable(ExportTable, true);
+                }
+
+                MemoryStream ms = new MemoryStream();
+                pck.SaveAs(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                byte[] buffer = new byte[(int)ms.Length];
+                buffer = ms.ToArray();
+                ExcelData = buffer;
+            }
+
+            return ExcelData;
+        }
+
         public static void BulkPRImport(MemberProducts vm)
         {
             HttpContext.Current.Session["MemberProducts_Model"] = vm;
-            UploadControlValidationSettings validationSettings = MemberProductsHelper.GetBulkPRImportValidationSettings();
-            UploadControlExtension.GetUploadedFiles("uplBulkPRImport", validationSettings, MemberProductsHelper.BulkPRImport_FileUploadComplete);
+            UploadControlValidationSettings validationSettings = GetBulkPRImportValidationSettings();
+            UploadControlExtension.GetUploadedFiles("uplBulkPRImport", validationSettings, BulkPRImport_FileUploadComplete);
         }
 
         public static void BulkPRImport_FileUploadComplete(object sender, FileUploadCompleteEventArgs e)
         {
             MemberProducts vm = (MemberProducts)HttpContext.Current.Session["MemberProducts_Model"];
-            List<ProductInfo> feedProducts = ProductManager.GetMemberProducts(vm.StoreID, vm.FeedKey, null, null, vm.SortBy, vm.SortDirection);
+            List<ProductInfo> feedProducts = ProductManager.GetMemberProducts(vm.StoreID, vm.SelectedFeeds, null, null, vm.SortBy, vm.SortDirection);
             List<int> productIDs;
 
             e.IsValid = true;
-            e.ErrorText = String.Empty;
+            e.ErrorText = string.Empty;
 
             try
             {
@@ -653,7 +961,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
                 List<string> headings = new List<string>()
                 {
-                "Product ID","Supplier Part Number","Pricing Rule","Price Value","Retail Rounding","Default Product Tags","Product Tags"
+                "Product ID","Supplier Part Number","Pricing Rule","Price Value","Include Shipping","Shipping Value","Retail Rounding","Default Product Tags","Product Tags"
                 };
 
                 List<string> columns = (from DataColumn dc in dt.Columns select dc.ColumnName).ToList();
@@ -679,7 +987,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                     Exception ex = ImportBulkPRs(vm, dt, out productIDs);
                     if (ex != null) errors.Add(ex.Message);
 
-                    feedProducts = ProductManager.GetMemberProducts(vm.StoreID, vm.FeedKey, null, null, vm.SortBy, vm.SortDirection);
+                    feedProducts = ProductManager.GetMemberProducts(vm.StoreID, vm.SelectedFeeds, null, null, vm.SortBy, vm.SortDirection);
                     List<ProductInfo> FeedProductsFiltered = feedProducts.Where(x => productIDs.Any(y => y == x.ProductID)).ToList();
                     vm.Grids["GrdMain"].Data = FeedProductsFiltered;
                 }
@@ -687,7 +995,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                 if (errors.Count > 0)
                 {
                     e.IsValid = false;
-                    e.ErrorText = String.Join(Environment.NewLine, errors);
+                    e.ErrorText = string.Join(Environment.NewLine, errors);
                     return;
                 }
             }
@@ -718,18 +1026,20 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                     string supplierPartNumber = Utils.FromDBValue<string>(dr["Supplier Part Number"]);
                     string pricingRule = Utils.FromDBValue<string>(dr["Pricing Rule"]);
                     string priceValue = Utils.FromDBValue<string>(dr["Price Value"]);
+                    string includeShipping = Utils.FromDBValue<string>(dr["Include Shipping"]);
+                    string shippingValue = Utils.FromDBValue<string>(dr["Shipping Value"]);
                     string retailRounding = Utils.FromDBValue<string>(dr["Retail Rounding"]);
                     string defaultProductTags = Utils.FromDBValue<string>(dr["Default Product Tags"]);
-                    string productTags = Utils.FromDBValue<string>(dr["Product Tags"]);
+                    string productTags = Utils.FromDBValue<string>(dr["Product Tags"]);               
 
-                    if (String.IsNullOrEmpty(productID))
+                    if (string.IsNullOrEmpty(productID))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Product ID cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Product ID cannot be empty.", lineNumber));
                     }
 
-                    if (String.IsNullOrEmpty(supplierPartNumber))
+                    if (string.IsNullOrEmpty(supplierPartNumber))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Supplier Part Number cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Supplier Part Number cannot be empty.", lineNumber));
                     }
                     else
                     {
@@ -737,80 +1047,110 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                                          select new string(x.SupplierPartNumber.ToCharArray()).ToList();
                         if (skuMatches.Count() <= 0)
                         {
-                            errors.Add(String.Format("(Line number: {0}) This SKU can not be found for this store/feed.", lineNumber));
+                            errors.Add(string.Format("(Line number: {0}) This SKU can not be found for this store/feed.", lineNumber));
                         }
                     }
 
-                    if (String.IsNullOrEmpty(pricingRule))
+                    if (string.IsNullOrEmpty(pricingRule))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Pricing Rule cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Pricing Rule cannot be empty.", lineNumber));
                     }
                     else
                     {
                         if (!priceRules.Contains(pricingRule)) //If not found in the list of rules
                         {
-                            errors.Add(String.Format("(Line number: {0}) Pricing Rule not valid.", lineNumber));
+                            errors.Add(string.Format("(Line number: {0}) Pricing Rule not valid.", lineNumber));
                         }
                     }
 
-                    if (String.IsNullOrEmpty(priceValue))
+                    if (string.IsNullOrEmpty(priceValue))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Price cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Price cannot be empty.", lineNumber));
                     }
                     else
                     {
                         decimal priceCast;
                         if (decimal.TryParse(priceValue, out priceCast) == false)
                         {
-                            errors.Add(String.Format("(Line number: {0}) Invalid Price Value: {1}. Must be a number.", lineNumber, priceValue));
+                            errors.Add(string.Format("(Line number: {0}) Invalid Price Value: {1}. Must be a number.", lineNumber, priceValue));
                         }
                         if (priceCast <= 0)
                         {
-                            errors.Add(String.Format("(Line number: {0}) Invalid Price Value: {1}. Must be greater than 0.", lineNumber, priceValue));
+                            errors.Add(string.Format("(Line number: {0}) Invalid Price Value: {1}. Must be greater than 0.", lineNumber, priceValue));
                         }
                     }
 
-                    if (String.IsNullOrEmpty(retailRounding))
+                    if (string.IsNullOrEmpty(retailRounding))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Retail Rounding cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Retail Rounding cannot be empty.", lineNumber));
                     }
                     else
                     {
                         if (retailRounding != "False" && retailRounding != "True")
                         {
-                            errors.Add(String.Format("(Line number: {0}) Retail Rounding must be either TRUE or FALSE.", lineNumber));
+                            errors.Add(string.Format("(Line number: {0}) Retail Rounding must be either TRUE or FALSE.", lineNumber));
                         }
                     }
 
-                    if (String.IsNullOrEmpty(defaultProductTags))
+                    if (string.IsNullOrEmpty(includeShipping))
                     {
-                        errors.Add(String.Format("(Line number: {0}) Default Product Tags cannot be empty.", lineNumber));
+                        errors.Add(string.Format("(Line number: {0}) Include Shipping cannot be empty.", lineNumber));
+                    }
+                    else
+                    {
+                        if (includeShipping != "False" && includeShipping != "True")
+                        {
+                            errors.Add(string.Format("(Line number: {0}) Include Shipping must be either TRUE or FALSE.", lineNumber));
+                        }
+                    }
+
+                    if (includeShipping == "True")
+                    {
+                        if (string.IsNullOrEmpty(shippingValue))
+                        {
+                            errors.Add(string.Format("(Line number: {0}) Shipping Value cannot be set empty if Include Shipping is TRUE.", lineNumber));
+                        }
+
+                        decimal shippingCast;
+                        if (decimal.TryParse(shippingValue, out shippingCast) == false)
+                        {
+                            errors.Add(string.Format("(Line number: {0}) Invalid Shipping Value: {1}. Must be a number.", lineNumber, shippingValue));
+                        }
+                        if (shippingCast <= 0)
+                        {
+                            errors.Add(string.Format("(Line number: {0}) Invalid Shipping Value: {1}. Must be greater than 0.", lineNumber, shippingValue));
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(defaultProductTags))
+                    {
+                        errors.Add(string.Format("(Line number: {0}) Default Product Tags cannot be empty.", lineNumber));
                     }
                     else
                     {
                         if (defaultProductTags != "False" && defaultProductTags != "True")
                         {
-                            errors.Add(String.Format("(Line number: {0}) Default Product Tags must be either TRUE or FALSE.", lineNumber));
+                            errors.Add(string.Format("(Line number: {0}) Default Product Tags must be either TRUE or FALSE.", lineNumber));
                         }
                     }
 
                     if (defaultProductTags == "True")
                     {
-                        if (!String.IsNullOrEmpty(productTags))
+                        if (!string.IsNullOrEmpty(productTags))
                         {
-                            errors.Add(String.Format("(Line number: {0}) Product Tags cannot be set if Default Product Tags are TRUE.", lineNumber));
+                            errors.Add(string.Format("(Line number: {0}) Product Tags cannot be set if Default Product Tags are TRUE.", lineNumber));
                         }
                     }
                     else
                     {
-                        if (!String.IsNullOrEmpty(productTags))
+                        if (!string.IsNullOrEmpty(productTags))
                         {
                             try
                             {
                                 string[] commaSep = productTags.Split(',');
                                 if (commaSep.Contains(""))
                                 {
-                                    errors.Add(String.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
+                                    errors.Add(string.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
                                 }
 
                                 for (int i = 0; i < commaSep.Length; i++)
@@ -818,24 +1158,25 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                                     string tag = commaSep[i];
                                     if (tag[0] == ' ' || tag[tag.Length - 1] == ' ')
                                     {
-                                        errors.Add(String.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
+                                        errors.Add(string.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
                                     }
                                 }
                             }
                             catch
                             {
-                                errors.Add(String.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
+                                errors.Add(string.Format("(Line number: {0}) Product Tags are not formatted correctly.", lineNumber));
                             }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    string errorText = String.Format("(Line number: {0}) There was an error importing the price rule data. Please check the spreadsheet.", lineNumber);
+                    string errorText = string.Format("(Line number: {0}) There was an error importing the price rule data. Please check the spreadsheet.", lineNumber);
                     Log.Write(ex.Message);
                     errors.Add(errorText);
                 }
             }
+
             return errors;
         }
 
@@ -851,6 +1192,8 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                     string supplierPartNumber = Utils.FromDBValue<string>(dr["Supplier Part Number"]);
                     string pricingRule = Utils.FromDBValue<string>(dr["Pricing Rule"]);
                     string priceValue = Utils.FromDBValue<string>(dr["Price Value"]);
+                    string includeShipping = Utils.FromDBValue<string>(dr["Include Shipping"]);
+                    string shippingValue = Utils.FromDBValue<string>(dr["Shipping Value"]);
                     string retailRounding = Utils.FromDBValue<string>(dr["Retail Rounding"]);
                     string defaultProductTags = Utils.FromDBValue<string>(dr["Default Product Tags"]);
                     string productTags = Utils.FromDBValue<string>(dr["Product Tags"]);
@@ -867,7 +1210,14 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                     if (pricingRule == "Buy price adjustment $") pricingRule = "4";
                     if (pricingRule == "Buy price adjustment %") pricingRule = "5";
 
-                    Exception ex = ProductManager.SaveMemberPricing(vm.StoreID, productID, Convert.ToInt32(pricingRule), Convert.ToDecimal(priceValue), Convert.ToBoolean(retailRounding), vm.SI.User.UserID);
+                    bool ship = Convert.ToBoolean(includeShipping);
+                    decimal shipValue = Convert.ToDecimal(0);
+                    if (ship == true) 
+                    {
+                        shipValue = Convert.ToDecimal(shippingValue);
+                    }              
+
+                    Exception ex = ProductManager.SaveMemberPricing(vm.StoreID, productID, Convert.ToInt32(pricingRule), Convert.ToDecimal(priceValue), Convert.ToBoolean(retailRounding), vm.SI.User.UserID, ship, shipValue);
                     if (ex != null) throw ex;
 
                     ex = ProductManager.SaveProductTags(vm.StoreID, productID, productTags, Convert.ToBoolean(defaultProductTags), vm.SI.User.UserID);
@@ -885,19 +1235,6 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return null;
         }
 
-        public static PopupControlSettings GetBulkPRImportPopupSettings()
-        {
-            PopupControlSettings s = new PopupControlSettings();
-            Setup.PopupControl(s);
-            s.Name = "ppBulkPRImportResult";
-            s.HeaderText = "Bulk Price Rule Import Errors";
-            s.Modal = true;
-            s.ControlStyle.CssClass = "cortex-popup";
-            s.Width = Unit.Pixel(600);
-            s.ControlStyle.HorizontalAlign = HorizontalAlign.Left;
-            return s;
-        }
-
         public static byte[] GetBulkPRExportDownload(MemberProducts vm)
         {
             var ExportData = (List<ProductInfo>)vm.Grids["GrdMain"].Data;
@@ -907,6 +1244,8 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             ExportTable.Columns.Add("Supplier Part Number", Type.GetType("System.String"));
             ExportTable.Columns.Add("Pricing Rule", Type.GetType("System.String"));
             ExportTable.Columns.Add("Price Value", Type.GetType("System.Decimal"));
+            ExportTable.Columns.Add("Include Shipping", Type.GetType("System.Boolean"));
+            ExportTable.Columns.Add("Shipping Value", Type.GetType("System.Decimal"));
             ExportTable.Columns.Add("Retail Rounding", Type.GetType("System.Boolean"));
             ExportTable.Columns.Add("Default Product Tags", Type.GetType("System.Boolean"));
             ExportTable.Columns.Add("Product Tags", Type.GetType("System.String"));
@@ -930,6 +1269,8 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
                     ExportTableRow["Pricing Rule"] = priceRule;
                     ExportTableRow["Price Value"] = x.PriceValue;
+                    ExportTableRow["Include Shipping"] = x.IncludeShipping;
+                    ExportTableRow["Shipping Value"] = x.ShippingValue;
                     ExportTableRow["Retail Rounding"] = x.RetailRounding;
                     ExportTableRow["Default Product Tags"] = x.DefaultProductTags;
                     ExportTableRow["Product Tags"] = x.ProductTags;
@@ -947,12 +1288,14 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                     ws.Column(2).Width = 30;
                     ws.Column(3).Width = 30;
                     ws.Column(4).Width = 12;
-                    ws.Column(5).Width = 15;
-                    ws.Column(6).Width = 18;
-                    ws.Column(7).Width = 60;
-                    ws.Column(7).Style.WrapText = true;
+                    ws.Column(5).Width = 16;
+                    ws.Column(6).Width = 14;
+                    ws.Column(7).Width = 15;
+                    ws.Column(8).Width = 20;
+                    ws.Column(9).Width = 60;
+                    ws.Column(9).Style.WrapText = true;
                     ws.Column(2).Style.Numberformat.Format = "@"; //Format as Text
-                    ws.Column(7).Style.Numberformat.Format = "@";
+                    ws.Column(9).Style.Numberformat.Format = "@";
 
                     ws.Cells["A1"].LoadFromDataTable(ExportTable, true);
 
@@ -978,6 +1321,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                 buffer = ms.ToArray();
                 ExcelData = buffer;
             }
+
             return ExcelData;
         }
 
@@ -985,19 +1329,29 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
         {
             string storeName = vm.MemberStoreList.Find(x => x.StoreID == vm.StoreID).StoreName;
             var filteredFeeds = vm.MemberFeedsByStore.FindAll(x => x.StoreName == storeName);
-            if (filteredFeeds.Count > 1) vm.FeedKey = filteredFeeds.First().FeedKey;
+            if (filteredFeeds.Count > 1) vm.SelectedFeeds = Convert.ToString(filteredFeeds.First().FeedKey);
 
             return (from x in filteredFeeds select new FeedInfo { FeedKey = x.FeedKey, FeedName = x.FeedName }).OrderBy(x => x.FeedName).ToList();
         }
 
         public static List<ProductInfo> GetMemberProductsData(MemberProducts vm)
         {
-            return ProductManager.GetMemberProducts(vm.StoreID, vm.FeedKey, vm.SelectedCategories, vm.SelectedBrands, vm.SortBy, vm.SortDirection);
+            return GetMemberProductsData(vm, false);
         }
 
+        public static List<ProductInfo> GetMemberProductsData(MemberProducts vm, bool allRows)
+        {
+            return ProductManager.GetMemberProducts(vm.StoreID, vm.SelectedFeeds, vm.SelectedCategories, vm.SelectedBrands, vm.SortBy, vm.SortDirection, App.MaxProductsRows, allRows);
+        }
+        
         public static List<ProductInfo> GetAvailableProductsData(MemberProducts vm)
         {
-            return ProductManager.GetAvailableMemberProducts(vm.StoreID, vm.FeedKey, vm.SelectedCategories, vm.SelectedBrands, vm.SortBy, vm.SortDirection);
+            return GetAvailableProductsData(vm, false);
+        }
+
+        public static List<ProductInfo> GetAvailableProductsData(MemberProducts vm, bool allRows)
+        {
+            return ProductManager.GetAvailableMemberProducts(vm.StoreID, vm.SelectedFeeds, vm.SelectedCategories, vm.SelectedBrands, vm.SortBy, vm.SortDirection, App.MaxProductsRows, allRows);
         }
 
         public static List<BrandByFeedInfo> GetBrandsByFeed()
@@ -1007,13 +1361,12 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<MemberFeedByStoreInfo> GetMemberFeedsByStore(MemberProducts vm)
         {
-
             return FeedManager.GetMemberFeedsByStore();
         }
 
         public static List<MemberCategoryByFeedInfo> GetMemberCategoriesByFeed(MemberProducts vm)
         {
-            return CategoryManager.GetMemberCategoriesByFeed(vm.StoreID, vm.FeedKey);
+            return CategoryManager.GetMemberCategoriesByFeed(vm.StoreID, vm.SelectedFeeds);
         }
 
         public static List<CategoryInfo> GetMemberCategories(MemberProducts vm)
@@ -1021,14 +1374,14 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return CategoryManager.GetMemberCategories(vm.StoreID).OrderBy(x => x.CategoryPath).ToList();
         }
 
-        public static List<ProductInfo> GetMemberProducts(int storeID, int feedKey, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        public static List<ProductInfo> GetMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
         {
-            return ProductManager.GetMemberProducts(storeID, feedKey, selectedCategories, selectedBrands, sortBy, sortDirection);
+            return ProductManager.GetMemberProducts(storeID, selectedFeeds, selectedCategories, selectedBrands, sortBy, sortDirection);
         }
 
-        public static List<ProductInfo> GetAvailableMemberProducts(int storeID, int feedKey, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
+        public static List<ProductInfo> GetAvailableMemberProducts(int storeID, string selectedFeeds, string selectedCategories, string selectedBrands, string sortBy, string sortDirection)
         {
-            return ProductManager.GetAvailableMemberProducts(storeID, feedKey, selectedCategories, selectedBrands, sortBy, sortDirection);
+            return ProductManager.GetAvailableMemberProducts(storeID, selectedFeeds, selectedCategories, selectedBrands, sortBy, sortDirection);
         }
 
         public static List<TagInfo> GetMemberProductTags(MemberProducts vm)
@@ -1048,11 +1401,11 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             return data.Find(x => x.ProductID == id);
         }
 
-        public static Exception Save(MemberProducts vm, string productIDList, int pricingRule, decimal priceValue, bool retailRounding)
+        public static Exception Save(MemberProducts vm, string productIDList, int pricingRule, decimal priceValue, bool retailRounding, bool includeShipping, decimal shippingValue)
         {
             if (vm.StoreID == 0) return new Exception("User does not belong to a store");
 
-            Exception ex = ProductManager.SaveMemberPricing(vm.StoreID, productIDList, pricingRule, priceValue, retailRounding, vm.SI.User.UserID);
+            Exception ex = ProductManager.SaveMemberPricing(vm.StoreID, productIDList, pricingRule, priceValue, retailRounding, vm.SI.User.UserID, includeShipping, shippingValue);
 
             if (ex == null)
             {
@@ -1114,7 +1467,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<StoreInfo> GetMemberStores(MemberProducts vm)
         {
-            return ProductManager.GetMemberStoreList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
+            return ProductManager.GetEcommerceMemberStoresList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
         }
 
         public static Exception UpdateProductSelection(MemberProducts vm, string allKeys, string productIDs)
@@ -1125,4 +1478,3 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
         }
     }
 }
-

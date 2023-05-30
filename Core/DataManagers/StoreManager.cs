@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -53,6 +52,10 @@ namespace LeadingEdge.Curator.Core
                 new SqlParameter("@StorePassword",Utils.ToDBValue(info.StorePassword)),
                 new SqlParameter("@StoreSharedSecret",Utils.ToDBValue(info.StoreSharedSecret)),
                 new SqlParameter("@ShopifyID",Utils.ToDBValue(info.ShopifyID)),
+                new SqlParameter("@EnableAutomaticNetSuiteUpdate",Utils.ToDBValue(info.EnableAutomaticNetSuiteUpdate)),
+                new SqlParameter("@DoNotUpdateRRP",Utils.ToDBValue(info.DoNotUpdateRRP)),
+                new SqlParameter("@DoNotUpdateCostPrice",Utils.ToDBValue(info.DoNotUpdateCostPrice)),
+                new SqlParameter("@DoNotUpdateInventory",Utils.ToDBValue(info.DoNotUpdateInventory)),
                 new SqlParameter("@Logo", Utils.ToDBValue(info.Logo)) { SqlDbType = SqlDbType.Image }
             };
 
@@ -73,6 +76,26 @@ namespace LeadingEdge.Curator.Core
             db.QuerySP("CURATOR_DeleteStore", parameters);
 
             return db.DBException;
+        }
+
+        #endregion
+
+        #region Duplicate Stores
+
+        public static Exception DuplicateStore(int storeID, int sourceStoreID)
+        {
+            var db = new DB(App.ProductsDBConn);
+
+            var parameters = new[]
+            {
+                new SqlParameter("@StoreID", Utils.ToDBValue(storeID)),
+                new SqlParameter("@SourceStoreID", Utils.ToDBValue(sourceStoreID))
+            };
+
+            db.QuerySP("CURATOR_DuplicateStore", parameters);
+
+            if (db.DBException != null) return db.DBException;
+            return null;
         }
 
         #endregion

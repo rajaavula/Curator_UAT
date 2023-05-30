@@ -4,7 +4,7 @@
 <script type="text/javascript" src="/Assets/Lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/Assets/Lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/Assets/Js/site.js?<%= App.Version %>"></script>
-
+<script data-jsd-embedded data-key="9414b0f4-b5e1-4234-8ec0-142860572807" data-base-url=https://jsd-widget.atlassian.com src=https://jsd-widget.atlassian.com/assets/embed.js></script>
 <%
 Html.DevExpress().RenderStyleSheets(Page,
     new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout, Theme = App.Theme },

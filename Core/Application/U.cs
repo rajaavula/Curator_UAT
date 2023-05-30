@@ -897,6 +897,68 @@ namespace LeadingEdge.Curator.Core
             return function.Insert(function.LastIndexOf('}'), string.Concat(appendedFunction, " "));
         }
 
+        public static void UpdateLocationLatLong(SiteInfo address)
+        {
+            try
+            {
+                if (address == null) return;
+
+                Thread.Sleep(250);
+                string url = string.Format("https://maps.googleapis.com/maps/api/geocode/xml?address={0}&components=country:NZ&sensor=true&key=AIzaSyBcuS_wPID1WYiRSX9xpU_WmEOgVzfa14M", HttpUtility.UrlEncode(address.FormatedAddress));
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+                string xml;
+
+                using (WebResponse resp = request.GetResponse())
+                {
+                    using (Stream rStream = resp.GetResponseStream())
+                    {
+                        if (rStream == null) return;
+
+                        using (StreamReader sr = new StreamReader(rStream))
+                        {
+                            xml = sr.ReadToEnd().Trim();
+                        }
+                    }
+                }
+
+                if (String.IsNullOrEmpty(xml)) return;
+
+                GoogleResult.GeocodeResponse envelope = (GoogleResult.GeocodeResponse)Utils.DeserializeObject(xml, typeof(GoogleResult.GeocodeResponse));
+                // Stop processing as over limit
+                if (envelope.status == "OVER_QUERY_LIMIT")
+                {
+                    Log.Error(new Exception(address.Name + " geocode OVER_QUERY_LIMIT"));
+                    address.Latitude = null;
+                    address.Longitude = null;
+                }
+                else if (envelope.status != "OK")
+                {
+                    Log.Error(new Exception(address.Name + " result status " + envelope.status));
+                    address.Latitude = null;
+                    address.Longitude = null;
+                }
+                else
+                {
+                    // only use result if it is at least a street location
+                    GoogleResult.MessageHeader result = envelope.result.FirstOrDefault(x => x.geometry.location_type != "APPROXIMATE");
+                    if (result != null)
+                    {
+                        address.Latitude = Double.Parse(result.geometry.location.lat);
+                        address.Longitude = Double.Parse(result.geometry.location.lng);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                address.Latitude = null;
+                address.Longitude = null;
+            }
+        }
+
         public static DateTime? GetLocalTime(DateTime? utcDateTime)
         {
             if (utcDateTime == null) return null;

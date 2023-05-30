@@ -247,7 +247,7 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
         public static List<FeedInfo> GetFeeds()
         {
-            return FeedManager.GetUsedFeeds().OrderBy(x => x.FeedName).ToList();
+            return FeedManager.GetAllFeeds();
         }
 
         public static List<BrandInfo> GetBrands(ProductsListEdit vm)

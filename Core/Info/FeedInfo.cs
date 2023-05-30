@@ -8,7 +8,7 @@ namespace LeadingEdge.Curator.Core
         public int FeedKey { get; set; }
         public string FeedName { get; set; }
         public bool IncludeZeroStock { get; set; }
-        public string PushToSupplierEmail { get; set; }
+        public bool IsEDISupplier { get; set; }
 
         public FeedInfo() { }
 
@@ -17,7 +17,7 @@ namespace LeadingEdge.Curator.Core
             FeedKey = Utils.FromDBValue<int>(dr["FeedKey"]);
             FeedName = Utils.FromDBValue<string>(dr["FeedName"]);
             IncludeZeroStock = Utils.FromDBValue<bool>(dr["IncludeZeroStock"]);
-            PushToSupplierEmail = Utils.FromDBValue<string>(dr["PushToSupplierEmail"]);
+            IsEDISupplier = Utils.FromDBValue<bool>(dr["IsEDISupplier"]);
         }
     }
 }

@@ -205,7 +205,7 @@ namespace LeadingEdge.Curator.Web.Admin.Helpers
 
         public static List<StoreInfo> GetMemberStores(MemberCategories vm)
         {
-            return ProductManager.GetMemberStoreList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
+            return ProductManager.GetEcommerceMemberStoresList(vm.SI.User.UserID).OrderBy(x => x.StoreName).ToList();
         }
     }
 }
