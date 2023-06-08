@@ -56,129 +56,135 @@
     <Reference Include="Azure.Security.KeyVault.Secrets, Version=4.4.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Azure.Security.KeyVault.Secrets.4.4.0\lib\netstandard2.0\Azure.Security.KeyVault.Secrets.dll</HintPath>
     </Reference>
+    <Reference Include="Cortex.Core.Utilities">
+      <HintPath>..\..\Curator-Production\Dependencies\Cortex.Core.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Cortex.Utilities, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Cortex.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Charts.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Charts.Core.20.2.6\lib\net452\DevExpress.Charts.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Charts.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.CodeParser.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.CodeParser.20.2.6\lib\net452\DevExpress.CodeParser.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.CodeParser.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.Desktop.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Data.Desktop.20.2.6\lib\net452\DevExpress.Data.Desktop.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Data.Desktop.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Data.20.2.6\lib\net452\DevExpress.Data.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Data.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataAccess.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.DataAccess.20.2.6\lib\net452\DevExpress.DataAccess.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.DataAccess.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.DataVisualization.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.DataVisualization.Core.20.2.6\lib\net452\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.DataVisualization.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Images.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Images.20.2.6\lib\net452\DevExpress.Images.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Images.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Office.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Office.Core.20.2.6\lib\net452\DevExpress.Office.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Office.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Pdf.Core.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Pdf.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Pdf.v20.2.Drawing, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Pdf.Drawing.20.2.6\lib\net452\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Pdf.v20.2.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.PivotGrid.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.PivotGrid.Core.20.2.6\lib\net452\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.PivotGrid.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Printing.Core.20.2.6\lib\net452\DevExpress.Printing.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Printing.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.RichEdit.Core.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.RichEdit.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.RichEdit.v20.2.Export, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.RichEdit.Export.20.2.6\lib\net452\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.RichEdit.v20.2.Export.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Sparkline.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Sparkline.Core.20.2.6\lib\net452\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Sparkline.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.SpellChecker.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.SpellChecker.Core.20.2.6\lib\net452\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.SpellChecker.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Spreadsheet.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Spreadsheet.Core.20.2.6\lib\net452\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Spreadsheet.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Utils.20.2.6\lib\net452\DevExpress.Utils.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Utils.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxDiagram.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxDiagram.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGantt.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxGantt.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxGauges.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxGauges.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxHtmlEditor.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxHtmlEditor.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxPivotGrid.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxPivotGrid.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxRichEdit.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxRichEdit.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxScheduler.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Scheduler.20.2.6\lib\net452\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxScheduler.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpellChecker.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxSpellChecker.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxSpreadsheet.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Office.20.2.6\lib\net452\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxSpreadsheet.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v20.2">
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxThemes.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.ASPxTreeList.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.ASPxTreeList.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Mvc5.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Mvc5.20.2.6\lib\net452\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.Mvc5.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.Resources.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.Resources.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.Resources.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Web.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.20.2.6\lib\net452\DevExpress.Web.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.Web.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpo.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExpress.Xpo.20.2.6\lib\net452\DevExpress.Xpo.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Charts.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraCharts.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraCharts.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Visualization.20.2.6\lib\net452\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraCharts.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraGauges.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Gauges.Core.20.2.6\lib\net452\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraGauges.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Reporting.Core.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraReports.v20.2.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Reporting.Common.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraReports.v20.2.Web.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraReports.v20.2.Web.WebForms, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Web.Reporting.20.2.6\lib\net452\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraReports.v20.2.Web.WebForms.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Scheduler.Core.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraScheduler.v20.2.Core.Desktop, Version=20.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExpress.Scheduler.CoreDesktop.20.2.6\lib\net452\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
+      <HintPath>..\..\Curator-Production\Dependencies\DevExpress.XtraScheduler.v20.2.Core.Desktop.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\Dependencies\EPPlus.dll</HintPath>

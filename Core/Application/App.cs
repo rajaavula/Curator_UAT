@@ -86,10 +86,11 @@ namespace LeadingEdge.Curator.Core
 				string xml = File.ReadAllText(filename, TextEncoding);
 				c = (Configuration)Utils.DeserializeObject(xml, typeof(Configuration));
 
-				CuratorDBConn = string.Format("Server={0};Database={1};Uid=IntegrationsUser;Pwd=8m3B1taF#PX27E8z;", c.DatabaseServer, c.CuratorDatabase);
-				ProductsDBConn = string.Format("Server={0};Database={1};Uid=IntegrationsUser;Pwd=8m3B1taF#PX27E8z;", c.DatabaseServer, c.ProductsDBDatabase);
-				OrdersDBConn= string.Format("Server={0};Database={1};Uid=IntegrationsUser;Pwd=8m3B1taF#PX27E8z;", c.DatabaseServer, c.OrdersDBDatabase);
-				SuppliersDBConn = string.Format("Server={0};Database={1};Uid=IntegrationsUser;Pwd=8m3B1taF#PX27E8z;", c.DatabaseServer, c.SuppliersDBDatabase);
+				CuratorDBConn = string.Format("Server={0};Database={1};Uid=sa;Pwd=admin@123;", c.DatabaseServer, c.CuratorDatabase);
+				ProductsDBConn = string.Format("Server={0};Database={1};Uid=sa;Pwd=admin@123;", c.DatabaseServer, c.ProductsDBDatabase);
+				OrdersDBConn = string.Format("Server={0};Database={1};Uid=sa;Pwd=admin@123;", c.DatabaseServer, c.OrdersDBDatabase);
+				SuppliersDBConn = string.Format("Server={0};Database={1};Uid=sa;Pwd=admin@123;", c.DatabaseServer, c.SuppliersDBDatabase);
+
 				ApplicationUrl = c.ApplicationUrl;
 				IsLive = c.IsLive;
 				WebInstrumentationKey = c.WebInstrumentationKey;
