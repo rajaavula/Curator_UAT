@@ -178,6 +178,15 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
+                s.FieldName = "SupplierName";
+                s.Caption = grid.Label(300102); // Supplier name
+                s.Width = 250;
+                s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.TextBox;
                 s.FieldName = "CategoryName";
                 s.Caption = grid.Label(200967); // Category name;
                 s.Width = 220;
@@ -252,6 +261,15 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                 s.FieldName = "RecommendedRetailPrice";
                 s.Caption = grid.Label(200993); // RRP; 
                 s.Width = 80;
+                s.PropertiesEdit.DisplayFormatString = "n2";
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                s.FieldName = "CompetitorMinPrice";
+                s.Caption = $"CompetitorMinPrice".ToUpper(); 
+                s.Width = 60;
                 s.PropertiesEdit.DisplayFormatString = "n2";
             });
 
@@ -427,12 +445,10 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
             grid.Settings.Columns.Add(s =>
             {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
-                s.FieldName = "SupplierPartNumber";
-                s.Caption = grid.Label(200965); // SKU
-                s.Width = 180;
-                s.SortIndex = 0;                            // Default vm.SortBy
-                s.SortOrder = ColumnSortOrder.Ascending;    // Default vm.SortDirection
-                s.FixedStyle = GridViewColumnFixedStyle.Left;
+                s.FieldName = "SupplierName";
+                s.Caption = grid.Label(300102); // Supplier name
+                s.Width = 250;
+                s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             });
 
             grid.Settings.Columns.Add(s =>
@@ -458,6 +474,15 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
                 s.FieldName = "Brand";
                 s.Caption = grid.Label(200618); // Brand;
                 s.Width = 220;
+                s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
+                s.ColumnType = MVCxGridViewColumnType.TextBox;
+                s.FieldName = "SupplierName";
+                s.Caption = grid.Label(300102); // Supplier name
+                s.Width = 250;
                 s.SettingsHeaderFilter.Mode = GridHeaderFilterMode.CheckedList;
             });
 
