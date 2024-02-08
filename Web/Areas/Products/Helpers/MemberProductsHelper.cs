@@ -275,6 +275,15 @@ namespace LeadingEdge.Curator.Web.Products.Helpers
 
             grid.Settings.Columns.Add(s =>
             {
+                s.ColumnType = MVCxGridViewColumnType.SpinEdit;
+                s.FieldName = "CompetitorName";
+                s.Caption = $"CompetitorName".ToUpper();
+                s.Width = 60;
+                s.PropertiesEdit.DisplayFormatString = "n2";
+            });
+
+            grid.Settings.Columns.Add(s =>
+            {
                 s.ColumnType = MVCxGridViewColumnType.TextBox;
                 s.FieldName = "StockOnHand";
                 s.Caption = grid.Label(200981); // SOH;

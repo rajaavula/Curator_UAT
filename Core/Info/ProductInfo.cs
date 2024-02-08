@@ -35,6 +35,7 @@ namespace LeadingEdge.Curator.Core
         public int PricingRule { get; set; }
 
         public decimal? CompetitorMinPrice { get; set; }
+        public string? CompetitorName { get; set; }
         public string PricingRuleText
         {
             get
@@ -143,6 +144,7 @@ namespace LeadingEdge.Curator.Core
             if (dr.Table.Columns.Contains("IncludeShipping")) IncludeShipping = Utils.FromDBValue<bool>(dr["IncludeShipping"]);
             if (dr.Table.Columns.Contains("ShippingValue")) ShippingValue = Utils.FromDBValue<decimal>(dr["ShippingValue"]);
             if (dr.Table.Columns.Contains("CompetitorMinPrice")) CompetitorMinPrice = Utils.FromDBValue<decimal>(dr["CompetitorMinPrice"]);
+            if (dr.Table.Columns.Contains("CompetitorName")) CompetitorName= Utils.FromDBValue<string>(dr["CompetitorName"]);
         }
     }
 }
